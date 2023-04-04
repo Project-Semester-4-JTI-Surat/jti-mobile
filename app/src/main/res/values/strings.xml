@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">JTI SURAT</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="semua">Semua</string>
+    <string name="menunggu">Menunggu</string>
+    <string name="diproses">Diproses</string>
+    <string name="bisadiambil">Bisa Diambil</string>
+    <string name="selesai">Selesai</string>
+    <string name="gagal">Gagal</string>
+
+    <string name="tab0">Tab Nol</string>
+    <string name="tab1">Tab Satu</string>
+    <string name="tab2">Tab Dua</string>
+    <string name="tab3">Tab Tiga</string>
+    <string name="tab4">Tab Empat</string>
+    <string name="tab5">Tab Lima</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="textSplashScreen">JTI-Surat adalah website untuk melakukan pengajuan pembuatan surat kepada Admin jurusan jurusan Teknologi Informasi seperti surat pengajuan pkl, surat survey tempat dan lain-lain. JTI-Surat bertujuan untuk membantu mempermudah mahasiswa dan juga admin jurusan dalam transaksi pembuatan surat.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">MainActivity2</string>
+</resources>
