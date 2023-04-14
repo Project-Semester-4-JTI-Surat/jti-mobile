@@ -3,16 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment2"
-    >
+    tools:context=".Fragment2">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="TAB 2"
-        android:textSize="50dp"
-        android:textColor="@color/black"
-        android:gravity="center"/>
+        android:id="@+id/relative_2"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/diproses_tampil"
+            ></androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
 
 </FrameLayout>

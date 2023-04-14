@@ -5,13 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".Fragment1">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="TAB 1"
-        android:textSize="50dp"
-        android:textColor="@color/black"
-        android:gravity="center"/>
+        android:id="@+id/relative_1"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/menunggu_tampil"
+            ></androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
 
 </FrameLayout>

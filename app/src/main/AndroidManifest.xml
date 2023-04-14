@@ -15,8 +15,19 @@
             android:name=".Fragment4"
             android:exported="false" />
         <activity
+            android:name=".TampilanFaq"
+            android:label="FAQ"
+            android:gravity="center"
+            android:theme="@style/Theme.ProjectSemester4"
+            android:exported="false" />
+        <activity
             android:name=".TambahSurat"
             android:label="Tambah Surat"
+            android:theme="@style/Theme.ProjectSemester4"
+            android:exported="false" />
+        <activity
+            android:name=".TampilanUbahProfil"
+            android:label="Ubah Profil"
             android:theme="@style/Theme.ProjectSemester4"
             android:exported="false" />
         <activity

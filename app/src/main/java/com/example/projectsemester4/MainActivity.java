@@ -77,9 +77,13 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_profile){
+            Intent intent = new Intent(MainActivity.this, TampilanUbahProfil.class);
+            startActivity(intent);
             return true;
         }
-        if (id == R.id.action_info){
+        if (id == R.id.action_faq){
+            Intent intent = new Intent(MainActivity.this, TampilanFaq.class);
+            startActivity(intent);
             return true;
         }
         if (id == R.id.action_logout){

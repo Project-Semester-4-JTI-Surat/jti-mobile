@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment0">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="TAB 0"
-        android:textSize="50dp"
-        android:textColor="@color/black"
-        android:gravity="center"/>
+        android:id="@+id/relative_0"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/semua_tampil"
+            ></androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
 
 </FrameLayout>
