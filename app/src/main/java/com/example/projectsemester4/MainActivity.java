@@ -1,6 +1,8 @@
 package com.example.projectsemester4;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -87,8 +89,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_logout){
-            Intent intent = new Intent(MainActivity.this, TampilanLogin.class);
-            startActivity(intent);
+//            Menghapus Status login dan kembali ke Login Activity
+                SharedPreferences sharedPreferences = getSharedPreferences("login_data", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear(); // Menghapus semua data login
+                editor.apply();
+
+                Intent intent = new Intent(MainActivity.this, TampilanLogin.class);
+                startActivity(intent);
+                finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -9,5 +9,6 @@ public class TambahSurat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tambah_surat);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

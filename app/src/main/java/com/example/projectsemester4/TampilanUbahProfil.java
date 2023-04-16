@@ -1,6 +1,8 @@
 package com.example.projectsemester4;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
 public class TampilanUbahProfil extends AppCompatActivity {
     private TextView tvNim;
+    private TextView tampilNim;
     private TextView tvNama;
     private TextView tvProdi;
     private TextView tvNoHp;
@@ -34,6 +38,11 @@ public class TampilanUbahProfil extends AppCompatActivity {
         etNama = findViewById(R.id.nama_user_profile);
         etNoHp = findViewById(R.id.no_hp);
         btnSimpan = findViewById(R.id.loginButton);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("login_data", Context.MODE_PRIVATE);
+        String nama = sharedPreferences.getString("e41210766", "");
+//        Men-set Label Nama dengan data User sedang login dari Preferences
+        tvNim.setText(nama);
 
         // Mengatur onClickListener untuk tombol Simpan
         btnSimpan.setOnClickListener(new View.OnClickListener() {
