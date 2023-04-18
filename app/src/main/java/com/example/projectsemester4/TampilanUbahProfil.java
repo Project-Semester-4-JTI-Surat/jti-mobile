@@ -39,10 +39,12 @@ public class TampilanUbahProfil extends AppCompatActivity {
         etNoHp = findViewById(R.id.no_hp);
         btnSimpan = findViewById(R.id.loginButton);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("login_data", Context.MODE_PRIVATE);
-        String nama = sharedPreferences.getString("e41210766", "");
-//        Men-set Label Nama dengan data User sedang login dari Preferences
-        tvNim.setText(nama);
+        Intent intent = getIntent();
+
+        if(intent.getExtras() != null){
+            String passedUsername = intent.getStringExtra("data");
+            tvNim.setText("Welcome "+passedUsername);
+        }
 
         // Mengatur onClickListener untuk tombol Simpan
         btnSimpan.setOnClickListener(new View.OnClickListener() {
