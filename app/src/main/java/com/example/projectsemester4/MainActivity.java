@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.example.projectsemester4.Keys.MyPreferences;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fabs;
-    SharedPreferences sharedPreferences;
+    private MyPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.viewpager1);
         fabs = findViewById(R.id.fab);
-        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        preferences = new MyPreferences(this);
 
         tabLayout.setupWithViewPager(viewPager);
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -82,9 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 // Logout user and redirect to login page
 
 
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.apply();
+                preferences.clear();
 
                 startActivity(new Intent(MainActivity.this, TampilanLogin.class));
                 finish();

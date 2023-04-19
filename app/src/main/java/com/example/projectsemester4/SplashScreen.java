@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.projectsemester4.Keys.MyPreferences;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,6 +26,7 @@ public class SplashScreen extends AppCompatActivity {
     LottieAnimationView lottie;
     ProgressBar pb;
     int progressStatus = 0;
+    private MyPreferences myPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,19 @@ public class SplashScreen extends AppCompatActivity {
         pb = findViewById(R.id.progressBar);
 //        appDesc = findViewById(R.id.textView1);
 //        lottie = findViewById(R.id.AnimationView1);
+
+        myPreferences = new MyPreferences(this);
+
+//        // Cek apakah pengguna sudah login sebelumnya
+//        if (myPreferences.isLoggedIn()) {
+//            // Jika iya, langsung buka tampilan utama
+//            startActivity(new Intent(SplashScreen.this, MainActivity.class));
+//            finish();
+//        } else {
+//            // Jika tidak, buka tampilan login
+//            startActivity(new Intent(SplashScreen.this, TampilanLogin.class));
+//            finish();
+//        }
 
 //        Membuat objek Handler untuk menangani pesan atau tugas yang dikirimkan ke thread UI.
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {

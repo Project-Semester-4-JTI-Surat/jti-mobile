@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.projectsemester4.Keys.ApiClient;
 import com.example.projectsemester4.Keys.LoginRequest;
 import com.example.projectsemester4.Keys.LoginResponse;
+import com.example.projectsemester4.Keys.MyPreferences;
+import com.example.projectsemester4.Keys.UserService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +29,7 @@ public class TampilanLogin extends AppCompatActivity {
     private EditText etNim, etPassword;
     private Button btnLogin;
     boolean passwordVisible;
-    SharedPreferences sharedPreferences;
+    private MyPreferences myPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +40,14 @@ public class TampilanLogin extends AppCompatActivity {
         etPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.loginButton);
 
-        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE); // Initialize SharedPreferences
+        myPreferences = new MyPreferences(this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (TextUtils.isEmpty(etNim.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())) {
-                    Toast.makeText(TampilanLogin.this, "NIM / Password Required", Toast.LENGTH_LONG).show();
+                    Toast.makeText(TampilanLogin.this, "Mohon Isi Semua Kolom", Toast.LENGTH_LONG).show();
                 } else {
                     //proceed to login
                     login();
@@ -94,27 +96,24 @@ public class TampilanLogin extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
                 if (response.isSuccessful()) {
-                    Toast.makeText(TampilanLogin.this, "Login Successful", Toast.LENGTH_LONG).show();
+                    Toast.makeText(TampilanLogin.this, "Berhasil Login", Toast.LENGTH_LONG).show();
                     LoginResponse loginResponse = response.body();
 
-                    // Save email to SharedPreferences
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("nim", loginResponse.getEmail());
-                    editor.putString("nama", loginResponse.getNama());
-                    editor.putInt("prodi", loginResponse.getProdi_id());
-                    editor.putString("no_hp", loginResponse.getNo_hp());
-                    editor.apply();
+                    // Save data to MyPreferences
+                    myPreferences.saveString("nim", loginResponse.getEmail());
+                    myPreferences.saveString("nama", loginResponse.getNama());
+                    myPreferences.saveInt("prodi", loginResponse.getProdi_id());
+                    myPreferences.saveString("no_hp", loginResponse.getNo_hp());
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-
                             startActivity(new Intent(TampilanLogin.this, MainActivity.class).putExtra("data", loginResponse.getEmail()));
                         }
                     }, 700);
 
                 } else {
-                    Toast.makeText(TampilanLogin.this, "Login Failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(TampilanLogin.this, "NIM / Password Salah!", Toast.LENGTH_LONG).show();
 
                 }
 
@@ -123,7 +122,6 @@ public class TampilanLogin extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Toast.makeText(TampilanLogin.this, "Throwable " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
             }
         });
     }

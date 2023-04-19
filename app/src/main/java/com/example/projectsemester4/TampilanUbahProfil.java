@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.projectsemester4.Keys.ApiClient;
 import com.example.projectsemester4.Keys.LoginRequest;
 import com.example.projectsemester4.Keys.LoginResponse;
+import com.example.projectsemester4.Keys.MyPreferences;
 import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Call;
@@ -31,7 +32,7 @@ public class TampilanUbahProfil extends AppCompatActivity {
     private EditText tvNoHp;
     private TextView tvUbahPassword;
     private Button btnSimpan;
-    private SharedPreferences sharedPreferences;
+    private MyPreferences myPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +48,10 @@ public class TampilanUbahProfil extends AppCompatActivity {
         btnSimpan = findViewById(R.id.loginButton);
 
         // Inisialisasi SharedPreferences
-        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        myPreferences = new MyPreferences(this);
 
         // Ambil data pengguna dari SharedPreferences
-        String nim = sharedPreferences.getString("nim", "");
+        String nim = myPreferences.getString("nim", "");
         if (!TextUtils.isEmpty(nim)) {
             LoginRequest loginRequest = new LoginRequest();
             Call<LoginResponse> loginResponseCall = ApiClient.getUserService().userLogin(loginRequest);
@@ -60,9 +61,9 @@ public class TampilanUbahProfil extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         LoginResponse loginResponse = response.body();
                         loginResponse.setNim(nim);
-                        loginResponse.setNama(sharedPreferences.getString("nama", ""));
-                        loginResponse.setProdi_id(sharedPreferences.getInt("prodi", 0));
-                        loginResponse.setNo_hp(sharedPreferences.getString("no_hp", ""));
+                        loginResponse.setNama(myPreferences.getString("nama", ""));
+                        loginResponse.setProdi_id(myPreferences.getInt("prodi", 0));
+                        loginResponse.setNo_hp(myPreferences.getString("no_hp", ""));
 
                         // Tampilkan data pengguna pada TextView dan EditText
                         tvNim.setText(loginResponse.getNim());
