@@ -39,24 +39,39 @@ public class SplashScreen extends AppCompatActivity {
 
         myPreferences = new MyPreferences(this);
 
-//        // Cek apakah pengguna sudah login sebelumnya
-//        if (myPreferences.isLoggedIn()) {
-//            // Jika iya, langsung buka tampilan utama
+//// Saat pengguna berhasil login
+//        myPreferences.saveBoolean("isLoggedIn", true);
+//
+//// Saat pengguna keluar
+//        myPreferences.saveBoolean("isLoggedIn", false);
+//
+//// Saat aplikasi dibuka kembali
+//        boolean isLoggedIn = myPreferences.getBoolean("isLoggedIn", false);
+//        if (isLoggedIn) {
+//            // User masih login, lakukan tindakan yang sesuai
 //            startActivity(new Intent(SplashScreen.this, MainActivity.class));
 //            finish();
 //        } else {
-//            // Jika tidak, buka tampilan login
-//            startActivity(new Intent(SplashScreen.this, TampilanLogin.class));
+//            // User telah keluar atau belum pernah login, lakukan tindakan yang sesuai
+//            startActivity(new Intent(SplashScreen.this, SplashScreen.class));
 //            finish();
 //        }
-
 //        Membuat objek Handler untuk menangani pesan atau tugas yang dikirimkan ke thread UI.
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this, TampilanLogin.class);
-                startActivity(intent);
-                finish();
+                if (myPreferences.getLoggedInStatus()==true) {
+                    // Jika pengguna sudah login, langsung beralih ke MainActivity
+                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // Jika pengguna belum login, beralih ke TampilanLogin
+                    Intent intent = new Intent(SplashScreen.this, TampilanLogin.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }, 3000); //5000 L = 5 detik
         pb = findViewById(R.id.progressBar);

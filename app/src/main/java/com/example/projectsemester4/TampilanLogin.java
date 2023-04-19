@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,6 +42,23 @@ public class TampilanLogin extends AppCompatActivity {
         btnLogin = findViewById(R.id.loginButton);
 
         myPreferences = new MyPreferences(this);
+        // Mengatur status login ke false pada awalnya
+        myPreferences.setLoggedInStatus(false);
+
+        // Beralih ke MainActivity jika pengguna sudah login sebelumnya
+        if (myPreferences.getLoggedInStatus()) {
+            Intent intent = new Intent(TampilanLogin.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }
+        etPassword.setOnEditorActionListener((v, actionId, event)-> {
+            if(actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL){
+                login();
+                return true;
+            }
+            return false;
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,17 +118,21 @@ public class TampilanLogin extends AppCompatActivity {
                     LoginResponse loginResponse = response.body();
 
                     // Save data to MyPreferences
-                    myPreferences.saveString("nim", loginResponse.getEmail());
+                    myPreferences.saveString("nim", loginResponse.getNim());
                     myPreferences.saveString("nama", loginResponse.getNama());
                     myPreferences.saveInt("prodi", loginResponse.getProdi_id());
                     myPreferences.saveString("no_hp", loginResponse.getNo_hp());
 
+
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            startActivity(new Intent(TampilanLogin.this, MainActivity.class).putExtra("data", loginResponse.getEmail()));
+                            myPreferences.setLoggedInUser(TampilanLogin.this, loginResponse.getNim());
+                            myPreferences.setLoggedInStatus(true);
+                            startActivity(new Intent(TampilanLogin.this, MainActivity.class).putExtra("data", loginResponse.getNim()));
+                            finish();
                         }
-                    }, 700);
+                    }, 500);
 
                 } else {
                     Toast.makeText(TampilanLogin.this, "NIM / Password Salah!", Toast.LENGTH_LONG).show();

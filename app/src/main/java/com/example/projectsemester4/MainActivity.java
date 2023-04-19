@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fabs;
-    private MyPreferences preferences;
+    private MyPreferences myPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.viewpager1);
         fabs = findViewById(R.id.fab);
-        preferences = new MyPreferences(this);
+        myPreferences = new MyPreferences(this);
+        // Cek status login pada SharedPreferences
 
         tabLayout.setupWithViewPager(viewPager);
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 // Logout user and redirect to login page
 
 
-                preferences.clear();
+                myPreferences.clear();
 
                 startActivity(new Intent(MainActivity.this, TampilanLogin.class));
                 finish();

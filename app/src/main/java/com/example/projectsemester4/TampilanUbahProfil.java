@@ -51,25 +51,31 @@ public class TampilanUbahProfil extends AppCompatActivity {
         myPreferences = new MyPreferences(this);
 
         // Ambil data pengguna dari SharedPreferences
+        tvNim.setText(myPreferences.getLoggedInUser(this));
         String nim = myPreferences.getString("nim", "");
+        String loggedInUser = myPreferences.getLoggedInUser(this);
+        boolean isLoggedIn = myPreferences.getLoggedInStatus();
         if (!TextUtils.isEmpty(nim)) {
             LoginRequest loginRequest = new LoginRequest();
+            loginRequest.setNim(nim);
             Call<LoginResponse> loginResponseCall = ApiClient.getUserService().userLogin(loginRequest);
             loginResponseCall.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful()) {
                         LoginResponse loginResponse = response.body();
-                        loginResponse.setNim(nim);
+//                        loginResponse.setNim(nim);
                         loginResponse.setNama(myPreferences.getString("nama", ""));
                         loginResponse.setProdi_id(myPreferences.getInt("prodi", 0));
                         loginResponse.setNo_hp(myPreferences.getString("no_hp", ""));
 
                         // Tampilkan data pengguna pada TextView dan EditText
-                        tvNim.setText(loginResponse.getNim());
+//                        tvNim.setText(loginResponse.getNim());
                         tvNama.setText(loginResponse.getNama());
                         tvProdi.getEditText().setText(String.valueOf(loginResponse.getProdi_id()));
                         tvNoHp.setText(loginResponse.getNo_hp());
+                    }else {
+                        Toast.makeText(TampilanUbahProfil.this, "Gagal mengambil data pengguna", Toast.LENGTH_LONG).show();
                     }
                 }
 
