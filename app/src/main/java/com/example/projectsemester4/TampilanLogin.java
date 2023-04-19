@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 
 public class TampilanLogin extends AppCompatActivity {
-    private EditText etEmail, etPassword;
+    private EditText etNim, etPassword;
     private Button btnLogin;
     boolean passwordVisible;
     SharedPreferences sharedPreferences;
@@ -34,7 +34,7 @@ public class TampilanLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tampilan_login);
 
-        etEmail = findViewById(R.id.username);
+        etNim = findViewById(R.id.username);
         etPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.loginButton);
 
@@ -44,8 +44,8 @@ public class TampilanLogin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (TextUtils.isEmpty(etEmail.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())) {
-                    Toast.makeText(TampilanLogin.this, "Email / Password Required", Toast.LENGTH_LONG).show();
+                if (TextUtils.isEmpty(etNim.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())) {
+                    Toast.makeText(TampilanLogin.this, "NIM / Password Required", Toast.LENGTH_LONG).show();
                 } else {
                     //proceed to login
                     login();
@@ -85,7 +85,7 @@ public class TampilanLogin extends AppCompatActivity {
 
     public void login() {
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(etEmail.getText().toString());
+        loginRequest.setNim(etNim.getText().toString());
         loginRequest.setPassword(etPassword.getText().toString());
 
         Call<LoginResponse> loginResponseCall = ApiClient.getUserService().userLogin(loginRequest);
@@ -99,7 +99,10 @@ public class TampilanLogin extends AppCompatActivity {
 
                     // Save email to SharedPreferences
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("email", loginResponse.getEmail());
+                    editor.putString("nim", loginResponse.getEmail());
+                    editor.putString("nama", loginResponse.getNama());
+                    editor.putInt("prodi", loginResponse.getProdi_id());
+                    editor.putString("no_hp", loginResponse.getNo_hp());
                     editor.apply();
 
                     new Handler().postDelayed(new Runnable() {

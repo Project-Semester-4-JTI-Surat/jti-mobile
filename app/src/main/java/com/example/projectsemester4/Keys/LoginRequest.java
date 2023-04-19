@@ -2,15 +2,15 @@ package com.example.projectsemester4.Keys;
 
 public class LoginRequest {
 
-    private String email;
+    private String nim;
     private String password;
 
-    public String getEmail() {
-        return email;
+    public String getNim() {
+        return nim;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNim(String nim) {
+        this.nim = nim;
     }
 
     public String getPassword() {

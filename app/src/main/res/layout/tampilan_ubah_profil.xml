@@ -41,7 +41,7 @@
         <EditText
             android:layout_width="330dp"
             android:layout_height="50dp"
-            android:id="@+id/nama_user_profile"
+            android:id="@+id/tampil_nama_user"
             android:background="@drawable/stroke_login"
             android:drawablePadding="8dp"
             android:padding="8dp"
@@ -64,17 +64,16 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="330dp"
             android:layout_height="50dp"
-            android:id="@+id/password"
+            android:id="@+id/tampil_prodi"
             android:background="@drawable/stroke_login"
             android:drawablePadding="8dp"
-            android:hint="+62 xxxxxxxx"
+            android:hint="Prodi"
             android:padding="8dp"
             android:textColor="@color/black"
             android:textColorHint="#a9a9a9"
             android:textColorHighlight="@color/cardview_dark_background"
             android:layout_marginTop="8dp"
             android:layout_gravity="center"
-            android:maxLength="13"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -92,7 +91,7 @@
         <EditText
             android:layout_width="330dp"
             android:layout_height="50dp"
-            android:id="@+id/no_hp"
+            android:id="@+id/tampil_no_hp"
             android:background="@drawable/stroke_login"
             android:drawablePadding="8dp"
             android:hint="+62 xxxxxxxx"
