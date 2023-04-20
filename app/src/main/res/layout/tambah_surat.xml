@@ -9,204 +9,371 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <LinearLayout
-        android:layout_width="423dp"
-        android:layout_height="735dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <EditText
-            android:id="@+id/jenisSurat"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="Jenis Surat"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/judukSurat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PENGAJUAN SURAT"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp" />
 
-        <EditText
-            android:id="@+id/namaDosen"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="Nama Dosen"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
+            <TextView
+                android:id="@+id/jsSurat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/judukSurat"
+                android:layout_marginLeft="15dp"
+                android:padding="8dp"
+                android:text="Jenis Surat"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/kepada"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="Kepada"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
+            <Spinner
+                android:id="@+id/spJenisSurat"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/jsSurat"
+                android:entries="@array/jenis_surat"
+                android:padding="8dp"/>
 
-        <EditText
-            android:id="@+id/Alamat"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="Alamat"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
+            <TextView
+                android:id="@+id/nmDosen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Dosen"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/spJenisSurat"/>
 
-        <EditText
-            android:id="@+id/tanggal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="tanggal"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
+            <Spinner
+                android:id="@+id/namaDosen"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_marginLeft="15dp"
+                android:entries="@array/nama_dosen"
+                android:layout_below="@+id/nmDosen"/>
 
-        <EditText
-            android:id="@+id/kebutuhan"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="Kebutuhan"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
+            <TextView
+                android:id="@+id/kpd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kepada"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/namaDosen"/>
 
-        <EditText
-            android:id="@+id/keterangan"
+            <EditText
+                android:id="@+id/kepada"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:layout_marginLeft="15dp"
+                android:hint="Kepada"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="@color/black"
+                android:layout_below="@+id/kpd"/>
+
+            <TextView
+                android:id="@+id/almt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Alamat"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/kepada"/>
+
+            <EditText
+                android:id="@+id/alamat"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:hint="Masukan Alamat"
+                android:padding="8dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="@color/black"
+                android:layout_below="@+id/almt"/>
+
+            <TextView
+                android:id="@+id/tgl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanggal"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/alamat"/>
+
+            <EditText
+                android:id="@+id/tanggal"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:hint="Pilih Tangggal"
+                android:padding="8dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="@color/black"
+                android:layout_below="@+id/tgl"/>
+
+            <TextView
+                android:id="@+id/kbth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kebutuhan"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/tanggal"/>
+
+            <Spinner
+                android:id="@+id/kebutuhan"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_marginLeft="15dp"
+                android:entries="@array/kebutuhan"
+                android:layout_below="@+id/kbth"/>
+
+            <TextView
+                android:id="@+id/txKeterangan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Keterangan"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/kebutuhan"/>
+
+            <EditText
+                android:id="@+id/keterangan"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:hint="Keterangan"
+                android:padding="8dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="@color/black"
+                android:layout_below="@+id/txKeterangan"/>
+
+            <TextView
+                android:id="@+id/ajukan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_centerHorizontal="true"
+                android:text="Ajukan Secara"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:layout_below="@+id/keterangan"/>
+
+            <RadioGroup
+                android:id="@+id/pilihan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/ajukan">
+                <RadioButton
+                    android:id="@+id/pilihan1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Individu"
+                    android:textSize="20sp"/>
+                <RadioButton
+                    android:id="@+id/pilihan2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kelompok"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="20dp"/>
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/anggotaKe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:text="Anggota Ke-1"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:layout_below="@+id/pilihan"/>
+
+            <TextView
+                android:id="@+id/txNim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nim"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/anggotaKe"/>
+
+            <EditText
+                android:id="@+id/nimAnggota"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:hint="Massukan Nim"
+                android:padding="8dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="@color/black"
+                android:layout_below="@+id/txNim"/>
+
+            <TextView
+                android:id="@+id/txNamaAnggota"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Anggota"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/nimAnggota"/>
+
+            <EditText
+                android:id="@+id/namaAnggota"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/txNamaAnggota"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:hint="Msukan Nama"
+                android:padding="8dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="@color/black" />
+
+            <TextView
+                android:id="@+id/txProdi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prodi"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/namaAnggota"/>
+
+            <Spinner
+                android:id="@+id/prodiAnggota"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:layout_marginLeft="15dp"
+                android:entries="@array/prodi"
+                android:layout_below="@+id/txProdi"/>
+
+            <TextView
+                android:id="@+id/txTlpAnggota"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Tlp"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_below="@+id/prodiAnggota"/>
+
+            <EditText
+                android:id="@+id/tlpAnggota"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/txTlpAnggota"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:hint="No Telp"
+                android:padding="8dp"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="@color/black" />
+
+            <Button
+                android:id="@+id/tambahAnggotaButton"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/PrimaryColor"
+                android:text="Tambah Anggota"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cornerRadius="20dp"
+                android:layout_below="@+id/tlpAnggota"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="Keterangan"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Data Anggota Kelompok"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:id="@+id/dataAnggota"
-            android:textColor="@color/black"
-            android:layout_marginBottom="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Anggota Ke-1"
-            android:textSize="30sp"
-            android:id="@+id/anggotaKe"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"/>
-        <EditText
-            android:id="@+id/nimAnggota"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="Nim"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
-        <EditText
-            android:id="@+id/namaAnggota"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="Nama"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
-        <EditText
-            android:id="@+id/prodiAnggota"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="Prodi"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
-        <EditText
-            android:id="@+id/tlpAnggota"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/stroke_login"
-            android:drawablePadding="8dp"
-            android:hint="No Telp"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textColorHighlight="@color/cardview_dark_background"
-            android:textColorHint="@color/black" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:id="@+id/tambahAnggotaButton"
-            android:layout_gravity="center"
-            android:text="Tambah Anggota"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/PrimaryColor"
-            android:textColor="@color/white"
-            app:cornerRadius = "20dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:id="@+id/resetButton"
-            android:layout_gravity="center"
-            android:text="Reset Form"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/PrimaryColor"
-            android:textColor="@color/white"
-            app:cornerRadius = "20dp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:id="@+id/ajukanButton"
-            android:layout_gravity="center"
-            android:text="Ajukan Surat"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/PrimaryColor"
-            android:textColor="@color/white"
-            app:cornerRadius = "20dp"/>
-    </LinearLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/relativeLayout"
+            android:padding="15dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/resetButton"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/PrimaryColor"
+                android:text="Reset Form"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cornerRadius="20dp" />
+
+            <Button
+                android:id="@+id/ajukanButton"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/PrimaryColor"
+                android:text="Ajukan Surat"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cornerRadius="20dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </ScrollView>

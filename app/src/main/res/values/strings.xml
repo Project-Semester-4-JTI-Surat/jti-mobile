@@ -28,4 +28,30 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main2">MainActivity2</string>
+
+    <string-array name="jenis_surat">
+        <item>Lain Lain</item>
+        <item>Mata Kuliah</item>
+        <item>Observasi Penelitian</item>
+        <item>Pengajuan PKL</item>
+        <item>Tugas Akhir</item>
+    </string-array>
+
+    <string-array name="nama_dosen">
+        <item>Moch. Munih Dian W,S.Kom,M.T</item>
+        <item>Yogiswara,ST,MT</item>
+        <item>Hariono Rahmad,S.Pd,M.Kom</item>
+        <item>Wahyu Kurnia Dewanto,S.Kom,MT</item>
+        <item>Denny Trias Utomo,S.Kom,MT</item>
+    </string-array>
+
+    <string-array name="kebutuhan">
+        <item>Eksternal (Dilakasanakan di luar kampus)</item>
+        <item>Internal (Dilaksanakan di dalam kampus)</item>
+    </string-array>
+
+    <string-array name="prodi">
+        <item>TIF</item>
+        <item>TKK</item>
+    </string-array>
 </resources>
