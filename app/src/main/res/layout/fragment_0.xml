@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment0">
+    tools:context=".Fragment0"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,7 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/semua_tampil"
-            ></androidx.recyclerview.widget.RecyclerView>
+            tools:listitem="@layout/list_item_tampil_surat"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
 
 </FrameLayout>

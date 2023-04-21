@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="5dp"
+    android:layout_margin="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="7dp">
+        <TextView
+            android:id="@+id/tv_mata_kuliah"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MATA KULIAH"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            ></TextView>
+        <TextView
+            android:id="@+id/tv_nama_mhs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nama Mahasiswa"
+            android:textStyle="bold"
+            android:textColor="#a6a6a6"
+            android:layout_marginTop="15dp"
+            ></TextView>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
