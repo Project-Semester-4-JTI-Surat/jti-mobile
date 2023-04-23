@@ -12,20 +12,23 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
             <TextView
-                android:id="@+id/judukSurat"
+                android:id="@+id/judulSurat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PENGAJUAN SURAT"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="20dp"
+                android:text="PENGAJUAN SURAT"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/jsSurat"
@@ -42,241 +45,249 @@
                 android:id="@+id/spJenisSurat"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="15dp"
                 android:layout_below="@+id/jsSurat"
+                android:layout_marginLeft="15dp"
                 android:entries="@array/jenis_surat"
-                android:padding="8dp"/>
+                android:padding="8dp"
+                />
 
             <TextView
                 android:id="@+id/nmDosen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nama Dosen"
-                android:textSize="20sp"
-                android:textColor="@color/black"
+                android:layout_below="@+id/spJenisSurat"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/spJenisSurat"/>
+                android:text="Nama Dosen"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <Spinner
-                android:id="@+id/namaDosen"
+                android:id="@+id/spNamaDosen"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
-                android:padding="8dp"
+                android:layout_below="@+id/nmDosen"
                 android:layout_marginLeft="15dp"
                 android:entries="@array/nama_dosen"
-                android:layout_below="@+id/nmDosen"/>
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/kpd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kepada"
-                android:textSize="20sp"
-                android:textColor="@color/black"
+                android:layout_below="@+id/spNamaDosen"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/namaDosen"/>
+                android:text="Kepada"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/kepada"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
+                android:layout_below="@+id/kpd"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
-                android:layout_marginLeft="15dp"
                 android:hint="Kepada"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black"
-                android:layout_below="@+id/kpd"/>
+                android:textColorHint="@color/black" />
 
             <TextView
                 android:id="@+id/almt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Alamat"
-                android:textSize="20sp"
-                android:textColor="@color/black"
+                android:layout_below="@+id/kepada"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/kepada"/>
+                android:text="Alamat"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/alamat"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/almt"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
                 android:hint="Masukan Alamat"
                 android:padding="8dp"
-                android:layout_marginLeft="15dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black"
-                android:layout_below="@+id/almt"/>
+                android:textColorHint="@color/black" />
 
             <TextView
                 android:id="@+id/tgl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tanggal"
-                android:textSize="20sp"
-                android:textColor="@color/black"
+                android:layout_below="@+id/alamat"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/alamat"/>
+                android:text="Tanggal"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/tanggal"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
+                android:layout_below="@+id/tgl"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
                 android:hint="Pilih Tangggal"
                 android:padding="8dp"
-                android:layout_marginLeft="15dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:textColorHint="@color/black"
-                android:layout_below="@+id/tgl"/>
+                android:inputType="date"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
 
             <TextView
                 android:id="@+id/kbth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kebutuhan"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/tanggal"
                 android:layout_marginLeft="15dp"
-                android:layout_below="@+id/tanggal"/>
+                android:layout_marginTop="20dp"
+                android:text="Kebutuhan"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/kebutuhan"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
-                android:padding="8dp"
+                android:layout_below="@+id/kbth"
                 android:layout_marginLeft="15dp"
                 android:entries="@array/kebutuhan"
-                android:layout_below="@+id/kbth"/>
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/txKeterangan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Keterangan"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/kebutuhan"
                 android:layout_marginLeft="15dp"
-                android:layout_below="@+id/kebutuhan"/>
+                android:layout_marginTop="20dp"
+                android:text="Keterangan"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/keterangan"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/txKeterangan"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
                 android:hint="Keterangan"
                 android:padding="8dp"
-                android:layout_marginLeft="15dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black"
-                android:layout_below="@+id/txKeterangan"/>
+                android:textColorHint="@color/black" />
 
             <TextView
                 android:id="@+id/ajukan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_below="@+id/keterangan"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
                 android:text="Ajukan Secara"
                 android:textColor="@color/black"
-                android:textSize="30sp"
-                android:layout_below="@+id/keterangan"/>
+                android:textSize="30sp" />
 
             <RadioGroup
                 android:id="@+id/pilihan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_below="@+id/ajukan"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/ajukan">
+                android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/pilihan1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Individu"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textColor="@color/black"/>
+
                 <RadioButton
                     android:id="@+id/pilihan2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:text="Kelompok"
                     android:textSize="20sp"
-                    android:layout_marginLeft="20dp"/>
+                    android:textColor="@color/black"/>
             </RadioGroup>
 
             <TextView
                 android:id="@+id/anggotaKe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_below="@+id/pilihan"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
                 android:text="Anggota Ke-1"
                 android:textColor="@color/black"
-                android:textSize="30sp"
-                android:layout_below="@+id/pilihan"/>
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/txNim"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nim"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/anggotaKe"
                 android:layout_marginLeft="15dp"
-                android:layout_below="@+id/anggotaKe"/>
+                android:layout_marginTop="20dp"
+                android:text="Nim"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/nimAnggota"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
+                android:layout_below="@+id/txNim"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
                 android:hint="Massukan Nim"
                 android:padding="8dp"
-                android:layout_marginLeft="15dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black"
-                android:layout_below="@+id/txNim"/>
+                android:textColorHint="@color/black" />
 
             <TextView
                 android:id="@+id/txNamaAnggota"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nama Anggota"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/nimAnggota"
                 android:layout_marginLeft="15dp"
-                android:layout_below="@+id/nimAnggota"/>
+                android:layout_marginTop="20dp"
+                android:text="Nama Anggota"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/namaAnggota"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_below="@+id/txNamaAnggota"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
                 android:hint="Msukan Nama"
                 android:padding="8dp"
-                android:layout_marginLeft="15dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:textColorHint="@color/black" />
@@ -285,43 +296,43 @@
                 android:id="@+id/txProdi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Prodi"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/namaAnggota"
                 android:layout_marginLeft="15dp"
-                android:layout_below="@+id/namaAnggota"/>
+                android:layout_marginTop="20dp"
+                android:text="Prodi"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/prodiAnggota"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
-                android:padding="8dp"
+                android:layout_below="@+id/txProdi"
                 android:layout_marginLeft="15dp"
                 android:entries="@array/prodi"
-                android:layout_below="@+id/txProdi"/>
+                android:padding="8dp" />
 
             <TextView
                 android:id="@+id/txTlpAnggota"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Tlp"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:layout_marginTop="20dp"
+                android:layout_below="@+id/prodiAnggota"
                 android:layout_marginLeft="15dp"
-                android:layout_below="@+id/prodiAnggota"/>
+                android:layout_marginTop="20dp"
+                android:text="No Tlp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/tlpAnggota"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_below="@+id/txTlpAnggota"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
                 android:hint="No Telp"
                 android:padding="8dp"
-                android:layout_marginLeft="15dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:textColorHint="@color/black" />
@@ -330,6 +341,7 @@
                 android:id="@+id/tambahAnggotaButton"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
+                android:layout_below="@+id/tlpAnggota"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
@@ -337,8 +349,7 @@
                 android:text="Tambah Anggota"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:cornerRadius="20dp"
-                android:layout_below="@+id/tlpAnggota"/>
+                app:cornerRadius="20dp" />
 
         </RelativeLayout>
 

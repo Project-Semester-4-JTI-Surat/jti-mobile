@@ -16,7 +16,7 @@ public class ApiClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://192.168.232.114:8000/")
+                .baseUrl("http://192.168.1.5:8000/")
                 .client(okHttpClient)
                 .build();
 
@@ -29,5 +29,14 @@ public class ApiClient {
 
         return userService;
     }
+    public static UserService2 getUserService2(){
+        UserService2 userService2 = getRetrofit().create(UserService2.class);
 
+        return userService2;
+    }
+    public static SuratInsert getSuratInsert(){
+        SuratInsert suratInsert = getRetrofit().create(SuratInsert.class);
+
+        return suratInsert;
+    }
 }

@@ -58,7 +58,7 @@ public class TampilanUbahProfil extends AppCompatActivity {
         if (!TextUtils.isEmpty(nim)) {
             LoginRequest loginRequest = new LoginRequest();
             loginRequest.setNim(nim);
-            Call<LoginResponse> loginResponseCall = ApiClient.getUserService().userLogin(loginRequest);
+            Call<LoginResponse> loginResponseCall = ApiClient.getUserService2().userLogin(loginRequest);
             loginResponseCall.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
