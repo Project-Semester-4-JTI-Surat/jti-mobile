@@ -70,6 +70,7 @@ public class MyPreferences {
     public void clear() {
         editor.remove(KEY_NIM_SEDANG_LOGIN);
         editor.remove(KEY_STATUS_SEDANG_LOGIN);
+        editor.remove("token");
         editor.clear();
         editor.apply();
     }

@@ -1,8 +1,12 @@
 package com.example.projectsemester4.Keys;
 
+import com.google.gson.annotations.SerializedName;
+
 public class LoginRequest {
 
+    @SerializedName("nim")
     private String nim;
+    @SerializedName("password")
     private String password;
 
     public String getNim() {

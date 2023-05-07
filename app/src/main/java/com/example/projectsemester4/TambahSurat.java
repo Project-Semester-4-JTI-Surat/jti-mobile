@@ -1,28 +1,37 @@
 package com.example.projectsemester4;
+
+import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projectsemester4.Keys.ApiClient;
+import com.example.projectsemester4.Keys.SuratRequest;
+
+import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class TambahSurat extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private EditText kepada, alamat, tanggal;
+    private EditText kepada, alamat, tanggal, keterangan;
     private Spinner spJenisSurat, spNamaDosen, kebutuhan;
     private TextView judulSurat, jsSurat, nmDosen, kpd, almt, tgl, kbth;
     private RadioGroup pilihan;
@@ -32,6 +41,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
     private Spinner prodiAnggota;
     private Button tambahAnggotaButton, resetFormButton, ajukanButton;
     private int jumlahAnggota = 1;
+    DatePickerDialog picker;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tambah_surat);
@@ -43,6 +53,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         spJenisSurat = findViewById(R.id.spJenisSurat);
         spNamaDosen = findViewById(R.id.spNamaDosen);
         kebutuhan = findViewById(R.id.kebutuhan);
+        keterangan = findViewById(R.id.keterangan);
         judulSurat = findViewById(R.id.judulSurat);
         jsSurat = findViewById(R.id.jsSurat);
         nmDosen = findViewById(R.id.nmDosen);
@@ -61,6 +72,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         txTlpAnggota = findViewById(R.id.txTlpAnggota);
         nimAnggota = findViewById(R.id.nimAnggota);
         namaAnggota = findViewById(R.id.namaAnggota);
+        prodiAnggota = findViewById(R.id.prodiAnggota);
         tlpAnggota = findViewById(R.id.tlpAnggota);
         tambahAnggotaButton = findViewById(R.id.tambahAnggotaButton);
         resetFormButton = findViewById(R.id.resetButton);
@@ -84,6 +96,45 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         spJenisSurat.setOnItemSelectedListener(this);
         spNamaDosen.setOnItemSelectedListener(this);
         kebutuhan.setOnItemSelectedListener(this);
+
+        tanggal.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                //date picker dialog
+                picker = new DatePickerDialog(TambahSurat.this,
+                        new DatePickerDialog.OnDateSetListener(){
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
+                                tanggal.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
+
+        ajukanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (TextUtils.isEmpty(kepada.getText().toString()) || TextUtils.isEmpty(alamat.getText().toString())
+                        || TextUtils.isEmpty(tanggal.getText().toString().trim()) || TextUtils.isEmpty(spJenisSurat.getSelectedItem().toString())
+                        || TextUtils.isEmpty(spNamaDosen.getSelectedItem().toString()) || TextUtils.isEmpty(kebutuhan.getSelectedItem().toString())
+                        || TextUtils.isEmpty(keterangan.getText().toString()) || TextUtils.isEmpty(nimAnggota.getText().toString())
+                        || TextUtils.isEmpty(namaAnggota.getText().toString())|| TextUtils.isEmpty(prodiAnggota.getSelectedItem().toString())
+                        || TextUtils.isEmpty(tlpAnggota.getText().toString())) {
+                    Toast.makeText(TambahSurat.this, "Mohon Isi Semua Kolom", Toast.LENGTH_LONG).show();
+                } else {
+                    //proceed to login
+                    insertSurat();
+                    resetForm();
+                }
+
+            }
+        });
 
         tambahAnggotaButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,27 +175,72 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         });
 
 
-        resetFormButton.setOnClickListener(new View.OnClickListener() {
+        resetForm();
+    }
+public void resetForm(){
+    resetFormButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // mereset semua field ke nilai awal
+            anggotaKe.setText("Anggota Ke-1");
+            kepada.setText("");
+            alamat.setText("");
+            tanggal.setText("");
+            spJenisSurat.setSelection(0);
+            spNamaDosen.setSelection(0);
+            kebutuhan.setSelection(0);
+            prodiAnggota.setSelection(0);
+            tlpAnggota.setText("");
+            pilihan1.setChecked(false);
+            pilihan1.setEnabled(true);
+            pilihan2.setChecked(false);
+            pilihan2.setEnabled(true);
+            LinearLayout layout = findViewById(R.id.LinearLayout2);
+            int count = layout.getChildCount();
+            for (int i = count - 1; i >= 5; i--) {
+                View view = layout.getChildAt(i);
+                layout.removeView(view);
+            }
+        }
+    });
+}
+    private void insertSurat() {
+
+        SuratRequest suratRequest = new SuratRequest();
+        suratRequest.setKepada(kepada.getText().toString());
+        suratRequest.setAlamat(alamat.getText().toString());
+        suratRequest.setTanggal(tanggal.getText().toString());
+        suratRequest.setJenisSurat(spJenisSurat.getSelectedItem().toString());
+        suratRequest.setNamaDosen(spNamaDosen.getSelectedItem().toString());
+        suratRequest.setKebutuhan(kebutuhan.getSelectedItem().toString());
+        suratRequest.setNimAnggota(nimAnggota.getText().toString());
+        suratRequest.setNamaAnggota(namaAnggota.getText().toString());
+        suratRequest.setTlpAnggota(tlpAnggota.getText().toString());
+        suratRequest.setProdiAnggota(prodiAnggota.getSelectedItem().toString());
+
+        Call<SuratRequest> InsertSuratResponseCall = ApiClient.getSuratInsert(TambahSurat.this).insertSurat(suratRequest);
+        InsertSuratResponseCall.enqueue(new Callback<SuratRequest>() {
             @Override
-            public void onClick(View v) {
-                // mereset semua field ke nilai awal
-                kepada.setText("");
-                alamat.setText("");
-                tanggal.setText("");
-                spJenisSurat.setSelection(0);
-                spNamaDosen.setSelection(0);
-                kebutuhan.setSelection(0);
-                pilihan1.setChecked(true);
-                pilihan1.setEnabled(true);
-                LinearLayout layout = findViewById(R.id.LinearLayout2);
-                int count = layout.getChildCount();
-                for (int i = count - 1; i >= 5; i--) {
-                    View view = layout.getChildAt(i);
-                    layout.removeView(view);
+            public void onResponse(Call<SuratRequest> call, Response<SuratRequest> response) {
+
+                if(response.isSuccessful()) {
+                    String res = response.body().toString();
+                    Toast.makeText(TambahSurat.this, res, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(TambahSurat.this, "Penambahan Data Gagal!", Toast.LENGTH_LONG).show();
+
                 }
+
+            }
+
+            @Override
+            public void onFailure(Call<SuratRequest> call, Throwable t) {
+                Toast.makeText(TambahSurat.this, "Throwable " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

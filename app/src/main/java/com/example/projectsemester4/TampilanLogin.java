@@ -108,7 +108,7 @@ public class TampilanLogin extends AppCompatActivity {
         loginRequest.setNim(etNim.getText().toString());
         loginRequest.setPassword(etPassword.getText().toString());
 
-        Call<LoginResponse> loginResponseCall = ApiClient.getUserService().userLogin(loginRequest);
+        Call<LoginResponse> loginResponseCall = ApiClient.getUserService(TampilanLogin.this).userLogin(loginRequest);
         loginResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -118,17 +118,18 @@ public class TampilanLogin extends AppCompatActivity {
                     LoginResponse loginResponse = response.body();
 
                     // Save data to MyPreferences
-                    myPreferences.saveString("nim", loginResponse.getNim());
-                    myPreferences.saveString("nama", loginResponse.getNama());
-                    myPreferences.saveInt("prodi", loginResponse.getProdi_id());
-                    myPreferences.saveString("no_hp", loginResponse.getNo_hp());
-
+                    MyPreferences preferences = new MyPreferences(TampilanLogin.this);
+                    preferences.saveString("nim", loginResponse.getNim());
+                    preferences.saveString("nama", loginResponse.getNama());
+                    preferences.saveInt("prodi", loginResponse.getProdi_id());
+                    preferences.saveString("no_hp", loginResponse.getNo_hp());
+                    preferences.saveString("token", loginResponse.getToken());
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            myPreferences.setLoggedInUser(TampilanLogin.this, loginResponse.getNim());
-                            myPreferences.setLoggedInStatus(true);
+                            preferences.setLoggedInUser(TampilanLogin.this, loginResponse.getNim());
+                            preferences.setLoggedInStatus(true);
                             startActivity(new Intent(TampilanLogin.this, MainActivity.class).putExtra("data", loginResponse.getNim()));
                             finish();
                         }
@@ -147,6 +148,8 @@ public class TampilanLogin extends AppCompatActivity {
             }
         });
     }
+
+
 }
 //        loginButton.setOnClickListener(new View.OnClickListener() {
 //            @Override

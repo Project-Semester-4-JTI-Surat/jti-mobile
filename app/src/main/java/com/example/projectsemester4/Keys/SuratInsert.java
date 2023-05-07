@@ -6,5 +6,5 @@ import retrofit2.http.POST;
 
 public interface SuratInsert {
     @POST("/api/mahasiswa/surat/insert")
-    Call<SuratRequest> AddData(@Body SuratRequest suratRequest);
+    Call<SuratRequest> insertSurat(@Body SuratRequest suratRequest);
 }

@@ -1,19 +1,39 @@
 package com.example.projectsemester4.Keys;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 public class LoginResponse {
 
-
+    @SerializedName("token")
+    private String token;
+    @SerializedName("uuid")
     private String uuid;
+    @SerializedName("nim")
     private String nim;
+    @SerializedName("nama")
     private String nama;
+    @SerializedName("email")
     private String email;
+    @SerializedName("prodi_id")
     private int prodi_id;
+    @SerializedName("password")
     private String password;
+    @SerializedName("alamat")
     private String alamat;
+    @SerializedName("no_hp")
     private String no_hp;
+    @SerializedName("tanggal_lahir")
     private String tanggal_lahir;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getUuid() {
         return uuid;
