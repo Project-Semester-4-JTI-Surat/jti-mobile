@@ -14,8 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-
-    private static Retrofit getRetrofit(final Context context){
+    public static Retrofit getRetrofit(final Context context){
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -39,11 +38,37 @@ public class ApiClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://192.168.18.175:8000/")
+                .baseUrl("http://192.168.232.114:8000/")
                 .client(client)
                 .build();
 
         return retrofit;
+    }
+
+    // Menambahkan method setAuthToken untuk menyimpan token ke dalam header
+    public static void setAuthToken(String token) {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request();
+                        if (!token.isEmpty()) {
+                            request = request.newBuilder()
+                                    .addHeader("Authorization", "Bearer " + token)
+                                    .build();
+                        }
+                        return chain.proceed(request);
+                    }
+                })
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("http://192.168.232.114:8000/")
+                .client(client)
+                .build();
+
+        UserService userService = retrofit.create(UserService.class);
     }
 
     public static UserService getUserService(final Context context){
@@ -62,11 +87,8 @@ public class ApiClient {
 
         return suratInsert;
     }
-    public static Call<LoginResponse> getUserProfile(Context context) {
-        MyPreferences preferences = new MyPreferences(context);
-        String token = preferences.getString("token", "");
-        UserService userService = getRetrofit(context).create(UserService.class);
-        return userService.getUserProfile("Bearer " + token);
+    public static UserService getUserProfiles(final Context context) {
+        return getRetrofit(context).create(UserService.class);
     }
 
 

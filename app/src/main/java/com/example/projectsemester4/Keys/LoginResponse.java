@@ -27,6 +27,19 @@ public class LoginResponse {
     @SerializedName("tanggal_lahir")
     private String tanggal_lahir;
 
+    public LoginResponse(String token, String uuid, String nim, String nama, String email, int prodi_id, String password, String alamat, String no_hp, String tanggal_lahir) {
+        this.token = token;
+        this.uuid = uuid;
+        this.nim = nim;
+        this.nama = nama;
+        this.email = email;
+        this.prodi_id = prodi_id;
+        this.password = password;
+        this.alamat = alamat;
+        this.no_hp = no_hp;
+        this.tanggal_lahir = tanggal_lahir;
+    }
+
     public String getToken() {
         return token;
     }

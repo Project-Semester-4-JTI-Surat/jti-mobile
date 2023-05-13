@@ -1,4 +1,5 @@
 package com.example.projectsemester4;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -43,10 +44,25 @@ public class Fragment0 extends Fragment {
             return new MyViewHolder(itemView);
         }
 
+
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             holder.tvMataKuliah.setText("Mata Kuliah " + (position + 1));
             holder.tvNamaMhs.setText("Nama Mahasiswa " + (position + 1));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // create an intent to start DetailActivity
+                    Intent intent = new Intent(getActivity(), DetailSurat.class);
+
+                    // put the data to the intent
+                    intent.putExtra("mata_kuliah", holder.tvMataKuliah.getText().toString());
+                    intent.putExtra("nama_mhs", holder.tvNamaMhs.getText().toString());
+
+                    // start DetailActivity
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override

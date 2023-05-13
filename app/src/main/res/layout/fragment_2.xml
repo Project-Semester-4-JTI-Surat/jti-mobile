@@ -13,8 +13,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/diproses_tampil"
-            ></androidx.recyclerview.widget.RecyclerView>
+            android:id="@+id/semua_tampil_2"
+            tools:listitem="@layout/list_item_tampil_surat"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
 
 </FrameLayout>

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -124,6 +125,12 @@ public class TampilanLogin extends AppCompatActivity {
                     preferences.saveInt("prodi", loginResponse.getProdi_id());
                     preferences.saveString("no_hp", loginResponse.getNo_hp());
                     preferences.saveString("token", loginResponse.getToken());
+
+                    ApiClient.setAuthToken(loginResponse.getToken());
+
+//                    String token = loginResponse.getToken();
+//                    TextView tampilToken = findViewById(R.id.tampil_token);
+//                    tampilToken.setText(token);
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
