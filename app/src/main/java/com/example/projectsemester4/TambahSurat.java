@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -206,7 +207,9 @@ public void resetForm(){
 }
     private void insertSurat() {
 
-        SuratRequest suratRequest = new SuratRequest();
+        SuratRequest suratRequest = new SuratRequest(
+
+        );
         suratRequest.setKepada(kepada.getText().toString());
         suratRequest.setAlamat(alamat.getText().toString());
         suratRequest.setTanggal(tanggal.getText().toString());
@@ -235,7 +238,8 @@ public void resetForm(){
 
             @Override
             public void onFailure(Call<SuratRequest> call, Throwable t) {
-                Toast.makeText(TambahSurat.this, "Throwable " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(TambahSurat.this, "Failed to add data to the server : " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Log.e("API Error", "Failed to add data to the server", t);
             }
         });
 
