@@ -41,8 +41,8 @@ public class SuratRequest {
     private List<Integer> prodiIdAnggota;
 
     // constructor dan getter/setter di sini
-
-    public SuratRequest(String kodeSurat, int statusId, int prodiId, int dosenId, String kodeKoordinator, String namaMitra, String alamatMitra, String tanggalDibuat, String tanggalPelaksanaan, String tanggalSelesai, String judulTa, String kebutuhan, String keterangan, List<String> namaAnggota, List<String> nimAnggota, List<String> nohpAnggota, List<Integer> prodiIdAnggota) {
+//    String kodeSurat, int statusId, int prodiId, int dosenId, String kodeKoordinator, String namaMitra, String alamatMitra, String tanggalDibuat, String tanggalPelaksanaan, String tanggalSelesai, String judulTa, String kebutuhan, String keterangan, List<String> namaAnggota, List<String> nimAnggota, List<String> nohpAnggota, List<Integer> prodiIdAnggota
+    public SuratRequest() {
         this.kodeSurat = kodeSurat;
         this.statusId = statusId;
         this.prodiId = prodiId;

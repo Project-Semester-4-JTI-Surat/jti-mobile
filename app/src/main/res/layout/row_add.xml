@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <EditText
+            android:id="@+id/nim_anggota"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:hint="NIM"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_list">
+        </EditText>
+
+        <EditText
+            android:id="@+id/nama_anggota"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="Nama"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_list">
+        </EditText>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_list">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/sp_prodi"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+            </androidx.appcompat.widget.AppCompatSpinner>
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/tlp_anggota"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:hint="Tlp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_list">
+        </EditText>
+
+        <ImageView
+            android:id="@+id/hapus"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_close">
+        </ImageView>
+
+    </LinearLayout>
+
+</HorizontalScrollView>

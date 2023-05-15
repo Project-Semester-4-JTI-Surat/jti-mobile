@@ -2,6 +2,7 @@ package com.example.projectsemester4;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -63,18 +64,18 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         tgl = findViewById(R.id.tgl);
         kbth = findViewById(R.id.kbth);
 
-        pilihan = findViewById(R.id.pilihan);
-        pilihan1 = findViewById(R.id.pilihan1);
-        pilihan2 = findViewById(R.id.pilihan2);
-        anggotaKe = findViewById(R.id.anggotaKe);
-        txNim = findViewById(R.id.txNim);
-        txNamaAnggota = findViewById(R.id.txNamaAnggota);
-        txProdi = findViewById(R.id.txProdi);
-        txTlpAnggota = findViewById(R.id.txTlpAnggota);
-        nimAnggota = findViewById(R.id.nimAnggota);
-        namaAnggota = findViewById(R.id.namaAnggota);
-        prodiAnggota = findViewById(R.id.prodiAnggota);
-        tlpAnggota = findViewById(R.id.tlpAnggota);
+//        pilihan = findViewById(R.id.pilihan);
+//        pilihan1 = findViewById(R.id.pilihan1);
+//        pilihan2 = findViewById(R.id.pilihan2);
+//        anggotaKe = findViewById(R.id.anggotaKe);
+//        txNim = findViewById(R.id.txNim);
+//        txNamaAnggota = findViewById(R.id.txNamaAnggota);
+//        txProdi = findViewById(R.id.txProdi);
+//        txTlpAnggota = findViewById(R.id.txTlpAnggota);
+//        nimAnggota = findViewById(R.id.nimAnggota);
+//        namaAnggota = findViewById(R.id.namaAnggota);
+//        prodiAnggota = findViewById(R.id.prodiAnggota);
+//        tlpAnggota = findViewById(R.id.tlpAnggota);
         tambahAnggotaButton = findViewById(R.id.tambahAnggotaButton);
         resetFormButton = findViewById(R.id.resetButton);
         ajukanButton = findViewById(R.id.ajukanButton);
@@ -130,7 +131,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                     Toast.makeText(TambahSurat.this, "Mohon Isi Semua Kolom", Toast.LENGTH_LONG).show();
                 } else {
                     //proceed to login
-                    insertSurat();
+//                    insertSurat();
                     resetForm();
                 }
 
@@ -140,40 +141,47 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         tambahAnggotaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Mengaktifkan RadioButton pilihan2 dan menonaktifkan pilihan1
-                pilihan1.setEnabled(false);
-                pilihan2.setEnabled(true);
-
-                // Menambahkan tampilan form anggota baru
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View view = inflater.inflate(R.layout.tambah_surat, null);
-                LinearLayout anggotaLayout = findViewById(R.id.LinearLayout2);
-                anggotaLayout.addView(view, anggotaLayout.getChildCount());
-
-                // Menambahkan nomor urut anggota
-                jumlahAnggota++;
-                TextView anggotaKe = findViewById(R.id.anggotaKe);
-                anggotaKe.setVisibility(View.VISIBLE);
-                anggotaKe.setText("Anggota Ke-" + jumlahAnggota);
-
-
-                // Mengambil referensi dari elemen form anggota yang baru ditambahkan
-                TextView txNim = view.findViewById(R.id.txNim);
-                TextView txNamaAnggota = view.findViewById(R.id.txNamaAnggota);
-                TextView txProdi = view.findViewById(R.id.txProdi);
-                TextView txTlpAnggota = view.findViewById(R.id.txTlpAnggota);
-                EditText nimAnggota = view.findViewById(R.id.nimAnggota);
-                EditText namaAnggota = view.findViewById(R.id.namaAnggota);
-                EditText tlpAnggota = view.findViewById(R.id.tlpAnggota);
-                Spinner prodiAnggota = view.findViewById(R.id.prodiAnggota);
-
-                // Mengatur adapter untuk Spinner prodiAnggotaBaru
-                ArrayAdapter<CharSequence> adapterProdi = ArrayAdapter.createFromResource(TambahSurat.this,
-                        R.array.prodi, android.R.layout.simple_spinner_item);
-                adapterProdi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                prodiAnggota.setAdapter(adapterProdi);
+                startActivity(new Intent(getApplicationContext(), ListAnggota.class));
             }
         });
+
+//        tambahAnggotaButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Mengaktifkan RadioButton pilihan2 dan menonaktifkan pilihan1
+//                pilihan1.setEnabled(false);
+//                pilihan2.setEnabled(true);
+//
+//                // Menambahkan tampilan form anggota baru
+//                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                View view = inflater.inflate(R.layout.tambah_surat, null);
+//                LinearLayout anggotaLayout = findViewById(R.id.LinearLayout2);
+//                anggotaLayout.addView(view, anggotaLayout.getChildCount());
+//
+//                // Menambahkan nomor urut anggota
+//                jumlahAnggota++;
+//                TextView anggotaKe = findViewById(R.id.anggotaKe);
+//                anggotaKe.setVisibility(View.VISIBLE);
+//                anggotaKe.setText("Anggota Ke-" + jumlahAnggota);
+//
+//
+//                // Mengambil referensi dari elemen form anggota yang baru ditambahkan
+//                TextView txNim = view.findViewById(R.id.txNim);
+//                TextView txNamaAnggota = view.findViewById(R.id.txNamaAnggota);
+//                TextView txProdi = view.findViewById(R.id.txProdi);
+//                TextView txTlpAnggota = view.findViewById(R.id.txTlpAnggota);
+//                EditText nimAnggota = view.findViewById(R.id.nimAnggota);
+//                EditText namaAnggota = view.findViewById(R.id.namaAnggota);
+//                EditText tlpAnggota = view.findViewById(R.id.tlpAnggota);
+//                Spinner prodiAnggota = view.findViewById(R.id.prodiAnggota);
+//
+//                // Mengatur adapter untuk Spinner prodiAnggotaBaru
+//                ArrayAdapter<CharSequence> adapterProdi = ArrayAdapter.createFromResource(TambahSurat.this,
+//                        R.array.prodi, android.R.layout.simple_spinner_item);
+//                adapterProdi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                prodiAnggota.setAdapter(adapterProdi);
+//            }
+//        });
 
 
         resetForm();
@@ -196,54 +204,52 @@ public void resetForm(){
             pilihan1.setEnabled(true);
             pilihan2.setChecked(false);
             pilihan2.setEnabled(true);
-            LinearLayout layout = findViewById(R.id.LinearLayout2);
-            int count = layout.getChildCount();
-            for (int i = count - 1; i >= 5; i--) {
-                View view = layout.getChildAt(i);
-                layout.removeView(view);
-            }
+//            LinearLayout layout = findViewById(R.id.LinearLayout2);
+//            int count = layout.getChildCount();
+//            for (int i = count - 1; i >= 5; i--) {
+//                View view = layout.getChildAt(i);
+//                layout.removeView(view);
+//            }
         }
     });
 }
-    private void insertSurat() {
-
-        SuratRequest suratRequest = new SuratRequest(
-
-        );
-        suratRequest.setKepada(kepada.getText().toString());
-        suratRequest.setAlamat(alamat.getText().toString());
-        suratRequest.setTanggal(tanggal.getText().toString());
-        suratRequest.setJenisSurat(spJenisSurat.getSelectedItem().toString());
-        suratRequest.setNamaDosen(spNamaDosen.getSelectedItem().toString());
-        suratRequest.setKebutuhan(kebutuhan.getSelectedItem().toString());
-        suratRequest.setNimAnggota(nimAnggota.getText().toString());
-        suratRequest.setNamaAnggota(namaAnggota.getText().toString());
-        suratRequest.setTlpAnggota(tlpAnggota.getText().toString());
-        suratRequest.setProdiAnggota(prodiAnggota.getSelectedItem().toString());
-
-        Call<SuratRequest> InsertSuratResponseCall = ApiClient.getSuratInsert(TambahSurat.this).insertSurat(suratRequest);
-        InsertSuratResponseCall.enqueue(new Callback<SuratRequest>() {
-            @Override
-            public void onResponse(Call<SuratRequest> call, Response<SuratRequest> response) {
-
-                if(response.isSuccessful()) {
-                    String res = response.body().toString();
-                    Toast.makeText(TambahSurat.this, res, Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(TambahSurat.this, "Penambahan Data Gagal!", Toast.LENGTH_LONG).show();
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<SuratRequest> call, Throwable t) {
-                Toast.makeText(TambahSurat.this, "Failed to add data to the server : " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                Log.e("API Error", "Failed to add data to the server", t);
-            }
-        });
-
-    }
+//    private void insertSurat() {
+//
+//        SuratRequest suratRequest = new SuratRequest();
+//        suratRequest.setKepada(kepada.getText().toString());
+//        suratRequest.setAlamat(alamat.getText().toString());
+//        suratRequest.setTanggal(tanggal.getText().toString());
+//        suratRequest.setJenisSurat(spJenisSurat.getSelectedItem().toString());
+//        suratRequest.setNamaDosen(spNamaDosen.getSelectedItem().toString());
+//        suratRequest.setKebutuhan(kebutuhan.getSelectedItem().toString());
+//        suratRequest.setNimAnggota(nimAnggota.getText().toString());
+//        suratRequest.setNamaAnggota(namaAnggota.getText().toString());
+//        suratRequest.setTlpAnggota(tlpAnggota.getText().toString());
+//        suratRequest.setProdiAnggota(prodiAnggota.getSelectedItem().toString());
+//
+//        Call<SuratRequest> InsertSuratResponseCall = ApiClient.getSuratInsert(TambahSurat.this).insertSurat(suratRequest);
+//        InsertSuratResponseCall.enqueue(new Callback<SuratRequest>() {
+//            @Override
+//            public void onResponse(Call<SuratRequest> call, Response<SuratRequest> response) {
+//
+//                if(response.isSuccessful()) {
+//                    String res = response.body().toString();
+//                    Toast.makeText(TambahSurat.this, res, Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(TambahSurat.this, "Penambahan Data Gagal!", Toast.LENGTH_LONG).show();
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<SuratRequest> call, Throwable t) {
+//                Toast.makeText(TambahSurat.this, "Failed to add data to the server : " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//                Log.e("API Error", "Failed to add data to the server", t);
+//            }
+//        });
+//
+//    }
 
 
     @Override
