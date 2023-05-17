@@ -1,12 +1,10 @@
 package com.example.projectsemester4;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -22,15 +19,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.projectsemester4.Keys.AnggotaAdapter;
+import com.example.projectsemester4.Keys.AnggotaModel;
 import com.example.projectsemester4.Keys.ApiClient;
 import com.example.projectsemester4.Keys.SuratRequest;
+import com.opencsv.CSVReader;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class TambahSurat extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText kepada, alamat, tanggal, keterangan;
@@ -44,18 +52,22 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
     private Button tambahAnggotaButton, resetFormButton, ajukanButton;
     private int jumlahAnggota = 1;
     DatePickerDialog picker;
+    private RecyclerView recyclerView;
+    private AnggotaAdapter adapter;
+    private List<AnggotaModel> anggotaList;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tambah_surat);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        spJenisSurat = findViewById(R.id.spJenisSurat);
+        spNamaDosen = findViewById(R.id.spNamaDosen);
         kepada = findViewById(R.id.kepada);
         alamat = findViewById(R.id.alamat);
         tanggal = findViewById(R.id.tanggal);
-        spJenisSurat = findViewById(R.id.spJenisSurat);
-        spNamaDosen = findViewById(R.id.spNamaDosen);
         kebutuhan = findViewById(R.id.kebutuhan);
         keterangan = findViewById(R.id.keterangan);
+
         judulSurat = findViewById(R.id.judulSurat);
         jsSurat = findViewById(R.id.jsSurat);
         nmDosen = findViewById(R.id.nmDosen);
@@ -64,18 +76,6 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         tgl = findViewById(R.id.tgl);
         kbth = findViewById(R.id.kbth);
 
-//        pilihan = findViewById(R.id.pilihan);
-//        pilihan1 = findViewById(R.id.pilihan1);
-//        pilihan2 = findViewById(R.id.pilihan2);
-//        anggotaKe = findViewById(R.id.anggotaKe);
-//        txNim = findViewById(R.id.txNim);
-//        txNamaAnggota = findViewById(R.id.txNamaAnggota);
-//        txProdi = findViewById(R.id.txProdi);
-//        txTlpAnggota = findViewById(R.id.txTlpAnggota);
-//        nimAnggota = findViewById(R.id.nimAnggota);
-//        namaAnggota = findViewById(R.id.namaAnggota);
-//        prodiAnggota = findViewById(R.id.prodiAnggota);
-//        tlpAnggota = findViewById(R.id.tlpAnggota);
         tambahAnggotaButton = findViewById(R.id.tambahAnggotaButton);
         resetFormButton = findViewById(R.id.resetButton);
         ajukanButton = findViewById(R.id.ajukanButton);
@@ -125,13 +125,11 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                 if (TextUtils.isEmpty(kepada.getText().toString()) || TextUtils.isEmpty(alamat.getText().toString())
                         || TextUtils.isEmpty(tanggal.getText().toString().trim()) || TextUtils.isEmpty(spJenisSurat.getSelectedItem().toString())
                         || TextUtils.isEmpty(spNamaDosen.getSelectedItem().toString()) || TextUtils.isEmpty(kebutuhan.getSelectedItem().toString())
-                        || TextUtils.isEmpty(keterangan.getText().toString()) || TextUtils.isEmpty(nimAnggota.getText().toString())
-                        || TextUtils.isEmpty(namaAnggota.getText().toString())|| TextUtils.isEmpty(prodiAnggota.getSelectedItem().toString())
-                        || TextUtils.isEmpty(tlpAnggota.getText().toString())) {
-                    Toast.makeText(TambahSurat.this, "Mohon Isi Semua Kolom", Toast.LENGTH_LONG).show();
+                        || TextUtils.isEmpty(keterangan.getText().toString()) || recyclerView==null) {
+                    Toast.makeText(TambahSurat.this, "Mohon Isi Semua Kolom dan Tambahkan Anggota", Toast.LENGTH_LONG).show();
                 } else {
                     //proceed to login
-//                    insertSurat();
+                    insertSurat();
                     resetForm();
                 }
 
@@ -144,75 +142,114 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                 startActivity(new Intent(getApplicationContext(), ListAnggota.class));
             }
         });
-
-//        tambahAnggotaButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Mengaktifkan RadioButton pilihan2 dan menonaktifkan pilihan1
-//                pilihan1.setEnabled(false);
-//                pilihan2.setEnabled(true);
-//
-//                // Menambahkan tampilan form anggota baru
-//                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                View view = inflater.inflate(R.layout.tambah_surat, null);
-//                LinearLayout anggotaLayout = findViewById(R.id.LinearLayout2);
-//                anggotaLayout.addView(view, anggotaLayout.getChildCount());
-//
-//                // Menambahkan nomor urut anggota
-//                jumlahAnggota++;
-//                TextView anggotaKe = findViewById(R.id.anggotaKe);
-//                anggotaKe.setVisibility(View.VISIBLE);
-//                anggotaKe.setText("Anggota Ke-" + jumlahAnggota);
-//
-//
-//                // Mengambil referensi dari elemen form anggota yang baru ditambahkan
-//                TextView txNim = view.findViewById(R.id.txNim);
-//                TextView txNamaAnggota = view.findViewById(R.id.txNamaAnggota);
-//                TextView txProdi = view.findViewById(R.id.txProdi);
-//                TextView txTlpAnggota = view.findViewById(R.id.txTlpAnggota);
-//                EditText nimAnggota = view.findViewById(R.id.nimAnggota);
-//                EditText namaAnggota = view.findViewById(R.id.namaAnggota);
-//                EditText tlpAnggota = view.findViewById(R.id.tlpAnggota);
-//                Spinner prodiAnggota = view.findViewById(R.id.prodiAnggota);
-//
-//                // Mengatur adapter untuk Spinner prodiAnggotaBaru
-//                ArrayAdapter<CharSequence> adapterProdi = ArrayAdapter.createFromResource(TambahSurat.this,
-//                        R.array.prodi, android.R.layout.simple_spinner_item);
-//                adapterProdi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                prodiAnggota.setAdapter(adapterProdi);
-//            }
-//        });
-
-
         resetForm();
+
+        recyclerView = findViewById(R.id.recycle_data);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        anggotaList = new ArrayList<>();
+        adapter = new AnggotaAdapter(anggotaList);
+        recyclerView.setAdapter(adapter);
+        loadCSVData();
     }
-public void resetForm(){
+
+    private void loadCSVData() {
+        String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
+
+        try {
+            FileReader fileReader = new FileReader(csvFilePath);
+            CSVReader csvReader = new CSVReader(fileReader);
+
+            String[] nextLine = csvReader.readNext();
+            if (nextLine == null) {
+                // Tidak ada data dalam file CSV
+                Toast.makeText(this, "Data tidak ada", Toast.LENGTH_SHORT).show();
+            } else {
+                while (nextLine != null) {
+                    // Membaca data dari baris CSV
+                    String nim = nextLine[0];
+                    String nama = nextLine[1];
+                    String prodi = nextLine[2];
+                    String tlp = nextLine[3];
+
+                    // Membuat objek AnggotaModel dari data CSV
+                    AnggotaModel anggota = new AnggotaModel(nim, nama, prodi, tlp);
+
+                    // Menambahkan objek AnggotaModel ke dalam list anggotaList
+                    anggotaList.add(anggota);
+
+                    nextLine = csvReader.readNext();
+                }
+
+                // Menampilkan data ke RecyclerView
+                adapter.notifyDataSetChanged();
+            }
+
+            csvReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void resetForm(){
     resetFormButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             // mereset semua field ke nilai awal
-            anggotaKe.setText("Anggota Ke-1");
             kepada.setText("");
             alamat.setText("");
             tanggal.setText("");
             spJenisSurat.setSelection(0);
             spNamaDosen.setSelection(0);
             kebutuhan.setSelection(0);
-            prodiAnggota.setSelection(0);
-            tlpAnggota.setText("");
-            pilihan1.setChecked(false);
-            pilihan1.setEnabled(true);
-            pilihan2.setChecked(false);
-            pilihan2.setEnabled(true);
-//            LinearLayout layout = findViewById(R.id.LinearLayout2);
-//            int count = layout.getChildCount();
-//            for (int i = count - 1; i >= 5; i--) {
-//                View view = layout.getChildAt(i);
-//                layout.removeView(view);
-//            }
+            keterangan.setText("");
         }
     });
 }
+    private void insertSurat() {
+        String jenisSurat = spJenisSurat.getSelectedItem().toString();
+        String namaDosen = spNamaDosen.getSelectedItem().toString();
+        String kepadaText = kepada.getText().toString().trim();
+        String alamatText = alamat.getText().toString().trim();
+        String tanggalText = tanggal.getText().toString().trim();
+        String kebutuhanText = kebutuhan.getSelectedItem().toString();
+        String keteranganText = keterangan.getText().toString().trim();
+
+        // Ambil daftar anggota dari adapter
+        List<AnggotaModel> anggotaList = adapter.getAnggotaList();
+
+        // Buat objek SuratRequest dengan data yang diperlukan
+        SuratRequest suratRequest = new SuratRequest(jenisSurat, namaDosen, kepadaText, alamatText, tanggalText, kebutuhanText, keteranganText, anggotaList);
+
+        // Kirim permintaan HTTP menggunakan Retrofit
+        Call<SuratRequest> call = ApiClient.getSuratInsert(TambahSurat.this).insertSurat(suratRequest);
+        call.enqueue(new Callback<SuratRequest>() {
+            @Override
+            public void onResponse(Call<SuratRequest> call, Response<SuratRequest> response) {
+                if (response.isSuccessful()) {
+                    // Berhasil mengirim surat, lakukan tindakan yang diinginkan
+                    Toast.makeText(TambahSurat.this, "Surat berhasil diajukan", Toast.LENGTH_SHORT).show();
+                    String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
+                    File file = new File(csvFilePath);
+                    if(file.exists()){
+                        file.delete();
+                    }
+                    Intent intent = new Intent(TambahSurat.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Gagal mengirim surat, tangani kesalahan
+                    Toast.makeText(TambahSurat.this, "Gagal mengirim surat", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuratRequest> call, Throwable t) {
+                // Gagal mengirim surat, tangani kesalahan
+                Toast.makeText(TambahSurat.this, "Gagal mengirim surat", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 //    private void insertSurat() {
 //
 //        SuratRequest suratRequest = new SuratRequest();
@@ -234,6 +271,11 @@ public void resetForm(){
 //
 //                if(response.isSuccessful()) {
 //                    String res = response.body().toString();
+//String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
+//    File file = new File(csvFilePath);
+//        if(file.exists()){
+//        file.delete();
+//    }
 //                    Toast.makeText(TambahSurat.this, res, Toast.LENGTH_LONG).show();
 //                } else {
 //                    Toast.makeText(TambahSurat.this, "Penambahan Data Gagal!", Toast.LENGTH_LONG).show();

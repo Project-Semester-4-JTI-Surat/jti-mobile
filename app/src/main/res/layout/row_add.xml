@@ -22,7 +22,9 @@
             android:layout_weight="1"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/bg_list">
+            android:background="@drawable/bg_list"
+            android:inputType="text"
+            android:maxLength="9">
         </EditText>
 
         <EditText
@@ -62,7 +64,9 @@
             android:paddingLeft="10dp"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/bg_list">
+            android:background="@drawable/bg_list"
+            android:inputType="number"
+            android:maxLength="13">
         </EditText>
 
         <ImageView

@@ -3,6 +3,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,8 @@ public class TampilanLogin extends AppCompatActivity {
     private Button btnLogin;
     boolean passwordVisible;
     private MyPreferences myPreferences;
+    private ImageView TampilLogo;
+    private Drawable drawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public class TampilanLogin extends AppCompatActivity {
         etNim = findViewById(R.id.username);
         etPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.loginButton);
+
+        TampilLogo = findViewById(R.id.TampilLogo);
 
         myPreferences = new MyPreferences(this);
         // Mengatur status login ke false pada awalnya
@@ -158,118 +164,5 @@ public class TampilanLogin extends AppCompatActivity {
 
 
 }
-//        loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                nims = nim.getText().toString().trim();
-//                passwords = password.getText().toString().trim();
-//                if (!nims.isEmpty() && !passwords.isEmpty()) {
-//                    login(nims, passwords);
-//                } else {
-//                    Toast.makeText(context, "Please fill in all the fields", Toast.LENGTH_SHORT).show();
-//                }
-////                // Cek apakah inputan nim dan password kosong
-////                if (!nimValue.isEmpty() && !passwordValue.isEmpty()) {
-////                    // Buat objek OkHttpClient untuk melakukan HTTP request
-////                    OkHttpClient client = new OkHttpClient();
-////
-////                    // Membuat request body untuk mengirim data login ke API
-////                    FormBody formBody = new FormBody.Builder()
-////                            .add("nim", nimValue)
-////                            .add("password", passwordValue)
-////                            .build();
-////
-////                    // Membuat request POST ke API login
-////                    Request request = new Request.Builder()
-////                            .url("http://jti-surat.my.id/api/mahasiswa/") // Ganti dengan alamat URL API login Anda
-////                            .post(formBody)
-////                            .build();
-////
-////                    // Mengirim request ke API
-////                    client.newCall(request).enqueue(new Callback() {
-////                        @Override
-////                        public void onFailure(Call call, IOException e) {
-////                            // Tampilkan pesan error ketika request gagal
-//////                            Toast.makeText(TampilanLogin.this, "Request Gagal", Toast.LENGTH_SHORT).show();
-////                            e.printStackTrace();
-////                        }
-////
-////                        @Override
-////                        public void onResponse(Call call, Response response) throws IOException {
-////                            String responseBody = response.body().string();
-////                            try {
-////                                JSONObject jsonObject = new JSONObject(responseBody);
-////                                boolean success = jsonObject.getBoolean("success");
-////                                if (success) {
-////                                    // Login berhasil
-////                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-////                                    editor.putString("nim", nimValue);
-////                                    editor.putString("password", passwordValue);
-////                                    editor.apply();
-////                                    // Lakukan navigasi ke halaman berikutnya setelah login berhasil
-////                                    Toast.makeText(TampilanLogin.this, "Login successful!", Toast.LENGTH_SHORT).show();
-////                                    Intent intent = new Intent(TampilanLogin.this, MainActivity.class);
-////                                    startActivity(intent);
-////                                } else {
-////                                    Toast.makeText(TampilanLogin.this, "Invalid NIM or password", Toast.LENGTH_SHORT).show();
-////                                }
-////                            } catch (JSONException e) {
-////                                e.printStackTrace();
-////                            }
-////                        }
-////                    });
-////                } else {
-////                    // Tampilkan pesan error inputan kosong
-////                    Toast.makeText(TampilanLogin.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-////                }
-//            }
-//        });
-
-
-//    private void login(final String nim, final String password) {
-//        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://127.0.0.1:8000/api/mahasiswa/login",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Log.d(TAG, "Login Response: " + response);
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            boolean success = jsonObject.getBoolean("success");
-//                            String message = jsonObject.getString("message");
-//                            if (success) {
-//                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-//                                // Jika login berhasil, bisa dilanjutkan ke halaman berikutnya
-//                                Intent intent = new Intent(context, MainActivity.class);
-//                                startActivity(intent);
-//                                finish();
-//                            } else {
-//                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                            Toast.makeText(context, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.e(TAG, "Login Error: " + error.getMessage());
-//                        Toast.makeText(context, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
-//                    }
-//                }) {
-//            @Override
-//            protected Map<String, String> getParams() throws AuthFailureError {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("nim", nim);
-//                params.put("password", password);
-//                return params;
-//            }
-//        };
-//
-//        // Menambahkan request ke queue
-//        RequestQueue requestQueue = Volley.newRequestQueue(context);
-//        requestQueue.add(stringRequest);
-//    }
 
 

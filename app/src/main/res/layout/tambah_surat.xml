@@ -197,10 +197,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycle_data"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/keterangan">
+                android:layout_below="@+id/keterangan"
+                tools:listitem="@layout/list_item_tampil_anggota">
 
             </androidx.recyclerview.widget.RecyclerView>
 
