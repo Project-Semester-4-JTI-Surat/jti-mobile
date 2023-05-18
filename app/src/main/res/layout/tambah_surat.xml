@@ -72,10 +72,30 @@
                 android:padding="8dp" />
 
             <TextView
-                android:id="@+id/kpd"
+                android:id="@+id/tv_koordinator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spNamaDosen"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="Koordinator"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/sp_koordinator"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/tv_koordinator"
+                android:layout_marginLeft="15dp"
+                android:entries="@array/nama_dosen"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/kpd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/sp_koordinator"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:text="Kepada"
@@ -122,21 +142,77 @@
                 android:textColorHint="@color/black" />
 
             <TextView
-                android:id="@+id/tgl"
+                android:id="@+id/tv_tanggal_dibuat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/alamat"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:text="Tanggal"
+                android:text="Tanggal Dibuat"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/tanggal"
+                android:id="@+id/et_tanggal_dibuat"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/tgl"
+                android:layout_below="@+id/tv_tanggal_dibuat"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:hint="Pilih Tangggal"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="@color/black"
+                android:inputType="date"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
+            <TextView
+                android:id="@+id/tv_tanggal_pelaksanaan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_tanggal_dibuat"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="Tanggal Pelaksanaan"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_tanggal_pelaksanaan"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/tv_tanggal_pelaksanaan"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:hint="Pilih Tangggal"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="@color/black"
+                android:inputType="date"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
+            <TextView
+                android:id="@+id/tv_tanggal_selesai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_tanggal_pelaksanaan"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="Tanggal Pelaksanaan"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_tanggal_selesai"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/tv_tanggal_selesai"
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
@@ -153,7 +229,7 @@
                 android:id="@+id/kbth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tanggal"
+                android:layout_below="@+id/et_tanggal_selesai"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:text="Kebutuhan"

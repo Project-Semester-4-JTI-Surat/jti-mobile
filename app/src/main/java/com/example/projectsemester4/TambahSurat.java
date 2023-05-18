@@ -41,14 +41,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class TambahSurat extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private EditText kepada, alamat, tanggal, keterangan;
-    private Spinner spJenisSurat, spNamaDosen, kebutuhan;
-    private TextView judulSurat, jsSurat, nmDosen, kpd, almt, tgl, kbth;
-    private RadioGroup pilihan;
-    private RadioButton pilihan1, pilihan2;
-    private TextView anggotaKe, txNim, txNamaAnggota, txProdi, txTlpAnggota;
-    private EditText nimAnggota, namaAnggota, tlpAnggota;
-    private Spinner prodiAnggota;
+    private EditText kepada, alamat, tanggal_dibuat, tanggal_pelaksanaan, tanggal_selesai, keterangan;
+    private Spinner spJenisSurat, spNamaDosen, sp_koordinator, kebutuhan;
+    private TextView judulSurat, jsSurat, tv_koordinator, nmDosen, kpd, almt, tv_tanggal_dibuat, tv_tanggal_pelaksanaan, tv_tanggal_selesai, kbth;
     private Button tambahAnggotaButton, resetFormButton, ajukanButton;
     private int jumlahAnggota = 1;
     DatePickerDialog picker;
@@ -64,7 +59,10 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         spNamaDosen = findViewById(R.id.spNamaDosen);
         kepada = findViewById(R.id.kepada);
         alamat = findViewById(R.id.alamat);
-        tanggal = findViewById(R.id.tanggal);
+        tanggal_dibuat = findViewById(R.id.et_tanggal_dibuat);
+        tanggal_pelaksanaan = findViewById(R.id.et_tanggal_pelaksanaan);
+        tanggal_selesai = findViewById(R.id.et_tanggal_selesai);
+        sp_koordinator = findViewById(R.id.sp_koordinator);
         kebutuhan = findViewById(R.id.kebutuhan);
         keterangan = findViewById(R.id.keterangan);
 
@@ -73,7 +71,10 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         nmDosen = findViewById(R.id.nmDosen);
         kpd = findViewById(R.id.kpd);
         almt = findViewById(R.id.almt);
-        tgl = findViewById(R.id.tgl);
+        tv_koordinator = findViewById(R.id.tv_koordinator);
+        tv_tanggal_dibuat = findViewById(R.id.tv_tanggal_dibuat);
+        tv_tanggal_pelaksanaan = findViewById(R.id.tv_tanggal_pelaksanaan);
+        tv_tanggal_selesai = findViewById(R.id.tv_tanggal_selesai);
         kbth = findViewById(R.id.kbth);
 
         tambahAnggotaButton = findViewById(R.id.tambahAnggotaButton);
@@ -90,6 +91,11 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spNamaDosen.setAdapter(adapterND);
 
+        ArrayAdapter<CharSequence> adapterKoordinator = ArrayAdapter.createFromResource(this,
+                R.array.nama_dosen, android.R.layout.simple_spinner_item);
+        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_koordinator.setAdapter(adapterKoordinator);
+
         ArrayAdapter<CharSequence> adapterKebutuhan = ArrayAdapter.createFromResource(this,
                 R.array.kebutuhan, android.R.layout.simple_spinner_item);
         adapterKebutuhan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -98,8 +104,9 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         spJenisSurat.setOnItemSelectedListener(this);
         spNamaDosen.setOnItemSelectedListener(this);
         kebutuhan.setOnItemSelectedListener(this);
+        sp_koordinator.setOnItemSelectedListener(this);
 
-        tanggal.setOnClickListener(new View.OnClickListener(){
+        tanggal_dibuat.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 final Calendar cldr = Calendar.getInstance();
@@ -111,7 +118,45 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                         new DatePickerDialog.OnDateSetListener(){
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                                tanggal.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                                tanggal_dibuat.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
+
+        tanggal_pelaksanaan.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                //date picker dialog
+                picker = new DatePickerDialog(TambahSurat.this,
+                        new DatePickerDialog.OnDateSetListener(){
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
+                                tanggal_pelaksanaan.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
+
+        tanggal_selesai.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                //date picker dialog
+                picker = new DatePickerDialog(TambahSurat.this,
+                        new DatePickerDialog.OnDateSetListener(){
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
+                                tanggal_selesai.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
                             }
                         }, year, month, day);
                 picker.show();
@@ -122,8 +167,9 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
             @Override
             public void onClick(View view) {
 
-                if (TextUtils.isEmpty(kepada.getText().toString()) || TextUtils.isEmpty(alamat.getText().toString())
-                        || TextUtils.isEmpty(tanggal.getText().toString().trim()) || TextUtils.isEmpty(spJenisSurat.getSelectedItem().toString())
+                if (TextUtils.isEmpty(kepada.getText().toString()) || TextUtils.isEmpty(alamat.getText().toString()) || TextUtils.isEmpty(sp_koordinator.getSelectedItem().toString())
+                        || TextUtils.isEmpty(tanggal_dibuat.getText().toString().trim()) || TextUtils.isEmpty(tanggal_pelaksanaan.getText().toString().trim())
+                        || TextUtils.isEmpty(spJenisSurat.getSelectedItem().toString()) || TextUtils.isEmpty(tanggal_selesai.getText().toString().trim())
                         || TextUtils.isEmpty(spNamaDosen.getSelectedItem().toString()) || TextUtils.isEmpty(kebutuhan.getSelectedItem().toString())
                         || TextUtils.isEmpty(keterangan.getText().toString()) || recyclerView==null) {
                     Toast.makeText(TambahSurat.this, "Mohon Isi Semua Kolom dan Tambahkan Anggota", Toast.LENGTH_LONG).show();
@@ -198,8 +244,11 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
             // mereset semua field ke nilai awal
             kepada.setText("");
             alamat.setText("");
-            tanggal.setText("");
+            tanggal_dibuat.setText("");
+            tanggal_pelaksanaan.setText("");
+            tanggal_selesai.setText("");
             spJenisSurat.setSelection(0);
+            sp_koordinator.setSelection(0);
             spNamaDosen.setSelection(0);
             kebutuhan.setSelection(0);
             keterangan.setText("");
@@ -209,9 +258,12 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
     private void insertSurat() {
         String jenisSurat = spJenisSurat.getSelectedItem().toString();
         String namaDosen = spNamaDosen.getSelectedItem().toString();
+        String koordinator = sp_koordinator.getSelectedItem().toString();
         String kepadaText = kepada.getText().toString().trim();
         String alamatText = alamat.getText().toString().trim();
-        String tanggalText = tanggal.getText().toString().trim();
+        String tanggalDibuatText = tanggal_dibuat.getText().toString().trim();
+        String tanggalPelaksanaanText = tanggal_pelaksanaan.getText().toString().trim();
+        String tanggalSelesaiText = tanggal_selesai.getText().toString().trim();
         String kebutuhanText = kebutuhan.getSelectedItem().toString();
         String keteranganText = keterangan.getText().toString().trim();
 
@@ -219,7 +271,19 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         List<AnggotaModel> anggotaList = adapter.getAnggotaList();
 
         // Buat objek SuratRequest dengan data yang diperlukan
-        SuratRequest suratRequest = new SuratRequest(jenisSurat, namaDosen, kepadaText, alamatText, tanggalText, kebutuhanText, keteranganText, anggotaList);
+        SuratRequest suratRequest = new SuratRequest(
+                jenisSurat,
+                namaDosen,
+                koordinator,
+                kepadaText,
+                alamatText,
+                tanggalDibuatText,
+                tanggalPelaksanaanText,
+                tanggalSelesaiText,
+                kebutuhanText,
+                keteranganText,
+                anggotaList
+        );
 
         // Kirim permintaan HTTP menggunakan Retrofit
         Call<SuratRequest> call = ApiClient.getSuratInsert(TambahSurat.this).insertSurat(suratRequest);

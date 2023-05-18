@@ -22,10 +22,22 @@ public class TampilanFaq extends AppCompatActivity {
         recyclerView = findViewById(R.id.faq_tampil);
         arrayList = new ArrayList<>();
 
-        arrayList.add(new FaqModelClass("judul 1", "deskripsi 1", false));
-        arrayList.add(new FaqModelClass("judul 1", "deskripsi 1", false));
-        arrayList.add(new FaqModelClass("judul 1", "deskripsi 1", false));
-
+        arrayList.add(new FaqModelClass(
+                "Informasi apa saja yang tersimpan saat membuat akun JTI-Surat?",
+                "Saat anda membuat akun JTI-Surat, kami menyimpan informasi yang diberikan, seperti Nama, Nim, Prodi, dan Password.",
+                false));
+        arrayList.add(new FaqModelClass(
+                "Bisakah mendaftarkan akun dengan menggunakan data yang sudah didaftarkan sebelumnya??",
+                "Pendaftaran akan gagal jika anda menggunakan data yang sama karena akun anda sudah terdaftar dalam database kami.",
+                false));
+        arrayList.add(new FaqModelClass(
+                "Apa saja yang dapat dilakukan setelah terdaftar di JTI-Surat?",
+                "Anda dapat melakukan transaksi pengajuan surat kepada Admin Jurusan Teknologi Informasi.",
+                false));
+        arrayList.add(new FaqModelClass(
+                "Bagaimana jika terdapat kesalahan saat input data?",
+                "Anda dapat mengubah kesalahan penginputan anda di menu 'Ubah Akun' di website JTI-Surat.",
+                false));
         adapter = new FaqAdapter(arrayList, TampilanFaq.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

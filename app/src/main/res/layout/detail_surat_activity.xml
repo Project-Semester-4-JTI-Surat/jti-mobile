@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
-
-
-    <LinearLayout
+    android:background="@color/white"
+    tools:context=".DetailSurat">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:gravity="center"
         android:layout_margin="20dp">
 
         <TextView
-            android:id="@+id/tx_detailSurat"
+            android:id="@+id/tx_jenisSurat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Detail Surat"
+            android:layout_centerHorizontal="true"
+            android:text="Jenis Surat"
             android:textColor="@color/black"
             android:textSize="30dp"
             android:textStyle="bold" />
@@ -33,7 +34,8 @@
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/tx_jenisSurat"/>
         <TextView
             android:id="@+id/isi_namaDosen"
             android:layout_width="match_parent"
@@ -43,7 +45,8 @@
             android:background="@drawable/kotak_form"
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_below="@id/dt_namaDosen"/>
         <TextView
             android:id="@+id/dt_namaMitra"
             android:layout_width="wrap_content"
@@ -53,7 +56,8 @@
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/isi_namaDosen"/>
         <TextView
             android:id="@+id/isi_namaMitra"
             android:layout_width="match_parent"
@@ -63,7 +67,8 @@
             android:background="@drawable/kotak_form"
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_below="@id/dt_namaMitra"/>
         <TextView
             android:id="@+id/dt_alamatMitra"
             android:layout_width="wrap_content"
@@ -73,7 +78,8 @@
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/isi_namaMitra"/>
         <TextView
             android:id="@+id/isi_alamatMitra"
             android:layout_width="match_parent"
@@ -83,7 +89,8 @@
             android:background="@drawable/kotak_form"
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_below="@id/dt_alamatMitra"/>
         <TextView
             android:id="@+id/dt_tanggalPenggunaan"
             android:layout_width="wrap_content"
@@ -93,7 +100,8 @@
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/isi_alamatMitra"/>
         <TextView
             android:id="@+id/isi_tanggalPenggunaan"
             android:layout_width="match_parent"
@@ -103,7 +111,8 @@
             android:background="@drawable/kotak_form"
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_below="@id/dt_tanggalPenggunaan"/>
         <TextView
             android:id="@+id/dt_keterangan"
             android:layout_width="wrap_content"
@@ -113,7 +122,8 @@
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/isi_tanggalPenggunaan"/>
         <TextView
             android:id="@+id/isi_keterangan"
             android:layout_width="match_parent"
@@ -123,7 +133,8 @@
             android:background="@drawable/kotak_form"
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_below="@id/dt_keterangan"/>
         <TextView
             android:id="@+id/dt_status"
             android:layout_width="wrap_content"
@@ -133,7 +144,8 @@
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/isi_keterangan"/>
         <TextView
             android:id="@+id/isi_status"
             android:layout_width="match_parent"
@@ -143,7 +155,8 @@
             android:background="@drawable/kotak_form"
             android:textColor="@color/black"
             android:layout_marginEnd="5sp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_below="@id/dt_status"/>
 
         <TextView
             android:id="@+id/tx_detailPengaju"
@@ -154,7 +167,8 @@
             android:text="Detail Pengaju"
             android:textColor="@color/black"
             android:textSize="25dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/isi_status"/>
 
         <TextView
             android:id="@+id/tx_namaPengaju"
@@ -164,7 +178,8 @@
             android:text="Nama Pengaju"
             android:textColor="@color/black"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/tx_detailPengaju"/>
 
         <TextView
             android:id="@+id/isi_namaPengaju"
@@ -174,7 +189,8 @@
             android:padding="10sp"
             android:background="@drawable/kotak_form"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:layout_below="@id/tx_namaPengaju"/>
 
         <TextView
             android:id="@+id/tx_nimPengaju"
@@ -184,7 +200,8 @@
             android:text="Nim Pengaju"
             android:textColor="@color/black"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/isi_namaPengaju"/>
 
         <TextView
             android:id="@+id/isi_nimPengaju"
@@ -194,9 +211,9 @@
             android:padding="10sp"
             android:background="@drawable/kotak_form"
             android:textColor="@color/black"
-            android:textSize="20dp" />
-
-
-    </LinearLayout>
+            android:textSize="20dp"
+            android:layout_below="@id/tx_nimPengaju"/>
+    </RelativeLayout>
+    </RelativeLayout>
 
 </ScrollView>
