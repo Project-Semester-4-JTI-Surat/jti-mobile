@@ -11,6 +11,7 @@
 <!--        android:id="@+id/toolbar"-->
 <!--        layout="@layout/toolbar"-->
 <!--        ></include>-->
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         app:tabMode="scrollable"

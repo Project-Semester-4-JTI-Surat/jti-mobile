@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,14 +16,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Fragment4 extends Fragment {
     private RecyclerView recyclerView;
+    private List<DataSurat> dataList;
+    private List<DataSurat> filteredDataList;
+    private MyAdapter adapter;
+    private MainViewModel mainModel;
+
     public Fragment4() {
         // Required empty public constructor
     }
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,25 +38,46 @@ public class Fragment4 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_4, container, false);
 
         recyclerView = view.findViewById(R.id.semua_tampil_4);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new Fragment4.MyAdapter());
+
+        dataList = new ArrayList<>();
+        filteredDataList = new ArrayList<>();
+        mainModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+//        mainModel.initDataList();
 
         return view;
     }
-    private class MyAdapter extends RecyclerView.Adapter<Fragment4.MyAdapter.MyViewHolder> {
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mainModel.getFilteredDataSurat().observe(getViewLifecycleOwner(), dataSurat -> {
+            adapter = new MyAdapter(dataSurat);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        });
+    }
+
+
+    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+        private List<DataSurat> dataList;
+
+        public MyAdapter(List<DataSurat> dataList) {
+            this.dataList = dataList;
+        }
 
         @NonNull
         @Override
-        public Fragment4.MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_tampil_surat, parent, false);
-            return new Fragment4.MyAdapter.MyViewHolder(itemView);
+            return new MyAdapter.MyViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull Fragment4.MyAdapter.MyViewHolder holder, int position) {
-            holder.tvMataKuliah.setText("Mata Kuliah " + (position + 1));
-            holder.tvNamaMhs.setText("Nama Mahasiswa " + (position + 1));
+        public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
+            DataSurat data = dataList.get(position);
+            holder.tvMataKuliah.setText(data.getMataKuliah());
+            holder.tvNamaMhs.setText(data.getNamaMhs());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -55,8 +85,8 @@ public class Fragment4 extends Fragment {
                     Intent intent = new Intent(getActivity(), DetailSurat.class);
 
                     // put the data to the intent
-                    intent.putExtra("mata_kuliah", holder.tvMataKuliah.getText().toString());
-                    intent.putExtra("nama_mhs", holder.tvNamaMhs.getText().toString());
+                    intent.putExtra("mata_kuliah", data.getMataKuliah());
+                    intent.putExtra("nama_mhs", data.getNamaMhs());
 
                     // start DetailActivity
                     startActivity(intent);
@@ -66,7 +96,7 @@ public class Fragment4 extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 10; //jumlah item pada RecyclerView
+            return dataList.size();
         }
 
         private class MyViewHolder extends RecyclerView.ViewHolder {
