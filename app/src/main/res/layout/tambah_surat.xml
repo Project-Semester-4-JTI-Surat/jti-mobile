@@ -89,7 +89,9 @@
                 android:layout_below="@+id/tv_koordinator"
                 android:layout_marginLeft="15dp"
                 android:entries="@array/nama_dosen"
-                android:padding="8dp" />
+                android:padding="8dp"
+
+                />
 
             <TextView
                 android:id="@+id/kpd"
@@ -204,7 +206,7 @@
                 android:layout_below="@+id/et_tanggal_pelaksanaan"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:text="Tanggal Pelaksanaan"
+                android:text="Tanggal Selesai"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 

@@ -209,7 +209,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
             String[] nextLine = csvReader.readNext();
             if (nextLine == null) {
                 // Tidak ada data dalam file CSV
-                Toast.makeText(this, "Data tidak ada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Data Anggota tidak ada atau belum ditambahkan", Toast.LENGTH_SHORT).show();
             } else {
                 while (nextLine != null) {
                     // Membaca data dari baris CSV
@@ -371,7 +371,9 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
     public boolean onOptionsItemSelected(MenuItem item) {
         // Mengatur fungsi tombol back pada appbar
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

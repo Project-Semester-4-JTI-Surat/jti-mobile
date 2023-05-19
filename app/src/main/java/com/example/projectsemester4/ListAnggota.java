@@ -56,7 +56,12 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
 
         tambah.setOnClickListener(this);
         simpan.setOnClickListener(this);
-        simpan.setEnabled(false);
+
+        if (layoutList==null){
+            simpan.setEnabled(true);
+        }else{
+            simpan.setEnabled(false);
+        }
 //        recyclersView = findViewById(R.id.recycle_data);
 //        recyclersView.setLayoutManager(new LinearLayoutManager(this));
 //        View anotherLayout = getLayoutInflater().inflate(R.layout.tambah_surat, null);
@@ -70,7 +75,6 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
 //        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        spProdi.setAdapter(adapterND);
 //        spProdi.setOnClickListener(this);
-
     }
     public void simpanData() {
         // Mendapatkan path penyimpanan file .csv
@@ -96,6 +100,17 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
                 String nama = namaEditText.getText().toString().trim();
                 String prodi = prodiSpinner.getSelectedItem().toString();
                 String tlp = tlpEditText.getText().toString().trim();
+
+                if (TextUtils.isEmpty(nim) || TextUtils.isEmpty(nama) || TextUtils.isEmpty(prodi) || TextUtils.isEmpty(tlp)) {
+                    Toast.makeText(ListAnggota.this, "Mohon isi semua kolom", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (!nim.matches("E\\d{8}")) {
+                    nimEditText.setError("NIM tidak valid. (JTI menggunakan prefix 'E' di awal NIM).");
+                    nimEditText.requestFocus();
+                    return;
+                }
 
                 // Menyimpan data ke file .csv
                 String[] data = {nim, nama, prodi, tlp};
@@ -173,6 +188,7 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 removeView(dataView);
+                simpan.setEnabled(false);
             }
         });
         layoutList.addView(dataView);
