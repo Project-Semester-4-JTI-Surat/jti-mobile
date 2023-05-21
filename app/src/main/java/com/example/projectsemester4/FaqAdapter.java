@@ -42,11 +42,13 @@ public class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.ViewHolder> {
                     holder.deskripsi_line.setVisibility(View.GONE);
                     holder.judul_line.setVisibility(View.VISIBLE);
                     arrayList.get(position).isVisible=false;
+                    holder.judul_faq.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_expand_more, 0);
                 }else{
                     holder.deskripsi_faq.setVisibility(View.VISIBLE);
                     holder.deskripsi_line.setVisibility(View.VISIBLE);
                     holder.judul_line.setVisibility(View.GONE);
                     arrayList.get(position).isVisible=true;
+                    holder.judul_faq.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_expand_less, 0);
                 }
             }
         });

@@ -39,8 +39,6 @@ public class Fragment0 extends Fragment {
         dataList = new ArrayList<>();
         filteredDataList = new ArrayList<>();
         mainModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-
-
         return view;
     }
 

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -12,16 +12,24 @@
             android:layout_height="wrap_content"
             android:text="Judul"
             android:id="@+id/judul_faq"
-            android:padding="15dp"
-            android:textSize="25sp"
+            android:padding="10dp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/black"
+            android:drawableRight="@drawable/ic_expand_more"
             ></TextView>
+<!--        <ImageButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/icon_expand"-->
+<!--            android:layout_toRightOf="@+id/judul_faq"-->
+<!--            android:src="@drawable/ic_expand_more"></ImageButton>-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:id="@+id/judul_line"
             android:background="@color/black"
+            android:layout_below="@+id/judul_faq"
             ></RelativeLayout>
         <TextView
             android:layout_width="match_parent"
@@ -33,6 +41,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#a9a9a9"
+            android:layout_below="@+id/judul_line"
             ></TextView>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -40,6 +49,7 @@
             android:visibility="gone"
             android:id="@+id/deskripsi_line"
             android:background="@color/black"
+            android:layout_below="@+id/deskripsi_faq"
             ></RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

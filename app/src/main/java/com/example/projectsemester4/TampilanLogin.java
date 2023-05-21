@@ -22,6 +22,7 @@ import com.example.projectsemester4.Keys.ApiClient;
 import com.example.projectsemester4.Keys.LoginRequest;
 import com.example.projectsemester4.Keys.LoginResponse;
 import com.example.projectsemester4.Keys.MyPreferences;
+import com.example.projectsemester4.Keys.Prodi;
 import com.example.projectsemester4.Keys.UserService;
 
 import retrofit2.Call;
@@ -123,40 +124,37 @@ public class TampilanLogin extends AppCompatActivity {
         loginResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-
                 if (response.isSuccessful()) {
                     Toast.makeText(TampilanLogin.this, "Berhasil Login", Toast.LENGTH_LONG).show();
                     LoginResponse loginResponse = response.body();
 
                     // Save data to MyPreferences
                     MyPreferences preferences = new MyPreferences(TampilanLogin.this);
-                    preferences.saveString("nim", loginResponse.getNim());
-                    preferences.saveString("nama", loginResponse.getNama());
-                    preferences.saveInt("prodi", loginResponse.getProdi_id());
-                    preferences.saveString("no_hp", loginResponse.getNo_hp());
+                    LoginRequest loginRequest = loginResponse.getData().getUser();
+                    preferences.saveString("nim", loginRequest.getNim());
+                    preferences.saveString("nama", loginRequest.getNama());
+                    Prodi prodi = loginRequest.getProdi();
+                    if (prodi != null) {
+                        preferences.saveInt("prodi", prodi.getId());
+                    }
+                    preferences.saveString("no_hp", loginRequest.getNoHp());
                     preferences.saveString("token", loginResponse.getToken());
 
                     ApiClient.setAuthToken(loginResponse.getToken());
 
-//                    String token = loginResponse.getToken();
-//                    TextView tampilToken = findViewById(R.id.tampil_token);
-//                    tampilToken.setText(token);
-
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            preferences.setLoggedInUser(TampilanLogin.this, loginResponse.getNim());
+                            preferences.setLoggedInUser(TampilanLogin.this, loginRequest.getNim());
                             preferences.setLoggedInStatus(true);
-                            startActivity(new Intent(TampilanLogin.this, MainActivity.class).putExtra("data", loginResponse.getNim()));
+                            startActivity(new Intent(TampilanLogin.this, MainActivity.class).putExtra("data", loginRequest.getNim()));
                             finish();
                         }
                     }, 500);
 
                 } else {
                     Toast.makeText(TampilanLogin.this, "NIM / Password Salah!", Toast.LENGTH_LONG).show();
-
                 }
-
             }
 
             @Override
@@ -165,8 +163,6 @@ public class TampilanLogin extends AppCompatActivity {
             }
         });
     }
-
-
 }
 
 

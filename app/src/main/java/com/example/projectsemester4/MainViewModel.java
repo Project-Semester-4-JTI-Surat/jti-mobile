@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainViewModel extends ViewModel {
-
     private final MutableLiveData<List<DataSurat>> _dataSurat =
             new MutableLiveData(new DataSurat(null, null));
     public LiveData<List<DataSurat>> getDataSurat() {
@@ -51,11 +50,12 @@ public class MainViewModel extends ViewModel {
         List<DataSurat> dataList = new ArrayList<>();
         // Add dummy data to the dataList
         for (int i = 1; i <= 10; i++) {
-            String mataKuliah = "Mata Kuliah " + i;
-            String namaMhs = "Nama Mahasiswa " + i;
+            String mataKuliah = "Mata Kuliah";
+            String namaMhs = "Nama Mahasiswa";
             dataList.add(new DataSurat(mataKuliah, namaMhs));
         }
         _dataSurat.setValue(dataList);
         _filteredDataSurat.setValue(dataList);
     }
+
 }

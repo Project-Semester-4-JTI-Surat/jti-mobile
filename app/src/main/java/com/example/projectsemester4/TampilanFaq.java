@@ -42,8 +42,6 @@ public class TampilanFaq extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
-
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         // Mengatur fungsi tombol back pada appbar

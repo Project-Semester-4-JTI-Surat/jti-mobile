@@ -14,11 +14,20 @@ public class MyPreferences {
     private Context context;
     static final String KEY_NIM_SEDANG_LOGIN = "Nim_logged_in";
     static final String KEY_STATUS_SEDANG_LOGIN = "Status_logged_in";
+    static final String KEY_TOKEN = "Token";
 
     public MyPreferences(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+    }
+    public void setToken(String token) {
+        editor.putString(KEY_TOKEN, token);
+        editor.apply();
+    }
+
+    public String getToken() {
+        return sharedPreferences.getString(KEY_TOKEN, "");
     }
 
     public void saveString(String key, String value) {

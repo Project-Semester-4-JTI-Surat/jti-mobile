@@ -171,7 +171,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                         || TextUtils.isEmpty(tanggal_dibuat.getText().toString().trim()) || TextUtils.isEmpty(tanggal_pelaksanaan.getText().toString().trim())
                         || TextUtils.isEmpty(spJenisSurat.getSelectedItem().toString()) || TextUtils.isEmpty(tanggal_selesai.getText().toString().trim())
                         || TextUtils.isEmpty(spNamaDosen.getSelectedItem().toString()) || TextUtils.isEmpty(kebutuhan.getSelectedItem().toString())
-                        || TextUtils.isEmpty(keterangan.getText().toString()) || recyclerView==null) {
+                        || TextUtils.isEmpty(keterangan.getText().toString()) || anggotaList==null) {
                     Toast.makeText(TambahSurat.this, "Mohon Isi Semua Kolom dan Tambahkan Anggota", Toast.LENGTH_LONG).show();
                 } else {
                     //proceed to login
