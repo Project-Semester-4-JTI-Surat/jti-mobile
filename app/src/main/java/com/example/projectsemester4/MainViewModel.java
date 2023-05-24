@@ -50,8 +50,8 @@ public class MainViewModel extends ViewModel {
         List<DataSurat> dataList = new ArrayList<>();
         // Add dummy data to the dataList
         for (int i = 1; i <= 10; i++) {
-            String mataKuliah = "Mata Kuliah";
-            String namaMhs = "Nama Mahasiswa";
+            String mataKuliah = "Mata Kuliah " + i;
+            String namaMhs = "Nama Mahasiswa " + i;
             dataList.add(new DataSurat(mataKuliah, namaMhs));
         }
         _dataSurat.setValue(dataList);

@@ -1,5 +1,7 @@
 package com.example.projectsemester4.Keys;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -14,5 +16,8 @@ public interface UserService {
 
     @GET("/api/mahasiswa/")
     Call<LoginResponse> getUserProfile(@Header("Authorization") String token);
+
+    @GET("/api/data/prodi")
+    Call<ProdiResponse> getDataProdi();
 
 }

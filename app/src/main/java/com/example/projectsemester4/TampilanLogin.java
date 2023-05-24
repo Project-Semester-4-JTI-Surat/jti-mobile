@@ -138,9 +138,9 @@ public class TampilanLogin extends AppCompatActivity {
                         preferences.saveInt("prodi", prodi.getId());
                     }
                     preferences.saveString("no_hp", loginRequest.getNoHp());
-                    preferences.saveString("token", loginResponse.getToken());
+                    preferences.saveString("token", loginResponse.getData().getToken());
 
-                    ApiClient.setAuthToken(loginResponse.getToken());
+                    ApiClient.setAuthToken(loginResponse.getData().getToken());
 
                     new Handler().postDelayed(new Runnable() {
                         @Override

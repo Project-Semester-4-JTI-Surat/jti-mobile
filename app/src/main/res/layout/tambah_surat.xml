@@ -43,11 +43,10 @@
 
             <Spinner
                 android:id="@+id/spJenisSurat"
-                android:layout_width="350dp"
+                android:layout_width="370dp"
                 android:layout_height="50dp"
                 android:layout_below="@+id/jsSurat"
                 android:layout_marginLeft="15dp"
-                android:entries="@array/jenis_surat"
                 android:padding="8dp"
                 />
 
@@ -64,11 +63,10 @@
 
             <Spinner
                 android:id="@+id/spNamaDosen"
-                android:layout_width="350dp"
+                android:layout_width="370dp"
                 android:layout_height="50dp"
                 android:layout_below="@+id/nmDosen"
                 android:layout_marginLeft="15dp"
-                android:entries="@array/nama_dosen"
                 android:padding="8dp" />
 
             <TextView
@@ -84,13 +82,11 @@
 
             <Spinner
                 android:id="@+id/sp_koordinator"
-                android:layout_width="350dp"
+                android:layout_width="370dp"
                 android:layout_height="50dp"
                 android:layout_below="@+id/tv_koordinator"
                 android:layout_marginLeft="15dp"
-                android:entries="@array/nama_dosen"
                 android:padding="8dp"
-
                 />
 
             <TextView
@@ -100,7 +96,7 @@
                 android:layout_below="@+id/sp_koordinator"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:text="Kepada"
+                android:text="Nama Mitra"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -112,11 +108,11 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
-                android:hint="Kepada"
+                android:hint="Masukkan Nama Mitra"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black" />
+                android:textColorHint="#a6a6a6" />
 
             <TextView
                 android:id="@+id/almt"
@@ -125,7 +121,7 @@
                 android:layout_below="@+id/kepada"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
-                android:text="Alamat"
+                android:text="Alamat Mitra"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -137,11 +133,11 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
-                android:hint="Masukan Alamat"
+                android:hint="Masukan Alamat Mitra"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black" />
+                android:textColorHint="#a6a6a6" />
 
             <TextView
                 android:id="@+id/tv_tanggal_dibuat"
@@ -162,11 +158,11 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
-                android:hint="Pilih Tangggal"
+                android:hint="Pilih Tangggal Dibuat"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black"
+                android:textColorHint="#a6a6a6"
                 android:inputType="date"
                 android:focusable="false"
                 android:focusableInTouchMode="false"/>
@@ -190,11 +186,11 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
-                android:hint="Pilih Tangggal"
+                android:hint="Pilih Tangggal Pelaksanaaan"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black"
+                android:textColorHint="#a6a6a6"
                 android:inputType="date"
                 android:focusable="false"
                 android:focusableInTouchMode="false"/>
@@ -218,11 +214,11 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/kotak_form"
                 android:drawablePadding="8dp"
-                android:hint="Pilih Tangggal"
+                android:hint="Pilih Tangggal Selesai"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black"
+                android:textColorHint="#a6a6a6"
                 android:inputType="date"
                 android:focusable="false"
                 android:focusableInTouchMode="false"/>
@@ -270,7 +266,7 @@
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:textColorHint="@color/black" />
+                android:textColorHint="#a6a6a6" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycle_data"

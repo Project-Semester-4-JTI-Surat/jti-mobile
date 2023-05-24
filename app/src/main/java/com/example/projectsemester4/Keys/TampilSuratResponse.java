@@ -1,24 +1,20 @@
 package com.example.projectsemester4.Keys;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SuratResponse {
-    @SerializedName("success")
-    @Expose
-    private String success;
-    @SerializedName("message")
-    @Expose
-    private String message;
-    @SerializedName("data")
-    @Expose
-    private SuratRequest data;
+import java.util.List;
 
-    public String getSuccess() {
+public class TampilSuratResponse {
+    @SerializedName("success")
+    private boolean success;
+    @SerializedName("message")
+    private String message;
+
+    public boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(String success) {
+    public void setSuccess(boolean success) {
         this.success = success;
     }
 
@@ -30,12 +26,14 @@ public class SuratResponse {
         this.message = message;
     }
 
-    public SuratRequest getData() {
+    public List<TampilSuratRequest> getData() {
         return data;
     }
 
-    public void setData(SuratRequest data) {
+    public void setData(List<TampilSuratRequest> data) {
         this.data = data;
     }
-}
 
+    @SerializedName("data")
+    private List<TampilSuratRequest> data;
+}

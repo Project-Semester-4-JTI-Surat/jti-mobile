@@ -22,15 +22,11 @@ import java.util.List;
 
 public class Fragment3 extends Fragment {
     private RecyclerView recyclerView;
-    private List<DataSurat> dataList;
-    private List<DataSurat> filteredDataList;
-    private MyAdapter adapter;
-    private MainViewModel mainModel;
-
     public Fragment3() {
         // Required empty public constructor
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,46 +34,25 @@ public class Fragment3 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_3, container, false);
 
         recyclerView = view.findViewById(R.id.semua_tampil_3);
-
-        dataList = new ArrayList<>();
-        filteredDataList = new ArrayList<>();
-        mainModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-//        mainModel.initDataList();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(new Fragment3.MyAdapter());
 
         return view;
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mainModel.getFilteredDataSurat().observe(getViewLifecycleOwner(), dataSurat -> {
-            adapter = new MyAdapter(dataSurat);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        });
-    }
-
-
-    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-        private List<DataSurat> dataList;
-
-        public MyAdapter(List<DataSurat> dataList) {
-            this.dataList = dataList;
-        }
+    private class MyAdapter extends RecyclerView.Adapter<Fragment3.MyAdapter.MyViewHolder> {
 
         @NonNull
         @Override
-        public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public Fragment3.MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_tampil_surat, parent, false);
-            return new MyAdapter.MyViewHolder(itemView);
+            return new Fragment3.MyAdapter.MyViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
-            DataSurat data = dataList.get(position);
-            holder.tvMataKuliah.setText(data.getMataKuliah());
-            holder.tvNamaMhs.setText(data.getNamaMhs());
+        public void onBindViewHolder(@NonNull Fragment3.MyAdapter.MyViewHolder holder, int position) {
+            holder.tvMataKuliah.setText("Mata Kuliah " + (position + 1));
+            holder.tvNamaMhs.setText("Nama Mahasiswa " + (position + 1));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -85,8 +60,8 @@ public class Fragment3 extends Fragment {
                     Intent intent = new Intent(getActivity(), DetailSurat.class);
 
                     // put the data to the intent
-                    intent.putExtra("mata_kuliah", data.getMataKuliah());
-                    intent.putExtra("nama_mhs", data.getNamaMhs());
+                    intent.putExtra("mata_kuliah", holder.tvMataKuliah.getText().toString());
+                    intent.putExtra("nama_mhs", holder.tvNamaMhs.getText().toString());
 
                     // start DetailActivity
                     startActivity(intent);
@@ -96,7 +71,7 @@ public class Fragment3 extends Fragment {
 
         @Override
         public int getItemCount() {
-            return dataList.size();
+            return 10; //jumlah item pada RecyclerView
         }
 
         private class MyViewHolder extends RecyclerView.ViewHolder {

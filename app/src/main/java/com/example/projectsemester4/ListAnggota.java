@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,24 +26,38 @@ import android.widget.Toast;
 
 import com.example.projectsemester4.Keys.AnggotaAdapter;
 import com.example.projectsemester4.Keys.AnggotaModel;
+import com.example.projectsemester4.Keys.ApiClient;
+import com.example.projectsemester4.Keys.JenisSurat;
+import com.example.projectsemester4.Keys.JenisSuratResponse;
+import com.example.projectsemester4.Keys.LoginRequest;
+import com.example.projectsemester4.Keys.LoginResponse;
+import com.example.projectsemester4.Keys.MyPreferences;
+import com.example.projectsemester4.Keys.Prodi;
+import com.example.projectsemester4.Keys.ProdiResponse;
+import com.example.projectsemester4.Keys.SuratInsert;
+import com.example.projectsemester4.Keys.UserService;
 import com.opencsv.CSVWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class ListAnggota extends AppCompatActivity implements View.OnClickListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class ListAnggota extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout layoutList;
-    private EditText nimAngggota, namaAnggota, tlpAnggota;
+    private Button tambah;
+    private Button simpan;
+    private EditText nimAngggota;
+    private EditText namaAnggota;
+    private EditText tlpAnggota;
     private AppCompatSpinner spProdi;
-    private Button tambah, simpan;
     private ImageView hapus;
-//    private ArrayList<Anggota> anggotaList = new ArrayList<>();
-    private List<AnggotaModel> anggotaList; // list untuk menyimpan data anggota
-    private RecyclerView recyclersView; // RecyclerView untuk menampilkan data
-    private AnggotaAdapter adapter;
+//    private List<String[]> csvDataList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,29 +72,161 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
         tambah.setOnClickListener(this);
         simpan.setOnClickListener(this);
 
-        if (layoutList==null){
+        if (layoutList.getChildCount() == 0) {
             simpan.setEnabled(true);
-        }else{
+        } else {
             simpan.setEnabled(false);
         }
-//        recyclersView = findViewById(R.id.recycle_data);
-//        recyclersView.setLayoutManager(new LinearLayoutManager(this));
-//        View anotherLayout = getLayoutInflater().inflate(R.layout.tambah_surat, null);
 
-//        anggotaList = new ArrayList<>(); // inisialisasi list anggota
-//        adapter = new AnggotaAdapter(anggotaList); // Inisialisasi adapter RecyclerView
-//        simpan.setOnClickListener(this);
+//        // Mengecek apakah parameter csvDataList dikirimkan dari aktivitas sebelumnya
+//        Intent intent = getIntent();
+//        boolean isCSVDataAvailable = intent.hasExtra("csvDataList");
+//
+//        // Jika csvDataList ada, maka mendapatkan data dari intent ekstra
+//        if (isCSVDataAvailable) {
+//            String[][] csvDataArray = (String[][]) intent.getSerializableExtra("csvDataList");
+//            csvDataList = Arrays.asList(csvDataArray);
+//
+//            // Membandingkan data dari getDataAnggota() dengan data dari file CSV
+//            boolean shouldGetData = true;
+//            for (String[] csvData : csvDataList) {
+//                String nimCSV = csvData[0];
+//                String namaCSV = csvData[1];
+//                String prodiCSV = csvData[2];
+//                String tlpCSV = csvData[3];
+//
+//                // Membandingkan data dari getDataAnggota() dengan data dari file CSV
+//                if (nimAngggota.getText().toString().equals(nimCSV)
+//                        && namaAnggota.getText().toString().equals(namaCSV)
+//                        && spProdi.getSelectedItem().toString().equals(prodiCSV)
+//                        && tlpAnggota.getText().toString().equals(tlpCSV)) {
+//                    shouldGetData = false;
+//                    break;
+//                }
+//            }
+//
+//            // Jika data sudah ada dalam file CSV, maka getDataAnggota() tidak dijalankan
+//            if (shouldGetData) {
+//                getDataAnggota();
+//            }
+//        } else {
+//            // Jika csvDataList tidak ada, inisialisasi dengan list kosong
+//            csvDataList = new ArrayList<>();
+//        }
 
-//        ArrayAdapter<CharSequence> adapterND = ArrayAdapter.createFromResource(this,
-//                R.array.prodi, android.R.layout.simple_spinner_item);
-//        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spProdi.setAdapter(adapterND);
-//        spProdi.setOnClickListener(this);
+        getDataProdi();
     }
+
+    private void getDataAnggota(){
+        // Mendapatkan token dari penyimpanan data (misalnya, SharedPreferences)
+        MyPreferences preferences = new MyPreferences(this);
+        String token = preferences.getString("token", "");
+
+        // Membuat instance layanan dengan token yang diberikan
+        UserService apiService = ApiClient.getUserService(this);
+        Call<LoginResponse> call = apiService.getUserProfile("Bearer " + token);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    // Tangani respons berhasil
+                    LoginResponse loginResponse = response.body();
+                    LoginRequest loginRequest = loginResponse.getData().getUser();
+
+                    LayoutInflater inflater = LayoutInflater.from(ListAnggota.this);
+                    final View dataView = inflater.inflate(R.layout.row_add, layoutList, false);
+
+                    nimAngggota = dataView.findViewById(R.id.nim_anggota);
+                    namaAnggota = dataView.findViewById(R.id.nama_anggota);
+                    tlpAnggota = dataView.findViewById(R.id.tlp_anggota);
+                    spProdi = dataView.findViewById(R.id.sp_prodi);
+                    hapus = dataView.findViewById(R.id.hapus);
+
+                    // Tampilkan data pengguna pada tampilan yang sesuai
+                    nimAngggota.setText(loginRequest.getNim());
+                    namaAnggota.setText(loginRequest.getNama());
+                    // Mengatur data prodi ke dalam spinner
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(ListAnggota.this,
+                            android.R.layout.simple_spinner_item, new String[]{loginRequest.getProdi().getKeterangan()});
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spProdi.setAdapter(adapter);
+                    tlpAnggota.setText(loginRequest.getNoHp());
+
+                    nimAngggota.setEnabled(false);
+                    namaAnggota.setEnabled(false);
+                    tlpAnggota.setEnabled(false);
+                    spProdi.setEnabled(false);
+                    hapus.setVisibility(dataView.GONE);
+
+                    layoutList.addView(dataView);
+
+                } else {
+                    // Tangani respons gagal
+                    Toast.makeText(ListAnggota.this, "Gagal mengambil data user", Toast.LENGTH_SHORT).show();
+                    Log.e("Data User", "Gagal mengambil data user: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                // Tangani kegagalan koneksi ke server
+                Toast.makeText(ListAnggota.this, "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getDataProdi() {
+        UserService apiService = ApiClient.getUserService(this);
+        // Membuat panggilan ke API
+        Call<ProdiResponse> call = apiService.getDataProdi();
+        call.enqueue(new Callback<ProdiResponse>() {
+            @Override
+            public void onResponse(Call<ProdiResponse> call, Response<ProdiResponse> response) {
+                if (response.isSuccessful()) {
+                    ProdiResponse prodiResponse = response.body();
+                    if (prodiResponse != null && prodiResponse.isSuccess()) {
+                        List<Prodi> prodiList = prodiResponse.getData();
+
+                        // Mengambil data keterangan saja
+                        List<String> keteranganList = new ArrayList<>();
+                        for (Prodi prodi : prodiList) {
+                            if (!"-".equals(prodi.getKeterangan())) {
+                                keteranganList.add(prodi.getKeterangan());
+                            }
+                        }
+
+                        LayoutInflater inflater = LayoutInflater.from(ListAnggota.this);
+                        final View dataView = inflater.inflate(R.layout.row_add, layoutList, false);
+
+                        spProdi = dataView.findViewById(R.id.sp_prodi);
+
+                        // Mengatur adapter spinner
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(ListAnggota.this,
+                                android.R.layout.simple_spinner_item, keteranganList);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spProdi.setAdapter(adapter);
+                    } else {
+                        // Tangani respons sukses tetapi pesan kesalahan dari API
+                        String message = prodiResponse != null ? prodiResponse.getMessage() : "Unknown error";
+                        Toast.makeText(ListAnggota.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Tangani respons gagal dari API
+                    Toast.makeText(ListAnggota.this, "Gagal Untuk Mengambil Data Jenis Surat", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProdiResponse> call, Throwable t) {
+                // Tangani kesalahan koneksi atau kesalahan lainnya
+                Toast.makeText(ListAnggota.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void simpanData() {
         // Mendapatkan path penyimpanan file .csv
         String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
-
         try {
             // Membuat objek FileWriter untuk menulis ke file .csv
             FileWriter fileWriter = new FileWriter(csvFilePath, true);
@@ -128,6 +275,7 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
             e.printStackTrace();
         }
     }
+
     private void clearInputFields() {
         // Melakukan iterasi pada setiap view dalam LinearLayout
         for (int i = 0; i < layoutList.getChildCount(); i++) {
@@ -147,42 +295,32 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-//        // Membuat instance adapter RecyclerView dengan menggunakan ArrayList anggotaList
-////        adapter = new AnggotaAdapter(anggotaList);
-//        // Mendapatkan referensi RecyclerView dari layout TambahSurat.xml
-//        RecyclerView recyclersView = findViewById(R.id.recycle_data);
-//
-//        // Set adapter ke RecyclerView
-//        recyclersView.setAdapter(adapter);
-
     @Override
     public void onClick(View v) {
-//        addView();
         switch (v.getId()) {
             case R.id.tambah:
                 addView();
                 simpan.setEnabled(true);
+                getDataProdi();
                 break;
             case R.id.btSimpan:
                 simpanData();
+
                 break;
         }
-
     }
 
     private void addView() {
         LayoutInflater inflater = LayoutInflater.from(this);
-        final View dataView = inflater.inflate(R.layout.row_add, layoutList,false);
+        final View dataView = inflater.inflate(R.layout.row_add, layoutList, false);
 
-        nimAngggota = (EditText) dataView.findViewById(R.id.nim_anggota);
-        namaAnggota = (EditText)  dataView.findViewById(R.id.nama_anggota);
-        tlpAnggota = (EditText) dataView.findViewById(R.id.tlp_anggota);
-        spProdi = (AppCompatSpinner) dataView.findViewById(R.id.sp_prodi);
-        hapus = (ImageView) dataView.findViewById(R.id.hapus);
+        nimAngggota = dataView.findViewById(R.id.nim_anggota);
+        namaAnggota = dataView.findViewById(R.id.nama_anggota);
+        tlpAnggota = dataView.findViewById(R.id.tlp_anggota);
+        spProdi = dataView.findViewById(R.id.sp_prodi);
+        hapus = dataView.findViewById(R.id.hapus);
 
-        ArrayAdapter<CharSequence> adapterND = ArrayAdapter.createFromResource(this, R.array.prodi, android.R.layout.simple_spinner_item);
-        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spProdi.setAdapter(adapterND);
+        getDataProdi();
 
         hapus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,11 +330,13 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
             }
         });
         layoutList.addView(dataView);
-
     }
-    private void removeView(View view){
+
+    private void removeView(View view) {
         layoutList.removeView(view);
     }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Mengatur fungsi tombol back pada appbar
         if (item.getItemId() == android.R.id.home) {

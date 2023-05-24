@@ -61,22 +61,18 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:layout_marginTop="25dp"/>
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
             android:layout_width="330dp"
             android:layout_height="50dp"
             android:id="@+id/tampil_prodi"
             android:background="@drawable/stroke_login"
             android:drawablePadding="8dp"
-            android:hint="Prodi"
             android:padding="8dp"
             android:textColor="@color/black"
-            android:textColorHint="#a9a9a9"
+            android:textColorHint="@color/black"
             android:textColorHighlight="@color/cardview_dark_background"
-            android:layout_marginTop="8dp"
             android:layout_gravity="center"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,7 +90,6 @@
             android:id="@+id/tampil_no_hp"
             android:background="@drawable/stroke_login"
             android:drawablePadding="8dp"
-            android:hint="+62 xxxxxxxx"
             android:padding="8dp"
             android:inputType="number|phone"
             android:textColor="@color/black"

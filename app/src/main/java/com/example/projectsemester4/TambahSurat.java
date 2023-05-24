@@ -25,6 +25,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.projectsemester4.Keys.AnggotaAdapter;
 import com.example.projectsemester4.Keys.AnggotaModel;
 import com.example.projectsemester4.Keys.ApiClient;
+import com.example.projectsemester4.Keys.Dosen;
+import com.example.projectsemester4.Keys.DosenResponse;
+import com.example.projectsemester4.Keys.JenisSurat;
+import com.example.projectsemester4.Keys.JenisSuratResponse;
+import com.example.projectsemester4.Keys.Koordinator;
+import com.example.projectsemester4.Keys.KoordinatorResponse;
+import com.example.projectsemester4.Keys.SuratInsert;
 import com.example.projectsemester4.Keys.SuratRequest;
 import com.opencsv.CSVReader;
 
@@ -81,25 +88,25 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         resetFormButton = findViewById(R.id.resetButton);
         ajukanButton = findViewById(R.id.ajukanButton);
 
-        ArrayAdapter<CharSequence> adapterJS = ArrayAdapter.createFromResource(this,
-                R.array.jenis_surat, android.R.layout.simple_spinner_item);
-        adapterJS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spJenisSurat.setAdapter(adapterJS);
+//        ArrayAdapter<CharSequence> adapterJS = ArrayAdapter.createFromResource(this,
+//                R.array.jenis_surat, android.R.layout.simple_spinner_item);
+//        adapterJS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spJenisSurat.setAdapter(adapterJS);
 
-        ArrayAdapter<CharSequence> adapterND = ArrayAdapter.createFromResource(this,
-                R.array.nama_dosen, android.R.layout.simple_spinner_item);
-        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spNamaDosen.setAdapter(adapterND);
-
-        ArrayAdapter<CharSequence> adapterKoordinator = ArrayAdapter.createFromResource(this,
-                R.array.nama_dosen, android.R.layout.simple_spinner_item);
-        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp_koordinator.setAdapter(adapterKoordinator);
-
-        ArrayAdapter<CharSequence> adapterKebutuhan = ArrayAdapter.createFromResource(this,
-                R.array.kebutuhan, android.R.layout.simple_spinner_item);
-        adapterKebutuhan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        kebutuhan.setAdapter(adapterKebutuhan);
+//        ArrayAdapter<CharSequence> adapterND = ArrayAdapter.createFromResource(this,
+//                R.array.nama_dosen, android.R.layout.simple_spinner_item);
+//        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spNamaDosen.setAdapter(adapterND);
+//
+//        ArrayAdapter<CharSequence> adapterKoordinator = ArrayAdapter.createFromResource(this,
+//                R.array.nama_dosen, android.R.layout.simple_spinner_item);
+//        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        sp_koordinator.setAdapter(adapterKoordinator);
+//
+//        ArrayAdapter<CharSequence> adapterKebutuhan = ArrayAdapter.createFromResource(this,
+//                R.array.kebutuhan, android.R.layout.simple_spinner_item);
+//        adapterKebutuhan.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        kebutuhan.setAdapter(adapterKebutuhan);
 
         spJenisSurat.setOnItemSelectedListener(this);
         spNamaDosen.setOnItemSelectedListener(this);
@@ -167,11 +174,9 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
             @Override
             public void onClick(View view) {
 
-                if (TextUtils.isEmpty(kepada.getText().toString()) || TextUtils.isEmpty(alamat.getText().toString()) || TextUtils.isEmpty(sp_koordinator.getSelectedItem().toString())
-                        || TextUtils.isEmpty(tanggal_dibuat.getText().toString().trim()) || TextUtils.isEmpty(tanggal_pelaksanaan.getText().toString().trim())
+                if (TextUtils.isEmpty(kepada.getText().toString()) || TextUtils.isEmpty(alamat.getText().toString()) || TextUtils.isEmpty(tanggal_dibuat.getText().toString().trim()) || TextUtils.isEmpty(tanggal_pelaksanaan.getText().toString().trim())
                         || TextUtils.isEmpty(spJenisSurat.getSelectedItem().toString()) || TextUtils.isEmpty(tanggal_selesai.getText().toString().trim())
-                        || TextUtils.isEmpty(spNamaDosen.getSelectedItem().toString()) || TextUtils.isEmpty(kebutuhan.getSelectedItem().toString())
-                        || TextUtils.isEmpty(keterangan.getText().toString()) || anggotaList==null) {
+                        || TextUtils.isEmpty(kebutuhan.getSelectedItem().toString()) || TextUtils.isEmpty(keterangan.getText().toString()) || anggotaList.isEmpty()) {
                     Toast.makeText(TambahSurat.this, "Mohon Isi Semua Kolom dan Tambahkan Anggota", Toast.LENGTH_LONG).show();
                 } else {
                     //proceed to login
@@ -188,6 +193,37 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                 startActivity(new Intent(getApplicationContext(), ListAnggota.class));
             }
         });
+
+        spJenisSurat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedJenisSurat = (String) parent.getItemAtPosition(position);
+
+                if (selectedJenisSurat.equals("Mata Kuliah")) {
+                    // Jika "Mata Kuliah" dipilih, maka sp_koordinator boleh kosong atau disabled
+                    sp_koordinator.setSelection(0); // Menghapus pilihan yang ada
+                    sp_koordinator.setEnabled(false);
+                    spNamaDosen.setEnabled(true);
+                    ArrayAdapter<String> koordinatorAdapter = new ArrayAdapter<>(TambahSurat.this, android.R.layout.simple_spinner_item, new String[]{"-"});
+                    sp_koordinator.setAdapter(koordinatorAdapter);
+                    getDataDosen();
+                } else {
+                    // Jika selain "Mata Kuliah" dipilih, maka spDosen boleh kosong atau disabled
+                    spNamaDosen.setSelection(0); // Menghapus pilihan yang ada
+                    spNamaDosen.setEnabled(false);
+                    sp_koordinator.setEnabled(true);
+                    getDataKoordinator();
+                    ArrayAdapter<String> dosenAdapter = new ArrayAdapter<>(TambahSurat.this, android.R.layout.simple_spinner_item, new String[]{"-"});
+                    spNamaDosen.setAdapter(dosenAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Tidak ada tindakan yang diambil saat tidak ada item yang dipilih
+            }
+        });
+
         resetForm();
 
         recyclerView = findViewById(R.id.recycle_data);
@@ -197,11 +233,150 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         adapter = new AnggotaAdapter(anggotaList);
         recyclerView.setAdapter(adapter);
         loadCSVData();
+
+        getDataJenisSurat();
+//        getDataDosen();
+//        getDataKoordinator();
     }
 
-    private void loadCSVData() {
-        String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
+    private void getDataJenisSurat() {
+        SuratInsert apiService = ApiClient.getSuratInsert(this);
+            // Membuat panggilan ke API
+            Call<JenisSuratResponse> call = apiService.getDataJenisSurat();
+            call.enqueue(new Callback<JenisSuratResponse>() {
+                @Override
+                public void onResponse(Call<JenisSuratResponse> call, Response<JenisSuratResponse> response) {
+                    if (response.isSuccessful()) {
+                        JenisSuratResponse jenisSuratResponse = response.body();
+                        if (jenisSuratResponse != null && jenisSuratResponse.isSuccess()) {
+                            List<JenisSurat> jenisSuratList = jenisSuratResponse.getData();
 
+                            // Mengambil data keterangan saja
+                            List<String> keteranganList = new ArrayList<>();
+                            for (JenisSurat jenisSurat : jenisSuratList) {
+                                if (!"-".equals(jenisSurat.getKeterangan())) {
+                                    keteranganList.add(jenisSurat.getKeterangan());
+                                }
+                            }
+
+                            // Mengatur adapter spinner
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TambahSurat.this,
+                                    android.R.layout.simple_spinner_item, keteranganList);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spJenisSurat.setAdapter(adapter);
+                        } else {
+                            // Tangani respons sukses tetapi pesan kesalahan dari API
+                            String message = jenisSuratResponse != null ? jenisSuratResponse.getMessage() : "Unknown error";
+                            Toast.makeText(TambahSurat.this, message, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        // Tangani respons gagal dari API
+                        Toast.makeText(TambahSurat.this, "Gagal Untuk Mengambil Data Jenis Surat", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JenisSuratResponse> call, Throwable t) {
+                    // Tangani kesalahan koneksi atau kesalahan lainnya
+                    Toast.makeText(TambahSurat.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+    private void getDataDosen() {
+        SuratInsert apiService = ApiClient.getSuratInsert(this);
+        // Membuat panggilan ke API
+        Call<DosenResponse> call = apiService.getDataDosen();
+        call.enqueue(new Callback<DosenResponse>() {
+            @Override
+            public void onResponse(Call<DosenResponse> call, Response<DosenResponse> response) {
+                if (response.isSuccessful()) {
+                    DosenResponse dosenResponse = response.body();
+                    if (dosenResponse != null && dosenResponse.isSuccess()) {
+                        List<Dosen> dosenSuratList = dosenResponse.getData();
+
+                        // Mengambil data keterangan saja
+                        List<String> NamaList = new ArrayList<>();
+                        for (Dosen dosen : dosenSuratList) {
+                            if (!"-".equals(dosen.getNama())) {
+                                NamaList.add(dosen.getNama());
+                            }
+                        }
+
+                        // Mengatur adapter spinner
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(TambahSurat.this,
+                                android.R.layout.simple_spinner_item, NamaList);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spNamaDosen.setAdapter(adapter);
+                    } else {
+                        // Tangani respons sukses tetapi pesan kesalahan dari API
+                        String message = dosenResponse != null ? dosenResponse.getMessage() : "Unknown error";
+                        Toast.makeText(TambahSurat.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Tangani respons gagal dari API
+                    Toast.makeText(TambahSurat.this, "Gagal Untuk Mengambil Data Dosen", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DosenResponse> call, Throwable t) {
+                // Tangani kesalahan koneksi atau kesalahan lainnya
+                Toast.makeText(TambahSurat.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void getDataKoordinator() {
+        SuratInsert apiService = ApiClient.getSuratInsert(this);
+        // Membuat panggilan ke API
+        Call<KoordinatorResponse> call = apiService.getDataKoordinator();
+        call.enqueue(new Callback<KoordinatorResponse>() {
+            @Override
+            public void onResponse(Call<KoordinatorResponse> call, Response<KoordinatorResponse> response) {
+                if (response.isSuccessful()) {
+                    KoordinatorResponse koordinatorResponse = response.body();
+                    if (koordinatorResponse != null && koordinatorResponse.isSuccess()) {
+                        List<Koordinator> koordinatorSuratList = koordinatorResponse.getData();
+
+                        // Mengambil data keterangan saja
+                        List<String> NamaList = new ArrayList<>();
+                        for (Koordinator koordinator : koordinatorSuratList) {
+                            if (!"-".equals(koordinator.getNama())) {
+                                NamaList.add(koordinator.getNama());
+                            }
+                        }
+
+                        // Mengatur adapter spinner
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(TambahSurat.this,
+                                android.R.layout.simple_spinner_item, NamaList);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        sp_koordinator.setAdapter(adapter);
+                    } else {
+                        // Tangani respons sukses tetapi pesan kesalahan dari API
+                        String message = koordinatorResponse != null ? koordinatorResponse.getMessage() : "Unknown error";
+                        Toast.makeText(TambahSurat.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Tangani respons gagal dari API
+                    Toast.makeText(TambahSurat.this, "Gagal Untuk Mengambil Data Dosen", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<KoordinatorResponse> call, Throwable t) {
+                // Tangani kesalahan koneksi atau kesalahan lainnya
+                Toast.makeText(TambahSurat.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void loadCSVData() {
+        String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
+//        List<String[]> csvDataList = new ArrayList<>();
         try {
             FileReader fileReader = new FileReader(csvFilePath);
             CSVReader csvReader = new CSVReader(fileReader);
@@ -235,6 +410,10 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        // Mengirim data dari file CSV ke ListAnggota activity
+//        Intent intent = new Intent(TambahSurat.this, ListAnggota.class);
+//        intent.putExtra("csvDataList", csvDataList.toArray(new String[0][]));
+//        startActivity(intent);
     }
 
     public void resetForm(){
@@ -295,7 +474,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                     Toast.makeText(TambahSurat.this, "Surat berhasil diajukan", Toast.LENGTH_SHORT).show();
                     String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
                     File file = new File(csvFilePath);
-                    if(file.exists()){
+                    if (file.exists()) {
                         file.delete();
                     }
                     Intent intent = new Intent(TambahSurat.this, MainActivity.class);
@@ -309,10 +488,11 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
             @Override
             public void onFailure(Call<SuratRequest> call, Throwable t) {
                 // Gagal mengirim surat, tangani kesalahan
-                Toast.makeText(TambahSurat.this, "Gagal mengirim surat", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TambahSurat.this, "Gagal mengirim surat"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
 //    private void insertSurat() {
 //

@@ -1,5 +1,6 @@
 package com.example.projectsemester4;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,56 +9,119 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.projectsemester4.Keys.ApiClient;
+import com.example.projectsemester4.Keys.MyPreferences;
+import com.example.projectsemester4.Keys.TampilSurat;
+import com.example.projectsemester4.Keys.TampilSuratRequest;
+import com.example.projectsemester4.Keys.TampilSuratResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Fragment0 extends Fragment {
     private RecyclerView recyclerView;
-    private List<DataSurat> dataList;
-    private List<DataSurat> filteredDataList;
     private MyAdapter adapter;
-    private MainViewModel mainModel;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public Fragment0() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_0, container, false);
-
-        recyclerView = view.findViewById(R.id.semua_tampil);
-
-        dataList = new ArrayList<>();
-        filteredDataList = new ArrayList<>();
-        mainModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         return view;
     }
 
+
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-                mainModel.getFilteredDataSurat().observe(getViewLifecycleOwner(), dataSurat -> {
-                    adapter = new MyAdapter(dataSurat);
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        recyclerView = getView().findViewById(R.id.semua_tampil);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        // Buat instance adapter
+        adapter = new MyAdapter();
+        recyclerView.setAdapter(adapter);
+
+        swipeRefreshLayout = getView().findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadDataSurat();
+            }
+        });
+
+        // Panggil method untuk mendapatkan data surat
+        loadDataSurat();
+    }
+
+    private String getToken() {
+        MyPreferences preferences = new MyPreferences(getContext());
+        return preferences.getString("token", "");
+    }
+
+    private void loadDataSurat() {
+        // Panggil endpoint API menggunakan Retrofit
+        String token = getToken();
+
+        // Panggil endpoint API menggunakan Retrofit
+        TampilSurat tampilSuratService = ApiClient.getTampilSurats(getContext());
+        Call<TampilSuratResponse> call = tampilSuratService.getTampilSurat("Bearer " + token);
+        call.enqueue(new Callback<TampilSuratResponse>() {
+            @Override
+            public void onResponse(Call<TampilSuratResponse> call, Response<TampilSuratResponse> response) {
+                if (response.isSuccessful()) {
+                    TampilSuratResponse tampilSuratResponse = response.body();
+                    if (tampilSuratResponse != null && tampilSuratResponse.isSuccess()) {
+                        List<TampilSuratRequest> data = tampilSuratResponse.getData();
+                        if (data != null) {
+                            // Tampilkan data surat ke dalam RecyclerView
+                            adapter.setData(data);
+
+                            // Selesai memuat data, hentikan indikator refresh
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    } else {
+                        // Gagal mendapatkan data surat
+                        Toast.makeText(getContext(), "Gagal mendapatkan data surat", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Gagal mendapatkan respons dari server
+                    Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TampilSuratResponse> call, Throwable t) {
+                // Gagal melakukan request
+                Toast.makeText(getContext(), "Request gagal: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                // Selesai memuat data, hentikan indikator refresh
+                swipeRefreshLayout.setRefreshing(false);
+            }
         });
     }
 
+    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+        private List<TampilSuratRequest> data;
 
-private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-        private List<DataSurat> dataList;
-
-        public MyAdapter(List<DataSurat> dataList) {
-            this.dataList = dataList;
+        public void setData(List<TampilSuratRequest> data) {
+            this.data = data;
+            notifyDataSetChanged();
         }
 
         @NonNull
@@ -68,11 +132,34 @@ private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             return new MyViewHolder(itemView);
         }
 
+
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            DataSurat data = dataList.get(position);
-            holder.tvMataKuliah.setText(data.getMataKuliah());
-            holder.tvNamaMhs.setText(data.getNamaMhs());
+
+            TampilSuratRequest surat = data.get(position);
+
+            if (surat != null) {
+                holder.tvMataKuliah.setText(surat.getKode_surat());
+                holder.tvNamaMhs.setText(surat.getKeterangan());
+
+                // Cek kondisi surat.getKeterangan()
+                if (surat.getKeterangan().equals("Menunggu")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.BLUE);
+                }else if (surat.getKeterangan().equals("Ditolak")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.RED);
+                } else {
+                    // Kembalikan warna teks ke warna default
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.BLACK);
+                }
+            } else {
+                holder.tvMataKuliah.setText("Data Tidak Ada");
+                holder.tvNamaMhs.setText("Data Tidak Ada");
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -80,8 +167,8 @@ private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     Intent intent = new Intent(getActivity(), DetailSurat.class);
 
                     // put the data to the intent
-                    intent.putExtra("mata_kuliah", data.getMataKuliah());
-                    intent.putExtra("nama_mhs", data.getNamaMhs());
+                    intent.putExtra("mata_kuliah", holder.tvMataKuliah.getText().toString());
+                    intent.putExtra("nama_mhs", holder.tvNamaMhs.getText().toString());
 
                     // start DetailActivity
                     startActivity(intent);
@@ -91,7 +178,7 @@ private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         @Override
         public int getItemCount() {
-            return dataList.size();
+            return data != null ? data.size() : 0;
         }
 
         private class MyViewHolder extends RecyclerView.ViewHolder {
@@ -105,4 +192,5 @@ private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 }
+
 

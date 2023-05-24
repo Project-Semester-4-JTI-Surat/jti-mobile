@@ -2,19 +2,15 @@ package com.example.projectsemester4.Keys;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+import java.util.List;
 
-import com.google.gson.annotations.SerializedName;
-
-public class LoginResponse {
+public class JenisSuratResponse {
     @SerializedName("success")
     private boolean success;
-
     @SerializedName("message")
     private String message;
-
     @SerializedName("data")
-    private UserData data;
+    private List<JenisSurat> data;
 
     public boolean isSuccess() {
         return success;
@@ -24,7 +20,7 @@ public class LoginResponse {
         return message;
     }
 
-    public UserData getData() {
+    public List<JenisSurat> getData() {
         return data;
     }
 }
