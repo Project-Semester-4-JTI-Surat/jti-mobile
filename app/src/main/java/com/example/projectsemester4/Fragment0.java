@@ -147,6 +147,18 @@ public class Fragment0 extends Fragment {
                     // Ubah warna teks menjadi biru
                     holder.tvMataKuliah.setTextColor(Color.BLACK);
                     holder.tvNamaMhs.setTextColor(Color.BLUE);
+                }else if (surat.getKeterangan().equals("Diproses")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.YELLOW);
+                }else if (surat.getKeterangan().equals("Dapat Diambil")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.GREEN);
+                }else if (surat.getKeterangan().equals("Selesai")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.GRAY);
                 }else if (surat.getKeterangan().equals("Ditolak")) {
                     // Ubah warna teks menjadi biru
                     holder.tvMataKuliah.setTextColor(Color.BLACK);
