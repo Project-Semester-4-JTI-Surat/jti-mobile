@@ -25,10 +25,14 @@ import com.example.projectsemester4.Keys.LoginResponse;
 import com.example.projectsemester4.Keys.MyPreferences;
 import com.example.projectsemester4.Keys.Prodi;
 import com.example.projectsemester4.Keys.UserService;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -145,8 +149,16 @@ public class TampilanLogin extends AppCompatActivity {
                     preferences.saveString("no_hp", loginRequest.getNoHp());
                     preferences.saveString("token", loginResponse.getData().getToken());
 
-                    // Save data to CSV
-                    saveDataToCSV(loginRequest);
+//                    // Save data to CSV
+//                    saveDataToCSV(loginRequest);
+                    // Check if data already exists in CSV
+                    if (checkDataExistsInCSV(loginRequest)) {
+                        // Data already exists, overwrite it
+                        updateDataInCSV(loginRequest);
+                    } else {
+                        // Data does not exist, save it to CSV
+                        saveDataToCSV(loginRequest);
+                    }
 
                     ApiClient.setAuthToken(loginResponse.getData().getToken());
 
@@ -170,6 +182,58 @@ public class TampilanLogin extends AppCompatActivity {
                 Toast.makeText(TampilanLogin.this, "Throwable " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+    private boolean checkDataExistsInCSV(LoginRequest loginRequest) {
+        String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv"; // Path to your CSV file
+
+        try (CSVReader reader = new CSVReader(new FileReader(csvFilePath))) {
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                if (nextLine.length >= 1 && nextLine[0].equals(loginRequest.getNim())) {
+                    // Data already exists in CSV
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Data does not exist in CSV
+        return false;
+    }
+
+    private void updateDataInCSV(LoginRequest loginRequest) {
+        String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv"; // Path to your CSV file
+
+        try {
+            // Read all data from CSV
+            List<String[]> allData = new ArrayList<>();
+            try (CSVReader reader = new CSVReader(new FileReader(csvFilePath))) {
+                String[] nextLine;
+                while ((nextLine = reader.readNext()) != null) {
+                    allData.add(nextLine);
+                }
+            }
+
+            // Update data for the matching NIM
+            for (int i = 0; i < allData.size(); i++) {
+                String[] rowData = allData.get(i);
+                if (rowData.length >= 1 && rowData[0].equals(loginRequest.getNim())) {
+                    rowData[1] = loginRequest.getNama();
+                    rowData[2] = loginRequest.getProdi().getKeterangan();
+                    rowData[3] = loginRequest.getNoHp();
+                    allData.set(i, rowData);
+                    break;
+                }
+            }
+
+            // Write updated data back to CSV
+            try (CSVWriter writer = new CSVWriter(new FileWriter(csvFilePath, false))) {
+                writer.writeAll(allData);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     private void saveDataToCSV(LoginRequest loginRequest) {
         String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv"; // Path to your CSV file

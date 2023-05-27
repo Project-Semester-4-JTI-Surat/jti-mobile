@@ -6,6 +6,6 @@ import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 public interface DetailSuratService {
-    @GET("/api/mahasiswa/surat/{id}")
+    @GET("/api/mahasiswa/surat/detail/{id}")
     Call<DetailSuratResponse> getDetailSurat(@Header("Authorization") String token, @Path("id") String id);
 }

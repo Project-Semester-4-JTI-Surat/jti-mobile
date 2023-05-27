@@ -36,8 +36,10 @@ import com.example.projectsemester4.Keys.Prodi;
 import com.example.projectsemester4.Keys.ProdiResponse;
 import com.example.projectsemester4.Keys.SuratInsert;
 import com.example.projectsemester4.Keys.UserService;
+import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -227,6 +229,44 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
     public void simpanData() {
         // Mendapatkan path penyimpanan file .csv
         String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
+        LayoutInflater inflater = LayoutInflater.from(this);
+        final View dataView = inflater.inflate(R.layout.row_add, layoutList, false);
+        EditText nimEditText = dataView.findViewById(R.id.nim_anggota);
+        EditText namaEditText = dataView.findViewById(R.id.nama_anggota);
+        // Mendapatkan nilai nim dan nama yang akan disimpan
+        String nim = nimEditText.getText().toString().trim();
+        String nama = namaEditText.getText().toString().trim();
+
+        // Memeriksa apakah nim dan nama sudah ada atau sama dalam file .csv
+        if (checkDataExistsInCSV(csvFilePath, nim, nama)) {
+            Toast.makeText(ListAnggota.this, "Data dengan nim dan nama tersebut sudah ada.", Toast.LENGTH_LONG).show();
+        } else {
+            // Data belum ada atau berbeda, menjalankan metode simpanData()
+            saveDataToCSV(csvFilePath);
+        }
+    }
+
+    private boolean checkDataExistsInCSV(String csvFilePath, String nim, String nama) {
+        try (CSVReader reader = new CSVReader(new FileReader(csvFilePath))) {
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                // Memeriksa nim dan nama pada setiap baris dalam file .csv
+                String csvNim = nextLine[0];
+                String csvNama = nextLine[1];
+                if (csvNim.equals(nim) && csvNama.equals(nama)) {
+                    // Data sudah ada atau sama dalam file .csv
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Data belum ada atau berbeda dalam file .csv
+        return false;
+    }
+
+    private void saveDataToCSV(String csvFilePath) {
         try {
             // Membuat objek FileWriter untuk menulis ke file .csv
             FileWriter fileWriter = new FileWriter(csvFilePath, true);
@@ -275,6 +315,7 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
             e.printStackTrace();
         }
     }
+
 
     private void clearInputFields() {
         // Melakukan iterasi pada setiap view dalam LinearLayout

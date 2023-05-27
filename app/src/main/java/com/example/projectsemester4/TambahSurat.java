@@ -242,7 +242,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         anggotaList = new ArrayList<>();
-        adapter = new AnggotaAdapter(anggotaList);
+        adapter = new AnggotaAdapter(anggotaList,this);
         recyclerView.setAdapter(adapter);
 
         loadCSVData();
@@ -435,8 +435,14 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                             // Menghapus data dari baris CSV sesuai dengan nomor baris
                             int clickedRow = (int) v.getTag();
                             hapusDataDariCSV(clickedRow);
+
+                            // Menghapus tampilan item dari RecyclerView
+                            anggotaList.remove(clickedRow);
+                            recyclerView.getAdapter().notifyItemRemoved(clickedRow);
+                            recyclerView.getAdapter().notifyItemRangeChanged(clickedRow, anggotaList.size());
                         }
                     });
+//                    layoutList.addView(dataView);
 //                    recyclerView.addView(dataView);
                     nextLine = csvReader.readNext();
                     rowNumber++;
@@ -451,7 +457,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         }
     }
 
-    private void hapusDataDariCSV(int rowNumber) {
+    public void hapusDataDariCSV(int rowNumber) {
         String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
         List<String[]> csvDataList = new ArrayList<>();
 
@@ -597,5 +603,12 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
