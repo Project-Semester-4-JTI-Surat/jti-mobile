@@ -1,29 +1,44 @@
 package com.example.projectsemester4.Keys;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class DetailSuratResponse {
-    private String mataKuliah;
-    private List<AnggotaDetailSurat> anggotaDetailSurat;
+    @SerializedName("success")
+    private boolean success;
+    @SerializedName("message")
+    private String message;
+    @SerializedName("data")
+    private List<DetailSuratRequest> data;
 
-    public DetailSuratResponse(String mataKuliah, List<AnggotaDetailSurat> anggotaDetailSurat) {
-        this.mataKuliah = mataKuliah;
-        this.anggotaDetailSurat = anggotaDetailSurat;
+    public DetailSuratResponse(boolean success, String message, List<DetailSuratRequest> data) {
+        this.success = success;
+        this.message = message;
+        this.data = data;
     }
 
-    public String getMataKuliah() {
-        return mataKuliah;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setMataKuliah(String mataKuliah) {
-        this.mataKuliah = mataKuliah;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
-    public List<AnggotaDetailSurat> getAnggotaDetailSurat() {
-        return anggotaDetailSurat;
+    public String getMessage() {
+        return message;
     }
 
-    public void setAnggotaDetailSurat(List<AnggotaDetailSurat> anggotaDetailSurat) {
-        this.anggotaDetailSurat = anggotaDetailSurat;
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public List<DetailSuratRequest> getData() {
+        return data;
+    }
+
+    public void setData(List<DetailSuratRequest> data) {
+        this.data = data;
     }
 }

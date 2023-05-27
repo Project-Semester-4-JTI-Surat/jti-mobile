@@ -188,8 +188,9 @@ public class Fragment0 extends Fragment {
                     Intent intent = new Intent(getActivity(), DetailSurat.class);
 
                     // put the data to the intent
-                    intent.putExtra("mata_kuliah", holder.tvMataKuliah.getText().toString());
-                    intent.putExtra("nama_mhs", holder.tvNamaMhs.getText().toString());
+                    intent.putExtra("jenis_surat", holder.tvMataKuliah.getText().toString());
+                    intent.putExtra("keterangan", holder.tvNamaMhs.getText().toString());
+                    intent.putExtra("surat_id",surat.getUuid());
 
                     // start DetailActivity
                     startActivity(intent);
