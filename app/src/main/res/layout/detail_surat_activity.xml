@@ -9,211 +9,193 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_margin="20dp">
 
-        <TextView
-            android:id="@+id/tx_jenisSurat"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Jenis Surat"
-            android:textColor="@color/black"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/dt_namaDosen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Nama Dosen"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/tx_jenisSurat"/>
-        <TextView
-            android:id="@+id/isi_namaDosen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10sp"
-            android:background="@drawable/kotak_form"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:layout_below="@id/dt_namaDosen"/>
-        <TextView
-            android:id="@+id/dt_namaMitra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Nama Mitra"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/isi_namaDosen"/>
-        <TextView
-            android:id="@+id/isi_namaMitra"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10sp"
-            android:background="@drawable/kotak_form"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:layout_below="@id/dt_namaMitra"/>
-        <TextView
-            android:id="@+id/dt_alamatMitra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Alamat Mitra"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/isi_namaMitra"/>
-        <TextView
-            android:id="@+id/isi_alamatMitra"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10sp"
-            android:background="@drawable/kotak_form"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:layout_below="@id/dt_alamatMitra"/>
-        <TextView
-            android:id="@+id/dt_tanggalPenggunaan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Tanggal Penggunaan"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/isi_alamatMitra"/>
-        <TextView
-            android:id="@+id/isi_tanggalPenggunaan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10sp"
-            android:background="@drawable/kotak_form"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:layout_below="@id/dt_tanggalPenggunaan"/>
-        <TextView
-            android:id="@+id/dt_keterangan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Keterangan"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/isi_tanggalPenggunaan"/>
-        <TextView
-            android:id="@+id/isi_keterangan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10sp"
-            android:background="@drawable/kotak_form"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:layout_below="@id/dt_keterangan"/>
-        <TextView
-            android:id="@+id/dt_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Status"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_below="@id/isi_keterangan"/>
-        <TextView
-            android:id="@+id/isi_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10sp"
-            android:background="@drawable/kotak_form"
-            android:textColor="@color/black"
-            android:layout_marginEnd="5sp"
-            android:textSize="20sp"
-            android:layout_below="@id/dt_status"/>
+            <TextView
+                android:id="@+id/tx_jenisSurat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Jenis Surat"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tx_detailPengaju"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="10sp"
-            android:text="Detail Pengaju"
-            android:textColor="@color/black"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:layout_below="@id/isi_status"/>
+            <TextView
+                android:id="@+id/dt_namaDosen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tx_jenisSurat"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5sp"
+                android:text="Nama Dosen"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tx_namaPengaju"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Nama Pengaju"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_below="@id/tx_detailPengaju"/>
+            <TextView
+                android:id="@+id/isi_namaDosen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dt_namaDosen"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5sp"
+                android:background="@drawable/kotak_form"
+                android:padding="10sp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/isi_namaPengaju"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10sp"
-            android:background="@drawable/kotak_form"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_below="@id/tx_namaPengaju"/>
+            <TextView
+                android:id="@+id/dt_namaMitra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/isi_namaDosen"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5sp"
+                android:text="Nama Mitra"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tx_nimPengaju"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Nim Pengaju"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_below="@id/isi_namaPengaju"/>
+            <TextView
+                android:id="@+id/isi_namaMitra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dt_namaMitra"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5sp"
+                android:background="@drawable/kotak_form"
+                android:padding="10sp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/isi_nimPengaju"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="10sp"
-            android:background="@drawable/kotak_form"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:layout_below="@id/tx_nimPengaju"/>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/dt_alamatMitra"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/isi_namaMitra"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5sp"
+                android:text="Alamat Mitra"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/isi_alamatMitra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dt_alamatMitra"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5sp"
+                android:background="@drawable/kotak_form"
+                android:padding="10sp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dt_tanggalPenggunaan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/isi_alamatMitra"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5sp"
+                android:text="Tanggal Penggunaan"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/isi_tanggalPenggunaan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dt_tanggalPenggunaan"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5sp"
+                android:background="@drawable/kotak_form"
+                android:padding="10sp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dt_keterangan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/isi_tanggalPenggunaan"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5sp"
+                android:text="Keterangan"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/isi_keterangan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dt_keterangan"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5sp"
+                android:background="@drawable/kotak_form"
+                android:padding="10sp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dt_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/isi_keterangan"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5sp"
+                android:text="Status"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/isi_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dt_status"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5sp"
+                android:background="@drawable/kotak_form"
+                android:padding="10sp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tx_detailPengaju"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/isi_status"
+                android:layout_marginTop="20dp"
+                android:padding="10sp"
+                android:text="Detail Pengaju"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycle_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tx_detailPengaju"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                tools:listitem="@layout/list_item_anggota_detail">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </RelativeLayout>
     </RelativeLayout>
 
 </ScrollView>

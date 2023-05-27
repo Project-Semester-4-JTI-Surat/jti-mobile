@@ -13,116 +13,127 @@ public class SuratRequest {
 //    private String kebutuhan;
 //    private String keterangan;
 //    private List<AnggotaModel> anggotaList;
+    private List<AnggotaModel> anggotaList;
 
     @SerializedName("kode_surat")
-    private String kodeSurat;
-    private String namaDosen;
+    private String kode_surat;
+    @SerializedName("dosen_id")
+    private String dosen_id;
 //    @SerializedName("status_id")
 //    private int statusId;
 //    @SerializedName("prodi_id")
 //    private int prodiId;
 //    @SerializedName("dosen_id")
 //    private int dosenId;
-    @SerializedName("kode_koordinator")
-    private String kodeKoordinator;
+    @SerializedName("koordinator_id")
+    private String koordinator_id;
     @SerializedName("nama_mitra")
-    private String namaMitra;
+    private String nama_mitra;
     @SerializedName("alamat_mitra")
-    private String alamatMitra;
+    private String alamat_mitra;
     @SerializedName("tanggal_dibuat")
-    private String tanggalDibuat;
+    private String tanggal_dibuat;
     @SerializedName("tanggal_pelaksanaan")
-    private String tanggalPelaksanaan;
+    private String tanggal_pelaksanaan;
     @SerializedName("tanggal_selesai")
-    private String tanggalSelesai;
-//    @SerializedName("judul_ta")
-//    private String judulTa;
+    private String tanggal_selesai;
     @SerializedName("kebutuhan")
     private String kebutuhan;
     @SerializedName("keterangan")
     private String keterangan;
-    private List<AnggotaModel> anggotaList;
+    @SerializedName("judul_ta")
+    private String judul_ta;
+
 
     // constructor dan getter/setter di sini
 //    String kodeSurat, int statusId, int prodiId, int dosenId, String kodeKoordinator, String namaMitra, String alamatMitra, String tanggalDibuat, String tanggalPelaksanaan, String tanggalSelesai, String judulTa, String kebutuhan, String keterangan, List<String> namaAnggota, List<String> nimAnggota, List<String> nohpAnggota, List<Integer> prodiIdAnggota
 
 
-    public SuratRequest(String kodeSurat, String namaDosen, String kodeKoordinator, String namaMitra, String alamatMitra, String tanggalDibuat, String tanggalPelaksanaan, String tanggalSelesai, String kebutuhan, String keterangan, List<AnggotaModel> anggotaList) {
-        this.kodeSurat = kodeSurat;
-        this.namaDosen = namaDosen;
-        this.kodeKoordinator = kodeKoordinator;
-        this.namaMitra = namaMitra;
-        this.alamatMitra = alamatMitra;
-        this.tanggalDibuat = tanggalDibuat;
-        this.tanggalPelaksanaan = tanggalPelaksanaan;
-        this.tanggalSelesai = tanggalSelesai;
+    public SuratRequest(List<AnggotaModel> anggotaList, String kode_surat, String dosen_id, String koordinator_id, String nama_mitra, String alamat_mitra, String tanggal_dibuat, String tanggal_pelaksanaan, String tanggal_selesai, String kebutuhan, String keterangan, String judul_ta) {
+        this.anggotaList = anggotaList;
+        this.kode_surat = kode_surat;
+        this.dosen_id = dosen_id;
+        this.koordinator_id = koordinator_id;
+        this.nama_mitra = nama_mitra;
+        this.alamat_mitra = alamat_mitra;
+        this.tanggal_dibuat = tanggal_dibuat;
+        this.tanggal_pelaksanaan = tanggal_pelaksanaan;
+        this.tanggal_selesai = tanggal_selesai;
         this.kebutuhan = kebutuhan;
         this.keterangan = keterangan;
+        this.judul_ta = judul_ta;
+    }
+
+    public List<AnggotaModel> getAnggotaList() {
+        return anggotaList;
+    }
+
+    public void setAnggotaList(List<AnggotaModel> anggotaList) {
         this.anggotaList = anggotaList;
     }
 
-    public String getKodeSurat() {
-        return kodeSurat;
+    public String getKode_surat() {
+        return kode_surat;
     }
 
-    public void setKodeSurat(String kodeSurat) {
-        this.kodeSurat = kodeSurat;
+    public void setKode_surat(String kode_surat) {
+        this.kode_surat = kode_surat;
     }
 
-    public String getNamaDosen() {
-        return namaDosen;
+    public String getDosen_id() {
+        return dosen_id;
     }
 
-    public void setNamaDosen(String namaDosen) {
-        this.namaDosen = namaDosen;
+    public void setDosen_id(String dosen_id) {
+        this.dosen_id = dosen_id;
     }
 
-    public String getKodeKoordinator() {
-        return kodeKoordinator;
+    public String getKoordinator_id() {
+        return koordinator_id;
     }
 
-    public void setKodeKoordinator(String kodeKoordinator) {
-        this.kodeKoordinator = kodeKoordinator;
+    public void setKoordinator_id(String koordinator_id) {
+        this.koordinator_id = koordinator_id;
     }
 
-    public String getNamaMitra() {
-        return namaMitra;
+    public String getNama_mitra() {
+        return nama_mitra;
     }
 
-    public void setNamaMitra(String namaMitra) {
-        this.namaMitra = namaMitra;
+    public void setNama_mitra(String nama_mitra) {
+        this.nama_mitra = nama_mitra;
     }
 
-    public String getAlamatMitra() {
-        return alamatMitra;
+    public String getAlamat_mitra() {
+        return alamat_mitra;
     }
 
-    public void setAlamatMitra(String alamatMitra) {
-        this.alamatMitra = alamatMitra;
+    public void setAlamat_mitra(String alamat_mitra) {
+        this.alamat_mitra = alamat_mitra;
     }
 
-    public String getTanggalDibuat() {
-        return tanggalDibuat;
+    public String getTanggal_dibuat() {
+        return tanggal_dibuat;
     }
 
-    public void setTanggalDibuat(String tanggalDibuat) {
-        this.tanggalDibuat = tanggalDibuat;
+    public void setTanggal_dibuat(String tanggal_dibuat) {
+        this.tanggal_dibuat = tanggal_dibuat;
     }
 
-    public String getTanggalPelaksanaan() {
-        return tanggalPelaksanaan;
+    public String getTanggal_pelaksanaan() {
+        return tanggal_pelaksanaan;
     }
 
-    public void setTanggalPelaksanaan(String tanggalPelaksanaan) {
-        this.tanggalPelaksanaan = tanggalPelaksanaan;
+    public void setTanggal_pelaksanaan(String tanggal_pelaksanaan) {
+        this.tanggal_pelaksanaan = tanggal_pelaksanaan;
     }
 
-    public String getTanggalSelesai() {
-        return tanggalSelesai;
+    public String getTanggal_selesai() {
+        return tanggal_selesai;
     }
 
-    public void setTanggalSelesai(String tanggalSelesai) {
-        this.tanggalSelesai = tanggalSelesai;
+    public void setTanggal_selesai(String tanggal_selesai) {
+        this.tanggal_selesai = tanggal_selesai;
     }
 
     public String getKebutuhan() {
@@ -141,11 +152,11 @@ public class SuratRequest {
         this.keterangan = keterangan;
     }
 
-    public List<AnggotaModel> getAnggotaList() {
-        return anggotaList;
+    public String getJudul_ta() {
+        return judul_ta;
     }
 
-    public void setAnggotaList(List<AnggotaModel> anggotaList) {
-        this.anggotaList = anggotaList;
+    public void setJudul_ta(String judul_ta) {
+        this.judul_ta = judul_ta;
     }
 }

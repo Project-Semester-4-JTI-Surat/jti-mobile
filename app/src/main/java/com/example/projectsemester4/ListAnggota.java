@@ -320,7 +320,9 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
         spProdi = dataView.findViewById(R.id.sp_prodi);
         hapus = dataView.findViewById(R.id.hapus);
 
-        getDataProdi();
+        ArrayAdapter<CharSequence> adapterND = ArrayAdapter.createFromResource(this, R.array.prodi, android.R.layout.simple_spinner_item);
+        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spProdi.setAdapter(adapterND);
 
         hapus.setOnClickListener(new View.OnClickListener() {
             @Override

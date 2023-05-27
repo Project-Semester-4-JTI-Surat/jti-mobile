@@ -38,7 +38,7 @@ public class ApiClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://10.10.181.202:8000/")
+                .baseUrl("http://192.168.1.4:8000/")
                 .client(client)
                 .build();
 
@@ -64,7 +64,7 @@ public class ApiClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://10.10.181.202:8000/")
+                .baseUrl("http://192.168.1.4:8000/")
                 .client(client)
                 .build();
 
@@ -78,6 +78,10 @@ public class ApiClient {
     public static TampilSurat getTampilSurats(final Context context){
         TampilSurat tampilSurat = getRetrofit(context).create(TampilSurat.class);
         return tampilSurat;
+    }
+    public static DetailSuratService getDetailSurats(final Context context){
+        DetailSuratService detailSurat = getRetrofit(context).create(DetailSuratService.class);
+        return detailSurat;
     }
     public static SuratInsert getSuratInsert(final Context context){
         SuratInsert suratInsert = getRetrofit(context).create(SuratInsert.class);

@@ -224,10 +224,35 @@
                 android:focusableInTouchMode="false"/>
 
             <TextView
-                android:id="@+id/kbth"
+                android:id="@+id/tv_judul_ta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/et_tanggal_selesai"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:text="Judul TA"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_judul_ta"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/tv_judul_ta"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/kotak_form"
+                android:drawablePadding="8dp"
+                android:hint="Masukkan Judul TA"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background"
+                android:textColorHint="#a6a6a6" />
+
+            <TextView
+                android:id="@+id/kbth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_judul_ta"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:text="Kebutuhan"

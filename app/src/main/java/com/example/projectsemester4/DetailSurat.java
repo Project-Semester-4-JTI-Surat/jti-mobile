@@ -1,11 +1,21 @@
 package com.example.projectsemester4;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.projectsemester4.Keys.ApiClient;
+import com.example.projectsemester4.Keys.DetailSuratResponse;
+import com.example.projectsemester4.Keys.DetailSuratService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailSurat extends AppCompatActivity {
     private TextView txJenisSurat;
@@ -22,10 +32,7 @@ public class DetailSurat extends AppCompatActivity {
     private TextView dtStatus;
     private TextView isiStatus;
     private TextView txDetailPengaju;
-    private TextView txNamaPengaju;
-    private TextView isiNamaPengaju;
-    private TextView txNimPengaju;
-    private TextView isiNimPengaju;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +54,18 @@ public class DetailSurat extends AppCompatActivity {
         dtStatus = findViewById(R.id.dt_status);
         isiStatus = findViewById(R.id.isi_status);
         txDetailPengaju = findViewById(R.id.tx_detailPengaju);
-        txNamaPengaju = findViewById(R.id.tx_namaPengaju);
-        isiNamaPengaju = findViewById(R.id.isi_namaPengaju);
-        txNimPengaju = findViewById(R.id.tx_nimPengaju);
-        isiNimPengaju = findViewById(R.id.isi_nimPengaju);
+        recyclerView = findViewById(R.id.recycle_data);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // get the intent that started this activity
-        Intent intent = getIntent();
+//        // get the intent that started this activity
+//        Intent intent = getIntent();
+//
+//        // get the data from the intent
+//        String mataKuliah = intent.getStringExtra("mata_kuliah");
+//        String namaMhs = intent.getStringExtra("nama_mhs");
 
-        // get the data from the intent
-        String mataKuliah = intent.getStringExtra("mata_kuliah");
-        String namaMhs = intent.getStringExtra("nama_mhs");
-
-        txJenisSurat.setText(mataKuliah);
-        isiNamaPengaju.setText(namaMhs);
+//        txJenisSurat.setText(mataKuliah);
+//        isiNamaPengaju.setText(namaMhs);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

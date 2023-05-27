@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -24,6 +25,10 @@ import com.example.projectsemester4.Keys.LoginResponse;
 import com.example.projectsemester4.Keys.MyPreferences;
 import com.example.projectsemester4.Keys.Prodi;
 import com.example.projectsemester4.Keys.UserService;
+import com.opencsv.CSVWriter;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -135,10 +140,13 @@ public class TampilanLogin extends AppCompatActivity {
                     preferences.saveString("nama", loginRequest.getNama());
                     Prodi prodi = loginRequest.getProdi();
                     if (prodi != null) {
-                        preferences.saveInt("prodi", prodi.getId());
+                        preferences.saveString("prodi", prodi.getKeterangan());
                     }
                     preferences.saveString("no_hp", loginRequest.getNoHp());
                     preferences.saveString("token", loginResponse.getData().getToken());
+
+                    // Save data to CSV
+                    saveDataToCSV(loginRequest);
 
                     ApiClient.setAuthToken(loginResponse.getData().getToken());
 
@@ -162,6 +170,17 @@ public class TampilanLogin extends AppCompatActivity {
                 Toast.makeText(TampilanLogin.this, "Throwable " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+    private void saveDataToCSV(LoginRequest loginRequest) {
+        String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv"; // Path to your CSV file
+        try {
+            CSVWriter writer = new CSVWriter(new FileWriter(csvFilePath, true));
+            String[] data = {loginRequest.getNim(), loginRequest.getNama(), loginRequest.getProdi().getKeterangan(), loginRequest.getNoHp()};
+            writer.writeNext(data);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

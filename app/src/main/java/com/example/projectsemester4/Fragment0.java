@@ -132,14 +132,23 @@ public class Fragment0 extends Fragment {
             return new MyViewHolder(itemView);
         }
 
-
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
             TampilSuratRequest surat = data.get(position);
 
             if (surat != null) {
-                holder.tvMataKuliah.setText(surat.getKode_surat());
+                if(surat.getKode_surat().equals("PK")){
+                    holder.tvMataKuliah.setText("Pengajuan PKL");
+                }else if(surat.getKode_surat().equals("LL")){
+                    holder.tvMataKuliah.setText("Lain Lain");
+                }else if(surat.getKode_surat().equals("MK")){
+                    holder.tvMataKuliah.setText("Mata Kuliah");
+                }else if(surat.getKode_surat().equals("OBS")){
+                    holder.tvMataKuliah.setText("Observasi Penelitian");
+                }else if(surat.getKode_surat().equals("TA")){
+                    holder.tvMataKuliah.setText("Tugas Akhir");
+                }
                 holder.tvNamaMhs.setText(surat.getKeterangan());
 
                 // Cek kondisi surat.getKeterangan()
