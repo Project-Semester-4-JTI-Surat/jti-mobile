@@ -6,7 +6,7 @@
     <item
         android:id="@+id/action_profile"
         android:orderInCategory="100"
-        android:title="Edit Profile"
+        android:title="Ubah Profil"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_faq"

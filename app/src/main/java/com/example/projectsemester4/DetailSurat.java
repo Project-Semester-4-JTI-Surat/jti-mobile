@@ -24,20 +24,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailSurat extends AppCompatActivity {
-    private TextView txJenisSurat;
-    private TextView dtNamaDosen;
-    private TextView isiNamaDosen;
-    private TextView dtNamaMitra;
-    private TextView isiNamaMitra;
-    private TextView dtAlamatMitra;
-    private TextView isiAlamatMitra;
-    private TextView dtTanggalPenggunaan;
-    private TextView isiTanggalPenggunaan;
-    private TextView dtKeterangan;
-    private TextView isiKeterangan;
-    private TextView dtStatus;
-    private TextView isiStatus;
-    private TextView txDetailPengaju;
+    private TextView txJenisSurat, txDetailPengaju;
+    private TextView dtNamaDosen, dtNamaMitra, dtAlamatMitra, dtTanggalPelaksanaan, dtKeterangan, dtStatus;
+    private TextView dtKoordinator, dtJudulTA, dtTanggalDibuat, dtTanggalSelesai, dtKebutuhan;
+    private TextView isiNamaDosen, isiNamaMitra, isiAlamatMitra, isiTanggalPelaksanaan, isiKeterangan, isiStatus;
+    private TextView isiKoordinator, isiJudulTA, isiTanggalDibuat, isiTanggalSelesai, isiKebutuhan;
     private RecyclerView recyclerView;
     private AnggotaDetailAdapter adapter;
     private String suratId;
@@ -56,13 +47,25 @@ public class DetailSurat extends AppCompatActivity {
         isiNamaMitra = findViewById(R.id.isi_namaMitra);
         dtAlamatMitra = findViewById(R.id.dt_alamatMitra);
         isiAlamatMitra = findViewById(R.id.isi_alamatMitra);
-        dtTanggalPenggunaan = findViewById(R.id.dt_tanggalPenggunaan);
-        isiTanggalPenggunaan = findViewById(R.id.isi_tanggalPenggunaan);
+        dtTanggalPelaksanaan = findViewById(R.id.dt_tanggalPelaksanaan);
+        isiTanggalPelaksanaan = findViewById(R.id.isi_tanggalPelaksanaan);
         dtKeterangan = findViewById(R.id.dt_keterangan);
         isiKeterangan = findViewById(R.id.isi_keterangan);
         dtStatus = findViewById(R.id.dt_status);
         isiStatus = findViewById(R.id.isi_status);
         txDetailPengaju = findViewById(R.id.tx_detailPengaju);
+
+        dtKoordinator = findViewById(R.id.dt_namaKoordinator);
+        isiKoordinator = findViewById(R.id.isi_namaKoordinator);
+        dtJudulTA = findViewById(R.id.dt_judulTA);
+        isiJudulTA = findViewById(R.id.isi_judulTA);
+        dtTanggalDibuat = findViewById(R.id.dt_tanggalDibuat);
+        isiTanggalDibuat = findViewById(R.id.isi_tanggalDibuat);
+        dtTanggalSelesai = findViewById(R.id.dt_tanggalSelesai);
+        isiTanggalSelesai = findViewById(R.id.isi_tanggalSelesai);
+        dtKebutuhan = findViewById(R.id.dt_kebutuhan);
+        isiKebutuhan = findViewById(R.id.isi_kebutuhan);
+
         recyclerView = findViewById(R.id.recycle_data);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -99,11 +102,22 @@ public class DetailSurat extends AppCompatActivity {
                         List<DetailSuratRequest> dataList = detailSuratResponse.getData();
                         if (dataList != null && !dataList.isEmpty()) {
                             DetailSuratRequest data = dataList.get(0);
+
                             // Set data detail surat ke komponen UI
-                            isiNamaDosen.setText(data.getJudul_ta());
+//                            isiKoordinator.setText(data.getKoordinator());
+//                            isiNamaDosen.setText(data.getJudul_ta());
+                            if (data.getJudul_ta()==null){
+                                isiJudulTA.setText("-");
+                            }else{
+                                isiJudulTA.setText(data.getJudul_ta());
+                            }
+
                             isiNamaMitra.setText(data.getNama_mitra());
                             isiAlamatMitra.setText(data.getAlamat_mitra());
-                            isiTanggalPenggunaan.setText(data.getTanggal_pelaksanaan());
+                            isiTanggalDibuat.setText(data.getTanggal_dibuat());
+                            isiTanggalPelaksanaan.setText(data.getTanggal_pelaksanaan());
+                            isiTanggalSelesai.setText(data.getTanggal_selesai());
+                            isiKebutuhan.setText(data.getKebutuhan());
                             isiKeterangan.setText(data.getKeterangan());
                             Intent intent = getIntent();
                             String namaMhs = intent.getStringExtra("keterangan");
@@ -132,9 +146,6 @@ public class DetailSurat extends AppCompatActivity {
             }
         });
     }
-
-
-
     public boolean onOptionsItemSelected(MenuItem item) {
         // Mengatur fungsi tombol back pada appbar
         if (item.getItemId() == android.R.id.home) {

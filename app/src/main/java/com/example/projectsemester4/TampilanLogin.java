@@ -145,6 +145,7 @@ public class TampilanLogin extends AppCompatActivity {
                     Prodi prodi = loginRequest.getProdi();
                     if (prodi != null) {
                         preferences.saveString("prodi", prodi.getKeterangan());
+                        preferences.saveInt("prodi_id", prodi.getId());
                     }
                     preferences.saveString("no_hp", loginRequest.getNoHp());
                     preferences.saveString("token", loginResponse.getData().getToken());
@@ -220,7 +221,7 @@ public class TampilanLogin extends AppCompatActivity {
                 String[] rowData = allData.get(i);
                 if (rowData.length >= 1 && rowData[0].equals(loginRequest.getNim())) {
                     rowData[1] = loginRequest.getNama();
-                    rowData[2] = loginRequest.getProdi().getKeterangan();
+                    rowData[2] = String.valueOf(loginRequest.getProdi().getId());
                     rowData[3] = loginRequest.getNoHp();
                     allData.set(i, rowData);
                     break;
@@ -239,7 +240,7 @@ public class TampilanLogin extends AppCompatActivity {
         String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv"; // Path to your CSV file
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(csvFilePath, true));
-            String[] data = {loginRequest.getNim(), loginRequest.getNama(), loginRequest.getProdi().getKeterangan(), loginRequest.getNoHp()};
+            String[] data = {loginRequest.getNim(), loginRequest.getNama(), String.valueOf(loginRequest.getProdi().getId()), loginRequest.getNoHp()};
             writer.writeNext(data);
             writer.close();
         } catch (IOException e) {

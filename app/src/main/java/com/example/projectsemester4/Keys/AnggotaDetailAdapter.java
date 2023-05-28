@@ -39,6 +39,14 @@ public class AnggotaDetailAdapter extends RecyclerView.Adapter<AnggotaDetailAdap
         AnggotaDetailSurat anggota = anggotaList.get(position);
         holder.tvNama.setText(anggota.getNama());
         holder.tvNim.setText(anggota.getNim());
+        holder.tvProdi.setText(anggota.getProdi().getKeterangan());
+        holder.tvNoHp.setText(anggota.getNo_hp());
+
+        if (anggotaList.size() > 0) {
+            holder.txtAnggota.setText("Anggota " + (position + 1));
+        } else {
+            holder.txtAnggota.setText("");
+        }
     }
 
     @Override
@@ -49,11 +57,17 @@ public class AnggotaDetailAdapter extends RecyclerView.Adapter<AnggotaDetailAdap
     public static class AnggotaViewHolder extends RecyclerView.ViewHolder {
         public TextView tvNama;
         public TextView tvNim;
+        public TextView tvProdi;
+        public TextView tvNoHp;
+        public TextView txtAnggota;
 
         public AnggotaViewHolder(View itemView) {
             super(itemView);
             tvNama = itemView.findViewById(R.id.tv_nama);
             tvNim = itemView.findViewById(R.id.tv_nim);
+            tvProdi = itemView.findViewById(R.id.tv_prodi);
+            txtAnggota = itemView.findViewById(R.id.txt_anggota);
+            tvNoHp = itemView.findViewById(R.id.tv_nohp);
         }
     }
 }

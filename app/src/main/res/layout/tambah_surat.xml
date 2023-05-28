@@ -316,7 +316,7 @@
                 android:text="Tambah Anggota"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:cornerRadius="20dp" />
+                app:cornerRadius="10dp" />
 
         </RelativeLayout>
 
@@ -337,7 +337,8 @@
                 android:text="Reset Form"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:cornerRadius="20dp" />
+                app:cornerRadius="10dp"
+                android:layout_margin="5dp"/>
 
             <Button
                 android:id="@+id/ajukanButton"
@@ -348,8 +349,9 @@
                 android:backgroundTint="@color/PrimaryColor"
                 android:text="Ajukan Surat"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                app:cornerRadius="20dp" />
+                android:textSize="16sp"
+                app:cornerRadius="10dp"
+                android:layout_margin="5dp"/>
         </LinearLayout>
 
     </RelativeLayout>

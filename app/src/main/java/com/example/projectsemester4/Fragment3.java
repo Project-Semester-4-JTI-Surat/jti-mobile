@@ -146,7 +146,6 @@ public class Fragment3 extends Fragment {
             return new MyAdapter.MyViewHolder(itemView);
         }
 
-
         @Override
         public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
 
@@ -167,11 +166,27 @@ public class Fragment3 extends Fragment {
                 holder.tvNamaMhs.setText(surat.getKeterangan());
 
                 // Cek kondisi surat.getKeterangan()
-                if (surat.getKeterangan().equals("Dapat Diambil")) {
+                if (surat.getKeterangan().equals("Menunggu")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.BLUE);
+                }else if (surat.getKeterangan().equals("Diproses")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.YELLOW);
+                }else if (surat.getKeterangan().equals("Dapat Diambil")) {
                     // Ubah warna teks menjadi biru
                     holder.tvMataKuliah.setTextColor(Color.BLACK);
                     holder.tvNamaMhs.setTextColor(Color.GREEN);
-                }else {
+                }else if (surat.getKeterangan().equals("Selesai")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.GRAY);
+                }else if (surat.getKeterangan().equals("Ditolak")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.RED);
+                } else {
                     // Kembalikan warna teks ke warna default
                     holder.tvMataKuliah.setTextColor(Color.BLACK);
                     holder.tvNamaMhs.setTextColor(Color.BLACK);
@@ -187,8 +202,9 @@ public class Fragment3 extends Fragment {
                     Intent intent = new Intent(getActivity(), DetailSurat.class);
 
                     // put the data to the intent
-                    intent.putExtra("mata_kuliah", holder.tvMataKuliah.getText().toString());
-                    intent.putExtra("nama_mhs", holder.tvNamaMhs.getText().toString());
+                    intent.putExtra("jenis_surat", holder.tvMataKuliah.getText().toString());
+                    intent.putExtra("keterangan", holder.tvNamaMhs.getText().toString());
+                    intent.putExtra("surat_id",surat.getUuid());
 
                     // start DetailActivity
                     startActivity(intent);

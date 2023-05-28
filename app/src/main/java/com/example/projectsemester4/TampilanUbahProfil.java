@@ -61,61 +61,29 @@ public class TampilanUbahProfil extends AppCompatActivity {
         etNoHp = findViewById(R.id.tampil_no_hp);
         tvUbahPassword = findViewById(R.id.ubah_password);
         btnSimpan = findViewById(R.id.loginButton);
-//        myPreferences = new MyPreferences(this);
-
-//        token = myPreferences.getToken();
 
         getDataUser();
         etNama.setEnabled(false);
         tampilProdi.setEnabled(false);
-//        getDataProdi();
-
-//        btnSimpan.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                updateUserProfile();
-//            }
-//        });
 
         tvUbahPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TampilanUbahProfil.this, TampilanUbahPassword.class);
-                startActivity(intent);
+//                Intent intent = new Intent(TampilanUbahProfil.this, TampilanUbahPassword.class);
+//                startActivity(intent);
+                Toast.makeText(TampilanUbahProfil.this, "Masih Dalam Tahap Pengerjaan", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnSimpan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(TampilanUbahProfil.this, TampilanUbahPassword.class);
+//                startActivity(intent);
+                Toast.makeText(TampilanUbahProfil.this, "Masih Dalam Tahap Pengerjaan", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-//    private void getDataProdi() {
-//        UserService apiService = ApiClient.getUserService(this);
-//        Call<List<Prodi>> call = apiService.getDataProdi();
-//        call.enqueue(new Callback<List<Prodi>>() {
-//            @Override
-//            public void onResponse(Call<List<Prodi>> call, Response<List<Prodi>> response) {
-//                if (response.isSuccessful()) {
-//                    List<Prodi> prodiList = response.body();
-//                    if (prodiList != null) {
-//                        // Buat adapter untuk Spinner
-//                        ArrayAdapter<Prodi> adapter = new ArrayAdapter<>(TampilanUbahProfil.this, android.R.layout.simple_spinner_item, prodiList);
-//                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//                        // Dapatkan referensi ke Spinner dari layout XML
-//                        Spinner spProdi = findViewById(R.id.spProdi);
-//
-//                        // Set adapter ke Spinner
-//                        spProdi.setAdapter(adapter);
-//                    }
-//                } else {
-//                    Toast.makeText(TampilanUbahProfil.this, "Gagal mengambil data prodi", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Prodi>> call, Throwable t) {
-//                Toast.makeText(TampilanUbahProfil.this, "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 
 
     private void getDataUser() {
@@ -138,34 +106,6 @@ public class TampilanUbahProfil extends AppCompatActivity {
                     tvNim.setText(loginRequest.getNim());
                     etNama.setText(loginRequest.getNama());
                     tampilProdi.setText(loginRequest.getProdi().getKeterangan());
-//                    // Periksa apakah tilProdi tidak null sebelum mengakses EditText-nya
-//                    if (tilProdi != null) {
-//                        EditText etProdi = tilProdi.getEditText();
-//                        if (etProdi != null) {
-//                            etProdi.setText(loginRequest.getProdi().getKeterangan());
-//                        }
-//                    }
-//                    // Dapatkan referensi ke Spinner dari layout XML
-//                    Spinner spProdi = findViewById(R.id.spProdi);
-//
-//                    // Buat daftar string untuk menyimpan keterangan prodi
-//                    List<String> prodiList = new ArrayList<>();
-//
-//                    Object prodiResponse = loginRequest.getProdi();
-//
-//                    if (prodiResponse instanceof List<?>) {
-//                        List<Prodi> prodiListResponse = (List<Prodi>) prodiResponse;
-//                        for (Prodi prodi : prodiListResponse) {
-//                            prodiList.add(prodi.getKeterangan());
-//                        }
-//                    }
-//
-//                    // Buat adapter untuk Spinner
-//                    ArrayAdapter<String> adapter = new ArrayAdapter<>(TampilanUbahProfil.this, android.R.layout.simple_spinner_item, prodiList);
-//                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//                    // Set adapter ke Spinner
-//                    spProdi.setAdapter(adapter);
                     etNoHp.setText(loginRequest.getNoHp());
 
                 } else {
@@ -182,37 +122,6 @@ public class TampilanUbahProfil extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-//    private void updateUserProfile() {
-//        String nama = etNama.getText().toString();
-//        String noHp = etNoHp.getText().toString();
-//
-//        UserService apiService = ApiClient.getUserService(this);
-//        Call<LoginResponse> call = apiService.updateUserProfile("Bearer " + token, new UserProfileUpdateRequest(nama, noHp));
-//        call.enqueue(new Callback<LoginResponse>() {
-//            @Override
-//            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-//                if (response.isSuccessful()) {
-//                    LoginResponse loginResponse = response.body();
-//                    LoginRequest user = loginResponse.getUser();
-//
-//                    tvNama.setText("Nama: " + user.getNama());
-//                    tvNoHp.setText("No. Hp: " + user.getNoHp());
-//                    Toast.makeText(TampilanUbahProfil.this, "Profil berhasil diperbarui", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(TampilanUbahProfil.this, "Gagal memperbarui profil", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<LoginResponse> call, Throwable t) {
-//                Toast.makeText(TampilanUbahProfil.this, "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

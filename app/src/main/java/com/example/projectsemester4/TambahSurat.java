@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,8 +15,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,9 +33,12 @@ import com.example.projectsemester4.Keys.JenisSurat;
 import com.example.projectsemester4.Keys.JenisSuratResponse;
 import com.example.projectsemester4.Keys.Koordinator;
 import com.example.projectsemester4.Keys.KoordinatorResponse;
+import com.example.projectsemester4.Keys.LoginRequest;
+import com.example.projectsemester4.Keys.LoginResponse;
 import com.example.projectsemester4.Keys.MyPreferences;
 import com.example.projectsemester4.Keys.SuratInsert;
 import com.example.projectsemester4.Keys.SuratRequest;
+import com.example.projectsemester4.Keys.UserService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
@@ -46,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -250,6 +251,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         getDataJenisSurat();
 //        getDataDosen();
 //        getDataKoordinator();
+
     }
 
     private void getDataJenisSurat() {
@@ -518,7 +520,47 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         }
     });
 }
+    public interface ProdiIdCallback {
+        void onProdiIdReceived(int prodiId);
+    }
 
+    private int getProdiID(ProdiIdCallback callback) {
+        // Mendapatkan token dari penyimpanan data (misalnya, SharedPreferences)
+        MyPreferences preferences = new MyPreferences(this);
+        String token = preferences.getString("token", "");
+
+        // Membuat instance layanan dengan token yang diberikan
+        UserService apiService = ApiClient.getUserService(this);
+        Call<LoginResponse> call = apiService.getUserProfile("Bearer " + token);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    // Tangani respons berhasil
+                    LoginResponse loginResponse = response.body();
+                    LoginRequest loginRequest = loginResponse.getData().getUser();
+
+                    // Tampilkan data pengguna pada tampilan yang sesuai
+                    int prodiId = loginRequest.getProdi().getId();
+
+                    // Panggil callback dengan nilai prodi ID
+                    callback.onProdiIdReceived(prodiId);
+
+                } else {
+                    // Tangani respons gagal
+
+                    Log.e("Data User", "Gagal mengambil data user: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                // Tangani kegagalan koneksi ke server
+
+            }
+        });
+        return 0;
+    }
     private void insertSurat() {
         MyPreferences preferences = new MyPreferences(this);
         String token = preferences.getString("token", "");
@@ -534,6 +576,12 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         String kebutuhanText = kebutuhan.getSelectedItem().toString();
         String keteranganText = keterangan.getText().toString().trim();
         String judulTAText = et_judul_ta.getText().toString().trim();
+        getProdiID(new ProdiIdCallback() {
+            @Override
+            public void onProdiIdReceived(int prodiId) {
+                System.out.println("ID PRODI: " + prodiId);
+//        int prodiId = getProdiID();
+//        System.out.println("ID PRODI : "+prodiId);
 
         // Ambil daftar anggota dari adapter
         List<AnggotaModel> anggotaList = adapter.getAnggotaList();
@@ -543,6 +591,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                 anggotaList,
                 jenisSurat,
                 namaDosen,
+                prodiId,
                 koordinator,
                 kepadaText,
                 alamatText,
@@ -583,6 +632,9 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
             }
         });
     }
+        });
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

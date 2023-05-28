@@ -140,15 +140,14 @@ public class Fragment1 extends Fragment {
 
         @NonNull
         @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_tampil_surat, parent, false);
-            return new MyViewHolder(itemView);
+            return new MyAdapter.MyViewHolder(itemView);
         }
 
-
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
 
             TampilSuratRequest surat = data.get(position);
 
@@ -171,7 +170,23 @@ public class Fragment1 extends Fragment {
                     // Ubah warna teks menjadi biru
                     holder.tvMataKuliah.setTextColor(Color.BLACK);
                     holder.tvNamaMhs.setTextColor(Color.BLUE);
-                }else {
+                }else if (surat.getKeterangan().equals("Diproses")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.YELLOW);
+                }else if (surat.getKeterangan().equals("Dapat Diambil")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.GREEN);
+                }else if (surat.getKeterangan().equals("Selesai")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.GRAY);
+                }else if (surat.getKeterangan().equals("Ditolak")) {
+                    // Ubah warna teks menjadi biru
+                    holder.tvMataKuliah.setTextColor(Color.BLACK);
+                    holder.tvNamaMhs.setTextColor(Color.RED);
+                } else {
                     // Kembalikan warna teks ke warna default
                     holder.tvMataKuliah.setTextColor(Color.BLACK);
                     holder.tvNamaMhs.setTextColor(Color.BLACK);
@@ -187,8 +202,9 @@ public class Fragment1 extends Fragment {
                     Intent intent = new Intent(getActivity(), DetailSurat.class);
 
                     // put the data to the intent
-                    intent.putExtra("mata_kuliah", holder.tvMataKuliah.getText().toString());
-                    intent.putExtra("nama_mhs", holder.tvNamaMhs.getText().toString());
+                    intent.putExtra("jenis_surat", holder.tvMataKuliah.getText().toString());
+                    intent.putExtra("keterangan", holder.tvNamaMhs.getText().toString());
+                    intent.putExtra("surat_id",surat.getUuid());
 
                     // start DetailActivity
                     startActivity(intent);

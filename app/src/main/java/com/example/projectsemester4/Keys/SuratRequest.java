@@ -5,14 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class SuratRequest {
-//    private String jenisSurat;
-
-//    private String kepada;
-//    private String alamat;
-//    private String tanggal;
-//    private String kebutuhan;
-//    private String keterangan;
-//    private List<AnggotaModel> anggotaList;
+    @SerializedName("anggota")
     private List<AnggotaModel> anggotaList;
 
     @SerializedName("kode_surat")
@@ -21,8 +14,8 @@ public class SuratRequest {
     private String dosen_id;
 //    @SerializedName("status_id")
 //    private int statusId;
-//    @SerializedName("prodi_id")
-//    private int prodiId;
+    @SerializedName("prodi_id")
+    private int prodiId;
 //    @SerializedName("dosen_id")
 //    private int dosenId;
     @SerializedName("koordinator_id")
@@ -49,10 +42,11 @@ public class SuratRequest {
 //    String kodeSurat, int statusId, int prodiId, int dosenId, String kodeKoordinator, String namaMitra, String alamatMitra, String tanggalDibuat, String tanggalPelaksanaan, String tanggalSelesai, String judulTa, String kebutuhan, String keterangan, List<String> namaAnggota, List<String> nimAnggota, List<String> nohpAnggota, List<Integer> prodiIdAnggota
 
 
-    public SuratRequest(List<AnggotaModel> anggotaList, String kode_surat, String dosen_id, String koordinator_id, String nama_mitra, String alamat_mitra, String tanggal_dibuat, String tanggal_pelaksanaan, String tanggal_selesai, String kebutuhan, String keterangan, String judul_ta) {
+    public SuratRequest(List<AnggotaModel> anggotaList, String kode_surat, String dosen_id, int prodiId, String koordinator_id, String nama_mitra, String alamat_mitra, String tanggal_dibuat, String tanggal_pelaksanaan, String tanggal_selesai, String kebutuhan, String keterangan, String judul_ta) {
         this.anggotaList = anggotaList;
         this.kode_surat = kode_surat;
         this.dosen_id = dosen_id;
+        this.prodiId = prodiId;
         this.koordinator_id = koordinator_id;
         this.nama_mitra = nama_mitra;
         this.alamat_mitra = alamat_mitra;
@@ -86,6 +80,14 @@ public class SuratRequest {
 
     public void setDosen_id(String dosen_id) {
         this.dosen_id = dosen_id;
+    }
+
+    public int getProdiId() {
+        return prodiId;
+    }
+
+    public void setProdiId(int prodiId) {
+        this.prodiId = prodiId;
     }
 
     public String getKoordinator_id() {

@@ -116,7 +116,7 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
 //            csvDataList = new ArrayList<>();
 //        }
 
-        getDataProdi();
+//        getDataProdi();
     }
 
     private void getDataAnggota(){
@@ -193,14 +193,9 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
                         List<String> keteranganList = new ArrayList<>();
                         for (Prodi prodi : prodiList) {
                             if (!"-".equals(prodi.getKeterangan())) {
-                                keteranganList.add(prodi.getKeterangan());
+                                keteranganList.add(prodi.getId()+"-"+prodi.getKeterangan());
                             }
                         }
-
-                        LayoutInflater inflater = LayoutInflater.from(ListAnggota.this);
-                        final View dataView = inflater.inflate(R.layout.row_add, layoutList, false);
-
-                        spProdi = dataView.findViewById(R.id.sp_prodi);
 
                         // Mengatur adapter spinner
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(ListAnggota.this,
@@ -214,7 +209,7 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
                     }
                 } else {
                     // Tangani respons gagal dari API
-                    Toast.makeText(ListAnggota.this, "Gagal Untuk Mengambil Data Jenis Surat", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ListAnggota.this, "Gagal Untuk Mengambil Data Prodi", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -225,6 +220,7 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
             }
         });
     }
+
 
     public void simpanData() {
         // Mendapatkan path penyimpanan file .csv
@@ -241,20 +237,30 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
         if (checkDataExistsInCSV(csvFilePath, nim, nama)) {
             Toast.makeText(ListAnggota.this, "Data dengan nim dan nama tersebut sudah ada.", Toast.LENGTH_LONG).show();
         } else {
-            // Data belum ada atau berbeda, menjalankan metode simpanData()
+            // Data belum ada atau berbeda, menjalankan metode saveDataToCSV()
             saveDataToCSV(csvFilePath);
         }
     }
 
     private boolean checkDataExistsInCSV(String csvFilePath, String nim, String nama) {
         try (CSVReader reader = new CSVReader(new FileReader(csvFilePath))) {
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
+            List<String[]> lines = reader.readAll();
+            LayoutInflater inflater = LayoutInflater.from(this);
+            final View dataView = inflater.inflate(R.layout.row_add, layoutList, false);
+            EditText nimEditText = dataView.findViewById(R.id.nim_anggota);
+            EditText namaEditText = dataView.findViewById(R.id.nama_anggota);
+            // Mendapatkan nilai nim dan nama yang akan disimpan
+            String nim_anggota = nimEditText.getText().toString().trim();
+            String nama_anggota = namaEditText.getText().toString().trim();
+
+            for (String[] line : lines) {
                 // Memeriksa nim dan nama pada setiap baris dalam file .csv
-                String csvNim = nextLine[0];
-                String csvNama = nextLine[1];
-                if (csvNim.equals(nim) && csvNama.equals(nama)) {
+                String csvNim = line[0].trim();
+                String csvNama = line[1].trim();
+
+                if (csvNim.equals(nim) || csvNama.equals(nama) || csvNim.equals(nim_anggota) || csvNama.equals(nama_anggota)) {
                     // Data sudah ada atau sama dalam file .csv
+                    Toast.makeText(ListAnggota.this, "Data dengan nim dan nama tersebut sudah ada.", Toast.LENGTH_LONG).show();
                     return true;
                 }
             }
@@ -265,6 +271,8 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
         // Data belum ada atau berbeda dalam file .csv
         return false;
     }
+
+
 
     private void saveDataToCSV(String csvFilePath) {
         try {
@@ -287,6 +295,9 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
                 String nama = namaEditText.getText().toString().trim();
                 String prodi = prodiSpinner.getSelectedItem().toString();
                 String tlp = tlpEditText.getText().toString().trim();
+                int indexId = prodi.lastIndexOf('-');
+                String prodiBaru = prodi.substring(0,indexId);
+//                int prodi_id = Integer.parseInt(prodiBaru);
 
                 if (TextUtils.isEmpty(nim) || TextUtils.isEmpty(nama) || TextUtils.isEmpty(prodi) || TextUtils.isEmpty(tlp)) {
                     Toast.makeText(ListAnggota.this, "Mohon isi semua kolom", Toast.LENGTH_LONG).show();
@@ -298,9 +309,14 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
                     nimEditText.requestFocus();
                     return;
                 }
+                if(!nama.matches("[a-zA-Z]+")){
+                    nimEditText.setError("Kolom Nama Hanya Boleh Diisi Huruf saja");
+                    nimEditText.requestFocus();
+                    return;
+                }
 
                 // Menyimpan data ke file .csv
-                String[] data = {nim, nama, prodi, tlp};
+                String[] data = {nim, nama, prodiBaru, tlp};
                 csvWriter.writeNext(data);
             }
 
@@ -361,9 +377,10 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
         spProdi = dataView.findViewById(R.id.sp_prodi);
         hapus = dataView.findViewById(R.id.hapus);
 
-        ArrayAdapter<CharSequence> adapterND = ArrayAdapter.createFromResource(this, R.array.prodi, android.R.layout.simple_spinner_item);
-        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spProdi.setAdapter(adapterND);
+        getDataProdi();
+//        ArrayAdapter<CharSequence> adapterND = ArrayAdapter.createFromResource(this, R.array.prodi, android.R.layout.simple_spinner_item);
+//        adapterND.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spProdi.setAdapter(adapterND);
 
         hapus.setOnClickListener(new View.OnClickListener() {
             @Override
