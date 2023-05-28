@@ -26,9 +26,9 @@ import retrofit2.Response;
 public class DetailSurat extends AppCompatActivity {
     private TextView txJenisSurat, txDetailPengaju;
     private TextView dtNamaDosen, dtNamaMitra, dtAlamatMitra, dtTanggalPelaksanaan, dtKeterangan, dtStatus;
-    private TextView dtKoordinator, dtJudulTA, dtTanggalDibuat, dtTanggalSelesai, dtKebutuhan;
+    private TextView dtKoordinator, dtJudulTA, dtTanggalDibuat, dtTanggalSelesai, dtKebutuhan, dtAlasanPenolakan;
     private TextView isiNamaDosen, isiNamaMitra, isiAlamatMitra, isiTanggalPelaksanaan, isiKeterangan, isiStatus;
-    private TextView isiKoordinator, isiJudulTA, isiTanggalDibuat, isiTanggalSelesai, isiKebutuhan;
+    private TextView isiKoordinator, isiJudulTA, isiTanggalDibuat, isiTanggalSelesai, isiKebutuhan, isiAlasanPenolakan;
     private RecyclerView recyclerView;
     private AnggotaDetailAdapter adapter;
     private String suratId;
@@ -65,6 +65,8 @@ public class DetailSurat extends AppCompatActivity {
         isiTanggalSelesai = findViewById(R.id.isi_tanggalSelesai);
         dtKebutuhan = findViewById(R.id.dt_kebutuhan);
         isiKebutuhan = findViewById(R.id.isi_kebutuhan);
+        dtAlasanPenolakan = findViewById(R.id.dt_alasanPenolakan);
+        isiAlasanPenolakan = findViewById(R.id.isi_alasanPenolakan);
 
         recyclerView = findViewById(R.id.recycle_data);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -104,8 +106,21 @@ public class DetailSurat extends AppCompatActivity {
                             DetailSuratRequest data = dataList.get(0);
 
                             // Set data detail surat ke komponen UI
-//                            isiKoordinator.setText(data.getKoordinator());
-//                            isiNamaDosen.setText(data.getJudul_ta());
+                            if (data.getKoordinator().getNama()==null){
+                                isiKoordinator.setText("-");
+                            }else{
+                                isiKoordinator.setText(data.getKoordinator().getNama());
+                            }
+                            if (data.getAlasan_penolakan()==null){
+                                isiAlasanPenolakan.setText("-");
+                            }else{
+                                isiAlasanPenolakan.setText(data.getAlasan_penolakan());
+                            }
+                            if (data.getDosen().getNama()==null){
+                                isiNamaDosen.setText("-");
+                            }else{
+                                isiNamaDosen.setText(data.getDosen().getNama());
+                            }
                             if (data.getJudul_ta()==null){
                                 isiJudulTA.setText("-");
                             }else{

@@ -42,7 +42,7 @@
         <activity
             android:name=".TampilanUbahProfil"
             android:exported="false"
-            android:label="Ubah Profil"
+            android:label="Profil Pengguna"
             android:theme="@style/Theme.ProjectSemester4" />
         <activity
             android:name=".SplashScreen"

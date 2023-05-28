@@ -9,8 +9,6 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface UserService {
-
-
     @POST("/api/mahasiswa/login")
     Call<LoginResponse> userLogin(@Body LoginRequest loginRequest);
 
@@ -19,5 +17,8 @@ public interface UserService {
 
     @GET("/api/data/prodi")
     Call<ProdiResponse> getDataProdi();
+
+    @POST("/api/mahasiswa/update_akun")
+    Call<UpdateResponse> userUpdate(@Header("Authorization") String token, @Body UpdateRequest updateRequest);
 
 }

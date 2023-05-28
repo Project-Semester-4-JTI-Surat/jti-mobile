@@ -33,8 +33,12 @@ public class DetailSuratRequest {
     private String softfile_scan;
     @SerializedName("anggota")
     private List<AnggotaDetailSurat> anggota;
+    @SerializedName("dosen")
+    private DosenDetailSurat dosen;
+    @SerializedName("koordinator")
+    private KoordinatorDetailSurat koordinator;
 
-    public DetailSuratRequest(String uuid, String kode_surat, int prodi_id, String nama_mitra, String alamat_mitra, String tanggal_dibuat, String tanggal_pelaksanaan, String tanggal_selesai, String judul_ta, String kebutuhan, String alasan_penolakan, String keterangan, String softfile_scan, List<AnggotaDetailSurat> anggota) {
+    public DetailSuratRequest(String uuid, String kode_surat, int prodi_id, String nama_mitra, String alamat_mitra, String tanggal_dibuat, String tanggal_pelaksanaan, String tanggal_selesai, String judul_ta, String kebutuhan, String alasan_penolakan, String keterangan, String softfile_scan, List<AnggotaDetailSurat> anggota, DosenDetailSurat dosen, KoordinatorDetailSurat koordinator) {
         this.uuid = uuid;
         this.kode_surat = kode_surat;
         this.prodi_id = prodi_id;
@@ -49,6 +53,8 @@ public class DetailSuratRequest {
         this.keterangan = keterangan;
         this.softfile_scan = softfile_scan;
         this.anggota = anggota;
+        this.dosen = dosen;
+        this.koordinator = koordinator;
     }
 
     public String getUuid() {
@@ -161,5 +167,21 @@ public class DetailSuratRequest {
 
     public void setAnggota(List<AnggotaDetailSurat> anggota) {
         this.anggota = anggota;
+    }
+
+    public DosenDetailSurat getDosen() {
+        return dosen;
+    }
+
+    public void setDosen(DosenDetailSurat dosen) {
+        this.dosen = dosen;
+    }
+
+    public KoordinatorDetailSurat getKoordinator() {
+        return koordinator;
+    }
+
+    public void setKoordinator(KoordinatorDetailSurat koordinator) {
+        this.koordinator = koordinator;
     }
 }
