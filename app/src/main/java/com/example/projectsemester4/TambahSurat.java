@@ -42,9 +42,13 @@ import com.example.projectsemester4.Keys.UserService;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -459,6 +463,47 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         }
     }
 
+    public void loadSementara() {
+        String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
+
+        try {
+            FileReader fileReader = new FileReader(csvFilePath);
+            CSVReader csvReader = new CSVReader(fileReader);
+
+            String[] nextLine = csvReader.readNext();
+//            if (nextLine == null) {
+//                Toast.makeText(this, "tampil", Toast.LENGTH_SHORT).show();
+//            } else {
+//                while (nextLine != null) {
+//                    String nim = nextLine[0];
+//                    String nama = nextLine[1];
+//                    String prodi = nextLine[2];
+//                    String tlp = nextLine[3];
+//
+//                    // Membuat objek AnggotaModel dari data CSV
+//                    AnggotaModel anggota = new AnggotaModel(nim, nama, prodi, tlp);
+//
+//                    // Menambahkan objek AnggotaModel ke dalam list anggotaList
+//                    anggotaList.add(anggota);
+//
+//                    nextLine = csvReader.readNext();
+//                }
+//
+////                int val = 0;
+////                while(List<AnggotaModel> anggotaList : anggotaList){
+//
+////                }
+//            }
+
+            csvReader.close();
+
+            System.out.println("List Anggota => "+ anggotaList.size());
+            System.out.println("List Anggota => "+ anggotaList.get(1).getNama_anggota());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void hapusDataDariCSV(int rowNumber) {
         String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
         List<String[]> csvDataList = new ArrayList<>();
@@ -584,8 +629,8 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
 //        System.out.println("ID PRODI : "+prodiId);
 
         // Ambil daftar anggota dari adapter
-        List<AnggotaModel> anggotaList = adapter.getAnggotaList();
-
+//        List<AnggotaModel> anggotaList = adapter.getAnggotaList();
+        loadSementara();
         // Buat objek SuratRequest dengan data yang diperlukan
         SuratRequest suratRequest = new SuratRequest(
                 anggotaList,
@@ -620,8 +665,18 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                     startActivity(intent);
                 } else {
                     // Gagal mengirim surat, tangani kesalahan
+//                    try {
+//                        JSONObject jObjError = new JSONObject(response.errorBody().toString());
+                    try {
+                        System.out.println("Kontolll "+response.errorBody().string());
+                        System.out.println("Req => "+suratRequest.toString());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+//                    } catch (JSONException e) {
+//                        throw new RuntimeException(e);
+//                    }
                     Toast.makeText(TambahSurat.this, "Gagal mengirim surat", Toast.LENGTH_SHORT).show();
-                    System.out.println(response);
                 }
             }
 

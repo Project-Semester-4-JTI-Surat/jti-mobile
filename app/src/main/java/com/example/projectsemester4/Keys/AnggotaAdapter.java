@@ -34,10 +34,10 @@ public class AnggotaAdapter extends RecyclerView.Adapter<AnggotaAdapter.AnggotaV
     public void onBindViewHolder(@NonNull AnggotaViewHolder holder, int position) {
         AnggotaModel anggota = anggotaList.get(position);
 
-        holder.nimTextView.setText(anggota.getNim());
-        holder.namaTextView.setText(anggota.getNama());
-        holder.prodiTextView.setText(anggota.getProdi());
-        holder.tlpTextView.setText(anggota.getTlp());
+        holder.nimTextView.setText(anggota.getNim_anggota());
+        holder.namaTextView.setText(anggota.getNama_anggota());
+        holder.prodiTextView.setText(anggota.getProdi_id_anggota());
+        holder.tlpTextView.setText(anggota.getNohp_anggota());
 
         holder.hapusImageView.setTag(position);
         holder.hapusImageView.setOnClickListener(new View.OnClickListener() {

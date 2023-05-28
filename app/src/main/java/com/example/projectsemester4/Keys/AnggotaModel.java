@@ -1,47 +1,56 @@
 package com.example.projectsemester4.Keys;
 
+import com.google.gson.annotations.SerializedName;
+
 public class AnggotaModel {
-    private String nim;
-    private String nama;
-    private String prodi;
-    private String tlp;
+    @SerializedName("nim_anggota")
+    private String nim_anggota;
 
-    public AnggotaModel(String nim, String nama, String prodi, String tlp) {
-        this.nim = nim;
-        this.nama = nama;
-        this.prodi = prodi;
-        this.tlp = tlp;
+    @SerializedName("nama_anggota")
+    private String nama_anggota;
+
+    @SerializedName("prodi_id_anggota")
+    private String prodi_id_anggota;
+
+    @SerializedName("nohp_anggota")
+    private String nohp_anggota;
+
+    public AnggotaModel(String nim_anggota, String nama_anggota, String prodi_id_anggota, String nohp_anggota) {
+        this.nim_anggota = nim_anggota;
+        this.nama_anggota = nama_anggota;
+        this.prodi_id_anggota = prodi_id_anggota;
+        this.nohp_anggota = nohp_anggota;
     }
 
-    public String getNim() {
-        return nim;
+    public String getNim_anggota() {
+        return nim_anggota;
     }
 
-    public void setNim(String nim) {
-        this.nim = nim;
+    public void setNim_anggota(String nim_anggota) {
+        this.nim_anggota = nim_anggota;
     }
 
-    public String getNama() {
-        return nama;
+    public String getNama_anggota() {
+        return nama_anggota;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setNama_anggota(String nama_anggota) {
+        this.nama_anggota = nama_anggota;
     }
 
-    public String getProdi() {
-        return prodi;
+    public String getProdi_id_anggota() {
+        return prodi_id_anggota;
     }
 
-    public void setProdi(String prodi) {
-        this.prodi = prodi;
+    public void setProdi_id_anggota(String prodi_id_anggota) {
+        this.prodi_id_anggota = prodi_id_anggota;
     }
 
-    public String getTlp() {
-        return tlp;
+    public String getNohp_anggota() {
+        return nohp_anggota;
     }
 
-    public void setTlp(String tlp) {
-        this.tlp = tlp;
+    public void setNohp_anggota(String nohp_anggota) {
+        this.nohp_anggota = nohp_anggota;
     }
 }

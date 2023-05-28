@@ -305,13 +305,13 @@ public class ListAnggota extends AppCompatActivity implements View.OnClickListen
                 }
 
                 if (!nim.matches("E\\d{8}")) {
-                    nimEditText.setError("NIM tidak valid. (JTI menggunakan prefix 'E' di awal NIM).");
+                    nimEditText.setError("NIM tidak valid. (JTI menggunakan prefix 'E' di awal NIM dan 8 angka setelahnya).");
                     nimEditText.requestFocus();
                     return;
                 }
                 if(!nama.matches("[a-zA-Z]+")){
-                    nimEditText.setError("Kolom Nama Hanya Boleh Diisi Huruf saja");
-                    nimEditText.requestFocus();
+                    namaEditText.setError("Kolom Nama Hanya Boleh Diisi Huruf saja");
+                    namaEditText.requestFocus();
                     return;
                 }
 

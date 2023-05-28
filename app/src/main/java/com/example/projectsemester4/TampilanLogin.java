@@ -84,7 +84,7 @@ public class TampilanLogin extends AppCompatActivity {
                 if (TextUtils.isEmpty(etNim.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())) {
                     Toast.makeText(TampilanLogin.this, "Mohon Isi Semua Kolom", Toast.LENGTH_LONG).show();
                 } else if (!etNim.getText().toString().trim().matches("E\\d{8}")) {
-                    etNim.setError("NIM tidak valid. (JTI menggunakan prefix 'E' diawal NIM).");
+                    etNim.setError("NIM tidak valid. (JTI menggunakan prefix 'E' diawal NIM dan 8 angka setelahnya).");
                     etNim.requestFocus();
                     return;
                 } else {
