@@ -180,7 +180,7 @@ public class TampilanLogin extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(TampilanLogin.this, "Throwable " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(TampilanLogin.this, "NIM / Password Salah!" + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

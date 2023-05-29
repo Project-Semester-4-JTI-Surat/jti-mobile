@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.example.projectsemester4.Keys.MyPreferences;
@@ -19,6 +20,8 @@ import android.view.MenuInflater;
 import android.view.View;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -34,12 +37,16 @@ import com.google.android.material.tabs.TabLayout;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.Manifest;
+import android.content.pm.PackageManager;
 
 public class MainActivity extends AppCompatActivity {
+//    private static final int PERMISSION_REQUEST_CODE = 1;
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -60,6 +67,15 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewpager1);
         fabs = findViewById(R.id.fab);
         myPreferences = new MyPreferences(this);
+
+        // Periksa izin penyimpanan saat pertama kali dibuka
+////        checkStoragePermission();
+//        String[] permissionsStorage = {Manifest.permission.READ_EXTERNAL_STORAGE};
+//        int requestExternalStorage = 1;
+//        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+//        if (permission != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, permissionsStorage, requestExternalStorage);
+//        }
         // Cek status login pada SharedPreferences
 
         tabLayout.setupWithViewPager(viewPager);
@@ -80,6 +96,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+//    private void checkStoragePermission() {
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(this,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{
+//                            Manifest.permission.READ_EXTERNAL_STORAGE,
+//                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                    },
+//                    PERMISSION_REQUEST_CODE);
+//        }
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,
+//                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == PERMISSION_REQUEST_CODE) {
+//            if (grantResults.length > 0 &&
+//                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+//                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//                // Izin diberikan oleh pengguna
+//                Toast.makeText(this, "Izin penyimpanan diberikan", Toast.LENGTH_SHORT).show();
+//            } else {
+//                // Izin ditolak oleh pengguna
+//                Toast.makeText(this, "Izin penyimpanan ditolak", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     @Override
     public void onBackPressed() {
