@@ -173,11 +173,11 @@ public class Fragment5 extends Fragment {
                 }else if (surat.getKeterangan().equals("Diproses")) {
                     // Ubah warna teks menjadi biru
                     holder.tvMataKuliah.setTextColor(Color.BLACK);
-                    holder.tvNamaMhs.setTextColor(Color.YELLOW);
+                    holder.tvNamaMhs.setTextColor(Color.rgb(217, 146, 76));
                 }else if (surat.getKeterangan().equals("Dapat Diambil")) {
                     // Ubah warna teks menjadi biru
                     holder.tvMataKuliah.setTextColor(Color.BLACK);
-                    holder.tvNamaMhs.setTextColor(Color.GREEN);
+                    holder.tvNamaMhs.setTextColor(Color.rgb(145, 204, 137));
                 }else if (surat.getKeterangan().equals("Selesai")) {
                     // Ubah warna teks menjadi biru
                     holder.tvMataKuliah.setTextColor(Color.BLACK);
