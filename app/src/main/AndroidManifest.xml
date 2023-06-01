@@ -63,6 +63,10 @@
             android:exported="false"
             android:theme="@style/Theme.ProjectSemester4.NoActionBar2" />
         <activity
+            android:name=".TampilanRegister"
+            android:exported="false"
+            android:theme="@style/Theme.ProjectSemester4.NoActionBar2" />
+        <activity
             android:name=".Keys.LoginRequest"
             android:exported="false" />
         <activity

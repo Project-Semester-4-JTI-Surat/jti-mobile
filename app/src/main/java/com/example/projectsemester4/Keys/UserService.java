@@ -12,6 +12,9 @@ public interface UserService {
     @POST("/api/mahasiswa/login")
     Call<LoginResponse> userLogin(@Body LoginRequest loginRequest);
 
+    @POST("/api/mahasiswa/register")
+    Call<RegisterResponse> userRegister(@Body RegisterRequest registerRequest);
+
     @GET("/api/mahasiswa/")
     Call<LoginResponse> getUserProfile(@Header("Authorization") String token);
 

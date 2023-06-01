@@ -46,6 +46,7 @@ public class TampilanLogin extends AppCompatActivity {
     private MyPreferences myPreferences;
     private ImageView TampilLogo;
     private Drawable drawable;
+    private TextView tvSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class TampilanLogin extends AppCompatActivity {
 
         TampilLogo = findViewById(R.id.TampilLogo);
 
+        tvSignUp = findViewById(R.id.tv_signup);
+
         myPreferences = new MyPreferences(this);
         // Mengatur status login ke false pada awalnya
         myPreferences.setLoggedInStatus(false);
@@ -69,6 +72,15 @@ public class TampilanLogin extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        tvSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Aksi saat teks "Sudah Punya Akun? Login Sekarang Juga" ditekan
+                Intent intent = new Intent(TampilanLogin.this, TampilanRegister.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
         etPassword.setOnEditorActionListener((v, actionId, event)-> {
             if(actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL){
                 login();

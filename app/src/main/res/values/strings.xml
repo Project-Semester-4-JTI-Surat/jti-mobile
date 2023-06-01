@@ -51,7 +51,6 @@
     </string-array>
 
     <string-array name="prodi">
-        <item>TIF</item>
-        <item>TKK</item>
+        <item>Prodi</item>
     </string-array>
 </resources>
