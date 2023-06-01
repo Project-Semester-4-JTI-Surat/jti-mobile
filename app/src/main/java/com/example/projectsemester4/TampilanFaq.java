@@ -27,7 +27,7 @@ public class TampilanFaq extends AppCompatActivity {
                 "Saat anda membuat akun JTI-Surat, kami menyimpan informasi yang diberikan, seperti Nama, Nim, Prodi, dan Password.",
                 false));
         arrayList.add(new FaqModelClass(
-                "Bisakah mendaftarkan akun dengan menggunakan data yang sudah didaftarkan sebelumnya??",
+                "Bisakah mendaftarkan akun dengan menggunakan data yang sudah didaftarkan sebelumnya?",
                 "Pendaftaran akan gagal jika anda menggunakan data yang sama karena akun anda sudah terdaftar dalam database kami.",
                 false));
         arrayList.add(new FaqModelClass(
@@ -36,7 +36,15 @@ public class TampilanFaq extends AppCompatActivity {
                 false));
         arrayList.add(new FaqModelClass(
                 "Bagaimana jika terdapat kesalahan saat input data?",
-                "Anda dapat mengubah kesalahan penginputan anda di menu 'Ubah Akun' di website JTI-Surat.",
+                "Anda dapat mengubah kesalahan penginputan anda di menu 'setting' di website JTI-Surat (dapat mengubah nama, prodi, nomor hp, dan password). Selain itu, anda juga dapat mengubah pada menu 'Profil Pengguna' di mobile JTI-Surat (dapat mengubah password) ",
+                false));
+        arrayList.add(new FaqModelClass(
+                "Apakah perbedaan menunggu, diproses, bisa diambil, gagal, dan selesai?",
+                "Menunggu adalah status awal ketika anda baru saja mengirimkan surat pengajuan. " +
+                        "Diproses adalah status ketika admin telah menyetujui surat yang anda ajukan dan sedang memproses surat tersebut. " +
+                        "Bisa diambil adalah status ketika admin telah menyelesaikan surat yang anda ajukan dan anda dapat mengambilnya secara online (soft file) ataupun secara langsung. " +
+                        "Gagal (ditolak) adalah status ketika ada ketentuan yang kurang saat melakukan pengajuan, admin biasanya memberikan alasan kenapa surat pengajuan yang diberikan ditolak (gagal). " +
+                        "Selesai adalah status ketika anda telah mengambil izin surat pengajuan yang telah di setujui.",
                 false));
         adapter = new FaqAdapter(arrayList, TampilanFaq.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
