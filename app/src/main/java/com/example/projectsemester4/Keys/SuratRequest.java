@@ -5,21 +5,30 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class SuratRequest {
-    @SerializedName("anggota")
-    private List<AnggotaModel> anggotaList;
+
+    public SuratRequest(String kode_surat, String dosen, String prodi, String koordinator, String nama_mitra, String alamat_mitra, String tanggal_dibuat, String tanggal_pelaksanaan, String tanggal_selesai, String kebutuhan, String keterangan, String judul_ta) {
+        this.kode_surat = kode_surat;
+        this.dosen = dosen;
+        this.prodi = prodi;
+        this.koordinator = koordinator;
+        this.nama_mitra = nama_mitra;
+        this.alamat_mitra = alamat_mitra;
+        this.tanggal_dibuat = tanggal_dibuat;
+        this.tanggal_pelaksanaan = tanggal_pelaksanaan;
+        this.tanggal_selesai = tanggal_selesai;
+        this.kebutuhan = kebutuhan;
+        this.keterangan = keterangan;
+        this.judul_ta = judul_ta;
+    }
 
     @SerializedName("kode_surat")
     private String kode_surat;
-    @SerializedName("dosen_id")
-    private String dosen_id;
-//    @SerializedName("status_id")
-//    private int statusId;
-    @SerializedName("prodi_id")
-    private int prodiId;
-//    @SerializedName("dosen_id")
-//    private int dosenId;
-    @SerializedName("koordinator_id")
-    private String koordinator_id;
+    @SerializedName("dosen")
+    private String dosen;
+    @SerializedName("prodi")
+    private String prodi;
+    @SerializedName("koordinator")
+    private String koordinator;
     @SerializedName("nama_mitra")
     private String nama_mitra;
     @SerializedName("alamat_mitra")
@@ -38,34 +47,6 @@ public class SuratRequest {
     private String judul_ta;
 
 
-    // constructor dan getter/setter di sini
-//    String kodeSurat, int statusId, int prodiId, int dosenId, String kodeKoordinator, String namaMitra, String alamatMitra, String tanggalDibuat, String tanggalPelaksanaan, String tanggalSelesai, String judulTa, String kebutuhan, String keterangan, List<String> namaAnggota, List<String> nimAnggota, List<String> nohpAnggota, List<Integer> prodiIdAnggota
-
-
-    public SuratRequest(List<AnggotaModel> anggotaList, String kode_surat, String dosen_id, int prodiId, String koordinator_id, String nama_mitra, String alamat_mitra, String tanggal_dibuat, String tanggal_pelaksanaan, String tanggal_selesai, String kebutuhan, String keterangan, String judul_ta) {
-        this.anggotaList = anggotaList;
-        this.kode_surat = kode_surat;
-        this.dosen_id = dosen_id;
-        this.prodiId = prodiId;
-        this.koordinator_id = koordinator_id;
-        this.nama_mitra = nama_mitra;
-        this.alamat_mitra = alamat_mitra;
-        this.tanggal_dibuat = tanggal_dibuat;
-        this.tanggal_pelaksanaan = tanggal_pelaksanaan;
-        this.tanggal_selesai = tanggal_selesai;
-        this.kebutuhan = kebutuhan;
-        this.keterangan = keterangan;
-        this.judul_ta = judul_ta;
-    }
-
-    public List<AnggotaModel> getAnggotaList() {
-        return anggotaList;
-    }
-
-    public void setAnggotaList(List<AnggotaModel> anggotaList) {
-        this.anggotaList = anggotaList;
-    }
-
     public String getKode_surat() {
         return kode_surat;
     }
@@ -74,28 +55,28 @@ public class SuratRequest {
         this.kode_surat = kode_surat;
     }
 
-    public String getDosen_id() {
-        return dosen_id;
+    public String getDosen() {
+        return dosen;
     }
 
-    public void setDosen_id(String dosen_id) {
-        this.dosen_id = dosen_id;
+    public void setDosen(String dosen) {
+        this.dosen = dosen;
     }
 
-    public int getProdiId() {
-        return prodiId;
+    public String getProdi() {
+        return prodi;
     }
 
-    public void setProdiId(int prodiId) {
-        this.prodiId = prodiId;
+    public void setProdi(String prodi) {
+        this.prodi = prodi;
     }
 
-    public String getKoordinator_id() {
-        return koordinator_id;
+    public String getKoordinator() {
+        return koordinator;
     }
 
-    public void setKoordinator_id(String koordinator_id) {
-        this.koordinator_id = koordinator_id;
+    public void setKoordinator(String koordinator) {
+        this.koordinator = koordinator;
     }
 
     public String getNama_mitra() {

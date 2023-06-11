@@ -89,7 +89,7 @@ public class TampilanRegister extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener(){
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                                etTanggalLahir.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                                etTanggalLahir.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
                             }
                         }, year, month, day);
                 picker.show();
@@ -115,7 +115,7 @@ public class TampilanRegister extends AppCompatActivity {
                         List<String> keteranganList = new ArrayList<>();
                         for (Prodi prodi : prodiList) {
                             if (!"-".equals(prodi.getKeterangan())) {
-                                keteranganList.add(prodi.getId()+"-"+prodi.getKeterangan());
+                                keteranganList.add(prodi.getKeterangan());
                             }
                         }
 
@@ -131,6 +131,7 @@ public class TampilanRegister extends AppCompatActivity {
                     }
                 } else {
                     // Tangani respons gagal dari API
+                    System.out.println("Error "+response.raw());
                     Toast.makeText(TampilanRegister.this, "Gagal Untuk Mengambil Data Prodi", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -166,7 +167,7 @@ public class TampilanRegister extends AppCompatActivity {
         registerRequest.setEmail(email);
         registerRequest.setNim(nim);
         registerRequest.setNama(nama);
-        registerRequest.setProdi_id(prodiId);
+        registerRequest.setProdi(prodiId);
         registerRequest.setAlamat(alamat);
         registerRequest.setTanggal_lahir(tanggalLahir);
         registerRequest.setNo_hp(noHp);
@@ -194,6 +195,7 @@ public class TampilanRegister extends AppCompatActivity {
                     }
                 } else {
                     // Tangani respons gagal dari API
+                    System.err.println(response.toString());
                     Toast.makeText(TampilanRegister.this, "Gagal melakukan registrasi", Toast.LENGTH_SHORT).show();
                 }
             }

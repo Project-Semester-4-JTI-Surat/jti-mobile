@@ -19,6 +19,7 @@ public class ApiClient {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
+
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -29,16 +30,18 @@ public class ApiClient {
                         if (!token.isEmpty()) {
                             request = request.newBuilder()
                                     .addHeader("Authorization", "Bearer " + token)
+                                    .addHeader("Accept","application/json")
                                     .build();
                         }
                         return chain.proceed(request);
                     }
                 })
+                .addInterceptor(httpLoggingInterceptor)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://192.168.1.4:8000/")
+                .baseUrl("http://192.168.161.185:8000/")
                 .client(client)
                 .build();
 
@@ -64,7 +67,7 @@ public class ApiClient {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://192.168.1.4:8000/")
+                .baseUrl("http://192.168.161.185:8000/")
                 .client(client)
                 .build();
 

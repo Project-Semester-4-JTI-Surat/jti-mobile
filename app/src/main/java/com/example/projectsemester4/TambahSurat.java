@@ -25,7 +25,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projectsemester4.Keys.AnggotaAdapter;
+import com.example.projectsemester4.Keys.AnggotaInsertResponse;
 import com.example.projectsemester4.Keys.AnggotaModel;
+import com.example.projectsemester4.Keys.AnggotaRequest;
 import com.example.projectsemester4.Keys.ApiClient;
 import com.example.projectsemester4.Keys.Dosen;
 import com.example.projectsemester4.Keys.DosenResponse;
@@ -38,15 +40,22 @@ import com.example.projectsemester4.Keys.LoginResponse;
 import com.example.projectsemester4.Keys.MyPreferences;
 import com.example.projectsemester4.Keys.SuratInsert;
 import com.example.projectsemester4.Keys.SuratRequest;
+import com.example.projectsemester4.Keys.SuratResponse;
 import com.example.projectsemester4.Keys.UserService;
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -55,6 +64,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -69,6 +79,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
     private AnggotaAdapter adapter;
     private List<AnggotaModel> anggotaList;
     private RelativeLayout layoutList;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tambah_surat);
@@ -129,57 +140,57 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         kebutuhan.setOnItemSelectedListener(this);
         sp_koordinator.setOnItemSelectedListener(this);
 
-        tanggal_dibuat.setOnClickListener(new View.OnClickListener(){
+        tanggal_dibuat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 //date picker dialog
                 picker = new DatePickerDialog(TambahSurat.this,
-                        new DatePickerDialog.OnDateSetListener(){
+                        new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                                tanggal_dibuat.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                tanggal_dibuat.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                             }
                         }, year, month, day);
                 picker.show();
             }
         });
 
-        tanggal_pelaksanaan.setOnClickListener(new View.OnClickListener(){
+        tanggal_pelaksanaan.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 //date picker dialog
                 picker = new DatePickerDialog(TambahSurat.this,
-                        new DatePickerDialog.OnDateSetListener(){
+                        new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                                tanggal_pelaksanaan.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                tanggal_pelaksanaan.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                             }
                         }, year, month, day);
                 picker.show();
             }
         });
 
-        tanggal_selesai.setOnClickListener(new View.OnClickListener(){
+        tanggal_selesai.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 //date picker dialog
                 picker = new DatePickerDialog(TambahSurat.this,
-                        new DatePickerDialog.OnDateSetListener(){
+                        new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-                                tanggal_selesai.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                tanggal_selesai.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                             }
                         }, year, month, day);
                 picker.show();
@@ -247,7 +258,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         anggotaList = new ArrayList<>();
-        adapter = new AnggotaAdapter(anggotaList,this);
+        adapter = new AnggotaAdapter(anggotaList, this);
         recyclerView.setAdapter(adapter);
 
         loadCSVData();
@@ -260,48 +271,48 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
 
     private void getDataJenisSurat() {
         SuratInsert apiService = ApiClient.getSuratInsert(this);
-            // Membuat panggilan ke API
-            Call<JenisSuratResponse> call = apiService.getDataJenisSurat();
-            call.enqueue(new Callback<JenisSuratResponse>() {
-                @Override
-                public void onResponse(Call<JenisSuratResponse> call, Response<JenisSuratResponse> response) {
-                    if (response.isSuccessful()) {
-                        JenisSuratResponse jenisSuratResponse = response.body();
-                        if (jenisSuratResponse != null && jenisSuratResponse.isSuccess()) {
-                            List<JenisSurat> jenisSuratList = jenisSuratResponse.getData();
+        // Membuat panggilan ke API
+        Call<JenisSuratResponse> call = apiService.getDataJenisSurat();
+        call.enqueue(new Callback<JenisSuratResponse>() {
+            @Override
+            public void onResponse(Call<JenisSuratResponse> call, Response<JenisSuratResponse> response) {
+                if (response.isSuccessful()) {
+                    JenisSuratResponse jenisSuratResponse = response.body();
+                    if (jenisSuratResponse != null && jenisSuratResponse.isSuccess()) {
+                        List<JenisSurat> jenisSuratList = jenisSuratResponse.getData();
 
-                            // Mengambil data keterangan saja
-                            List<String> keteranganList = new ArrayList<>();
-                            for (JenisSurat jenisSurat : jenisSuratList) {
-                                if (!"-".equals(jenisSurat.getKeterangan())) {
-                                    keteranganList.add(jenisSurat.getKeterangan());
-                                }
+                        // Mengambil data keterangan saja
+                        List<String> keteranganList = new ArrayList<>();
+                        for (JenisSurat jenisSurat : jenisSuratList) {
+                            if (!"-".equals(jenisSurat.getKeterangan())) {
+                                keteranganList.add(jenisSurat.getKeterangan());
                             }
-
-                            // Mengatur adapter spinner
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TambahSurat.this,
-                                    android.R.layout.simple_spinner_item, keteranganList);
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            spJenisSurat.setAdapter(adapter);
-                        } else {
-                            // Tangani respons sukses tetapi pesan kesalahan dari API
-                            String message = jenisSuratResponse != null ? jenisSuratResponse.getMessage() : "Unknown error";
-                            Toast.makeText(TambahSurat.this, message, Toast.LENGTH_SHORT).show();
                         }
+
+                        // Mengatur adapter spinner
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(TambahSurat.this,
+                                android.R.layout.simple_spinner_item, keteranganList);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spJenisSurat.setAdapter(adapter);
                     } else {
-                        // Tangani respons gagal dari API
-                        Toast.makeText(TambahSurat.this, "Gagal Untuk Mengambil Data Jenis Surat", Toast.LENGTH_SHORT).show();
+                        // Tangani respons sukses tetapi pesan kesalahan dari API
+                        String message = jenisSuratResponse != null ? jenisSuratResponse.getMessage() : "Unknown error";
+                        Toast.makeText(TambahSurat.this, message, Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    // Tangani respons gagal dari API
+                    Toast.makeText(TambahSurat.this, "Gagal Untuk Mengambil Data Jenis Surat", Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                @Override
-                public void onFailure(Call<JenisSuratResponse> call, Throwable t) {
-                    // Tangani kesalahan koneksi atau kesalahan lainnya
-                    Toast.makeText(TambahSurat.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            @Override
+            public void onFailure(Call<JenisSuratResponse> call, Throwable t) {
+                // Tangani kesalahan koneksi atau kesalahan lainnya
+                Toast.makeText(TambahSurat.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        }
+    }
 
     private void getDataDosen() {
         SuratInsert apiService = ApiClient.getSuratInsert(this);
@@ -471,34 +482,11 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
             CSVReader csvReader = new CSVReader(fileReader);
 
             String[] nextLine = csvReader.readNext();
-//            if (nextLine == null) {
-//                Toast.makeText(this, "tampil", Toast.LENGTH_SHORT).show();
-//            } else {
-//                while (nextLine != null) {
-//                    String nim = nextLine[0];
-//                    String nama = nextLine[1];
-//                    String prodi = nextLine[2];
-//                    String tlp = nextLine[3];
-//
-//                    // Membuat objek AnggotaModel dari data CSV
-//                    AnggotaModel anggota = new AnggotaModel(nim, nama, prodi, tlp);
-//
-//                    // Menambahkan objek AnggotaModel ke dalam list anggotaList
-//                    anggotaList.add(anggota);
-//
-//                    nextLine = csvReader.readNext();
-//                }
-//
-////                int val = 0;
-////                while(List<AnggotaModel> anggotaList : anggotaList){
-//
-////                }
-//            }
 
             csvReader.close();
 
-            System.out.println("List Anggota => "+ anggotaList.size());
-            System.out.println("List Anggota => "+ anggotaList.get(1).getNama_anggota());
+            System.out.println("List Anggota => " + anggotaList.size());
+            System.out.println("List Anggota => " + anggotaList.get(1).getNama_anggota());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -546,25 +534,26 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         }
     }
 
-    public void resetForm(){
-    resetFormButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // mereset semua field ke nilai awal
-            kepada.setText("");
-            alamat.setText("");
-            tanggal_dibuat.setText("");
-            tanggal_pelaksanaan.setText("");
-            tanggal_selesai.setText("");
-            spJenisSurat.setSelection(0);
-            sp_koordinator.setSelection(0);
-            spNamaDosen.setSelection(0);
-            kebutuhan.setSelection(0);
-            keterangan.setText("");
-            et_judul_ta.setText("");
-        }
-    });
-}
+    public void resetForm() {
+        resetFormButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // mereset semua field ke nilai awal
+                kepada.setText("");
+                alamat.setText("");
+                tanggal_dibuat.setText("");
+                tanggal_pelaksanaan.setText("");
+                tanggal_selesai.setText("");
+                spJenisSurat.setSelection(0);
+                sp_koordinator.setSelection(0);
+                spNamaDosen.setSelection(0);
+                kebutuhan.setSelection(0);
+                keterangan.setText("");
+                et_judul_ta.setText("");
+            }
+        });
+    }
+
     public interface ProdiIdCallback {
         void onProdiIdReceived(int prodiId);
     }
@@ -606,6 +595,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         });
         return 0;
     }
+
     private void insertSurat() {
         MyPreferences preferences = new MyPreferences(this);
         String token = preferences.getString("token", "");
@@ -614,6 +604,7 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         String namaDosen = spNamaDosen.getSelectedItem().toString();
         String koordinator = sp_koordinator.getSelectedItem().toString();
         String kepadaText = kepada.getText().toString().trim();
+        String prodi = preferences.getString("prodi", "");
         String alamatText = alamat.getText().toString().trim();
         String tanggalDibuatText = tanggal_dibuat.getText().toString().trim();
         String tanggalPelaksanaanText = tanggal_pelaksanaan.getText().toString().trim();
@@ -621,22 +612,11 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         String kebutuhanText = kebutuhan.getSelectedItem().toString();
         String keteranganText = keterangan.getText().toString().trim();
         String judulTAText = et_judul_ta.getText().toString().trim();
-        getProdiID(new ProdiIdCallback() {
-            @Override
-            public void onProdiIdReceived(int prodiId) {
-                System.out.println("ID PRODI: " + prodiId);
-//        int prodiId = getProdiID();
-//        System.out.println("ID PRODI : "+prodiId);
-
-        // Ambil daftar anggota dari adapter
-//        List<AnggotaModel> anggotaList = adapter.getAnggotaList();
-        loadSementara();
-        // Buat objek SuratRequest dengan data yang diperlukan
         SuratRequest suratRequest = new SuratRequest(
-                anggotaList,
+//                anggotaList,
                 jenisSurat,
                 namaDosen,
-                prodiId,
+                prodi,
                 koordinator,
                 kepadaText,
                 alamatText,
@@ -649,44 +629,156 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         );
 
         // Kirim permintaan HTTP menggunakan Retrofit
-        Call<SuratRequest> call = ApiClient.getSuratInsert(TambahSurat.this).insertSurat("Bearer "+token, suratRequest);
-        call.enqueue(new Callback<SuratRequest>() {
+        Call<SuratResponse> call = ApiClient.getSuratInsert(TambahSurat.this).insertSurat("Bearer " + token, suratRequest);
+        call.enqueue(new Callback<SuratResponse>() {
             @Override
-            public void onResponse(Call<SuratRequest> call, Response<SuratRequest> response) {
+            public void onResponse(Call<SuratResponse> call, Response<SuratResponse> response) {
                 if (response.isSuccessful()) {
                     // Berhasil mengirim surat, lakukan tindakan yang diinginkan
+                    SuratResponse suratResponse = response.body();
+
+                    System.out.println("ID Surat => " + suratResponse.getData());
                     Toast.makeText(TambahSurat.this, "Surat berhasil diajukan", Toast.LENGTH_SHORT).show();
                     String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
-                    File file = new File(csvFilePath);
-                    if (file.exists()) {
-                        file.delete();
+                    BufferedReader bufferedReader = null;
+//                    try {
+//                        bufferedReader = new BufferedReader(new FileReader(csvFilePath));
+//                        String input;
+//                        String sample;
+//                        int count = 0;
+//                        while((input = bufferedReader.readLine()) != null)
+//                        {
+//                            count++;
+//                            sample = input
+//                        }
+//                        System.out.println("Count : "+count);
+//                        for (int i = 0; i <= count; i++){
+//
+//                        }
+//                    } catch (FileNotFoundException e) {
+//                        throw new RuntimeException(e);
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+                    String line = "";
+                    String splitBy = ",";
+                    try
+                    {
+//parsing a CSV file into BufferedReader class constructor
+                        BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
+                        while ((line = br.readLine()) != null)   //returns a Boolean value
+                        {
+                            String[] anggota = line.split(splitBy);    // use comma as separator
+                            String nama_anggota = anggota[1].replace("\"","");
+                            String nim_anggota = anggota[0].replace("\"","");
+                            String no_hp =  anggota[3].replace("\"","");
+                            String nim = anggota[2].replace("\"","");
+                            System.out.println("Employee [First Name=" + anggota[0] + ", Last Name=" + anggota[1] + ", Designation=" + anggota[2] + ", Contact=" + anggota[3] + "]");
+                            System.out.println(token);
+                            AnggotaRequest anggotaRequest = new AnggotaRequest(
+                                    nama_anggota, nim_anggota,no_hp, nim
+                            );
+                            Call<AnggotaInsertResponse> tambahAnggota = ApiClient.getSuratInsert(TambahSurat.this).insertAnggota(
+                                    "Bearer " + token, anggotaRequest, suratResponse.getData()
+                            );
+                            tambahAnggota.enqueue(new Callback<AnggotaInsertResponse>() {
+                                @Override
+                                public void onResponse(Call<AnggotaInsertResponse> call, Response<AnggotaInsertResponse> response) {
+                                    AnggotaInsertResponse anggotaInsertResponse = response.body();
+                                    if (response.isSuccessful()){
+                                        System.out.println("Upload...");
+                                    }else{
+                                        System.out.println(response.raw());
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<AnggotaInsertResponse> call, Throwable t) {
+                                    System.out.println(t.getMessage());
+                                }
+                            });
+                        }
+                    }
+
+                    catch (IOException e)
+                    {
+                        e.printStackTrace();
                     }
                     Intent intent = new Intent(TambahSurat.this, MainActivity.class);
                     startActivity(intent);
+
+
+//                    try {
+//                        FileReader fileReader = new FileReader(csvFilePath);
+//                        CSVReader csvReader = new CSVReader(fileReader);
+//                        String[] nextLine = csvReader.readNext();
+//                        String input[];
+//                        int count = 0;
+//                        while ((input = csvReader.readNext()) != null){
+//                            count++;
+//                        }
+//                        System.out.println(count);
+////                        while (nextLine != null) {
+////                            String nim = nextLine[0];
+////                            String nama = nextLine[1];
+////                            String prodi = nextLine[2];
+////                            String tlp = nextLine[3];
+////                            AnggotaRequest anggotaRequest = new AnggotaRequest(
+////                                    nama, nim, tlp, prodi
+////                            );
+////                            Call<AnggotaInsertResponse> tambahAnggota = ApiClient.getSuratInsert(TambahSurat.this).insertAnggota(
+////                                    "Bearer " + token, anggotaRequest, suratResponse.getData()
+////                            );
+////                            tambahAnggota.enqueue(new Callback<AnggotaInsertResponse>() {
+////                                @Override
+////                                public void onResponse(Call<AnggotaInsertResponse> call, Response<AnggotaInsertResponse> response) {
+////                                    if (response.isSuccessful()){
+////                                        System.out.println("Upload...");
+////                                    }
+////                                }
+////
+////                                @Override
+////                                public void onFailure(Call<AnggotaInsertResponse> call, Throwable t) {
+////
+////                                }
+////                            });
+////                        }
+//                        csvReader.close();
+////                        File file = new File(csvFilePath);
+////                        if (file.exists()) {
+////                            file.delete();
+////                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Intent intent = new Intent(TambahSurat.this, MainActivity.class);
+//                    startActivity(intent);
                 } else {
                     // Gagal mengirim surat, tangani kesalahan
 //                    try {
 //                        JSONObject jObjError = new JSONObject(response.errorBody().toString());
-                    try {
-                        System.out.println("Kontolll "+response.errorBody().string());
-                        System.out.println("Req => "+suratRequest.toString());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-//                    } catch (JSONException e) {
-//                        throw new RuntimeException(e);
-//                    }
+                    System.out.println("error " + response.raw());
+                    System.out.println("Debug : " + jenisSurat + " - " +
+                            namaDosen + " - " +
+                            prodi + " - " +
+                            koordinator + " - " +
+                            kepadaText + " - " +
+                            alamatText + " - " +
+                            tanggalDibuatText + " - " +
+                            tanggalPelaksanaanText + " - " +
+                            tanggalSelesaiText + " - " +
+                            kebutuhanText + " - " +
+                            keteranganText + " - " +
+                            judulTAText);
                     Toast.makeText(TambahSurat.this, "Gagal mengirim surat", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<SuratRequest> call, Throwable t) {
+            public void onFailure(Call<SuratResponse> call, Throwable t) {
                 // Gagal mengirim surat, tangani kesalahan
-                Toast.makeText(TambahSurat.this, "Gagal mengirim surat"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(TambahSurat.this, "Gagal mengirim surat" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
-    }
         });
     }
 

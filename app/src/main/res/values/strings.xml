@@ -46,8 +46,8 @@
     </string-array>
 
     <string-array name="kebutuhan">
-        <item>Eksternal (Dilakasanakan di luar kampus)</item>
-        <item>Internal (Dilaksanakan di dalam kampus)</item>
+        <item>Eksternal</item>
+        <item>Internal</item>
     </string-array>
 
     <string-array name="prodi">

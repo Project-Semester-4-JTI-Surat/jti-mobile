@@ -12,8 +12,8 @@ public class RegisterRequest {
     @SerializedName("nama")
     private String nama;
 
-    @SerializedName("prodi_id")
-    private String prodi_id;
+    @SerializedName("prodi")
+    private String prodi;
 
     @SerializedName("alamat")
     private String alamat;
@@ -51,12 +51,12 @@ public class RegisterRequest {
         this.nama = nama;
     }
 
-    public String getProdi_id() {
-        return prodi_id;
+    public String getProdi() {
+        return prodi;
     }
 
-    public void setProdi_id(String prodi_id) {
-        this.prodi_id = prodi_id;
+    public void setProdi(String prodi) {
+        this.prodi = prodi;
     }
 
     public String getAlamat() {
