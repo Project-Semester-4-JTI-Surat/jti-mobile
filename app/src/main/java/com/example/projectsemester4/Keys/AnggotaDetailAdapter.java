@@ -26,6 +26,10 @@ public class AnggotaDetailAdapter extends RecyclerView.Adapter<AnggotaDetailAdap
         this.anggotaList = anggotaList;
         notifyDataSetChanged();
     }
+    public List<AnggotaDetailSurat> getAnggotaList() {
+        return anggotaList;
+    }
+
 
     @NonNull
     @Override

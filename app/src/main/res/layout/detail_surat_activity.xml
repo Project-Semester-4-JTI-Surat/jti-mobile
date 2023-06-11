@@ -338,6 +338,20 @@
                 tools:listitem="@layout/list_item_anggota_detail">
 
             </androidx.recyclerview.widget.RecyclerView>
+            <Button
+                android:id="@+id/downloadDocument"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_below="@+id/recycle_data"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/PrimaryColor"
+                android:drawableLeft="@drawable/ic_file_download"
+                android:text="Unduh Surat"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:cornerRadius="10dp"></Button>
         </RelativeLayout>
     </RelativeLayout>
 
