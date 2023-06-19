@@ -203,11 +203,13 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
 
                 if (TextUtils.isEmpty(kepada.getText().toString()) || TextUtils.isEmpty(alamat.getText().toString()) || TextUtils.isEmpty(tanggal_dibuat.getText().toString().trim()) || TextUtils.isEmpty(tanggal_pelaksanaan.getText().toString().trim())
                         || TextUtils.isEmpty(spJenisSurat.getSelectedItem().toString()) || TextUtils.isEmpty(tanggal_selesai.getText().toString().trim())
-                        || TextUtils.isEmpty(kebutuhan.getSelectedItem().toString()) || TextUtils.isEmpty(keterangan.getText().toString()) || anggotaList.isEmpty()
-                        || TextUtils.isEmpty(et_judul_ta.getText().toString())) {
+                        || TextUtils.isEmpty(kebutuhan.getSelectedItem().toString()) || TextUtils.isEmpty(keterangan.getText().toString()) || anggotaList.isEmpty()) {
                     Toast.makeText(TambahSurat.this, "Mohon Isi Semua Kolom dan Tambahkan Anggota", Toast.LENGTH_LONG).show();
                 } else {
-                    //proceed to login
+                    //proceed to ajukan
+                    if (TextUtils.isEmpty(et_judul_ta.getText().toString())){
+                        et_judul_ta.setText("-");
+                    }
                     insertSurat();
                     resetForm();
                 }
@@ -595,6 +597,21 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
         });
         return 0;
     }
+    private void deleteCSVFile() {
+        String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
+        File csvFile = new File(csvFilePath);
+
+        if (csvFile.exists()) {
+            boolean deleted = csvFile.delete();
+            if (deleted) {
+                Toast.makeText(this, "File .csv berhasil dihapus", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Gagal menghapus file .csv", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "File .csv tidak ditemukan", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     private void insertSurat() {
         MyPreferences preferences = new MyPreferences(this);
@@ -660,34 +677,27 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
 //                    } catch (IOException e) {
 //                        throw new RuntimeException(e);
 //                    }
+                    String csvFilePath2 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv";
                     String line = "";
                     String splitBy = ",";
-                    try
-                    {
-//parsing a CSV file into BufferedReader class constructor
-                        BufferedReader br = new BufferedReader(new FileReader(csvFilePath));
-                        while ((line = br.readLine()) != null)   //returns a Boolean value
-                        {
-                            String[] anggota = line.split(splitBy);    // use comma as separator
-                            String nama_anggota = anggota[1].replace("\"","");
-                            String nim_anggota = anggota[0].replace("\"","");
-                            String no_hp =  anggota[3].replace("\"","");
-                            String nim = anggota[2].replace("\"","");
-                            System.out.println("Employee [First Name=" + anggota[0] + ", Last Name=" + anggota[1] + ", Designation=" + anggota[2] + ", Contact=" + anggota[3] + "]");
-                            System.out.println(token);
-                            AnggotaRequest anggotaRequest = new AnggotaRequest(
-                                    nama_anggota, nim_anggota,no_hp, nim
-                            );
-                            Call<AnggotaInsertResponse> tambahAnggota = ApiClient.getSuratInsert(TambahSurat.this).insertAnggota(
-                                    "Bearer " + token, anggotaRequest, suratResponse.getData()
-                            );
+                    try {
+                        BufferedReader br = new BufferedReader(new FileReader(csvFilePath2));
+                        while ((line = br.readLine()) != null) {
+                            String[] anggota = line.split(splitBy, -1);
+                            String nama_anggota = anggota[1].replace("\"", "");
+                            String nim_anggota = anggota[0].replace("\"", "");
+                            String no_hp = anggota[3].replace("\"", "");
+                            String nim = anggota[2].replace("\"", "");
+
+                            AnggotaRequest anggotaRequest = new AnggotaRequest(nama_anggota, nim_anggota, no_hp, nim);
+                            Call<AnggotaInsertResponse> tambahAnggota = ApiClient.getSuratInsert(TambahSurat.this).insertAnggota("Bearer " + token, anggotaRequest, suratResponse.getData());
                             tambahAnggota.enqueue(new Callback<AnggotaInsertResponse>() {
                                 @Override
                                 public void onResponse(Call<AnggotaInsertResponse> call, Response<AnggotaInsertResponse> response) {
                                     AnggotaInsertResponse anggotaInsertResponse = response.body();
-                                    if (response.isSuccessful()){
+                                    if (response.isSuccessful()) {
                                         System.out.println("Upload...");
-                                    }else{
+                                    } else {
                                         System.out.println(response.raw());
                                     }
                                 }
@@ -698,14 +708,14 @@ public class TambahSurat extends AppCompatActivity implements AdapterView.OnItem
                                 }
                             });
                         }
-                    }
 
-                    catch (IOException e)
-                    {
+                        br.close();
+                        deleteCSVFile();
+                        Intent intent = new Intent(TambahSurat.this, MainActivity.class);
+                        startActivity(intent);
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Intent intent = new Intent(TambahSurat.this, MainActivity.class);
-                    startActivity(intent);
 
 
 //                    try {

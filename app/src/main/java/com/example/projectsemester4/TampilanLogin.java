@@ -1,9 +1,14 @@
 package com.example.projectsemester4;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.projectsemester4.Keys.ApiClient;
 import com.example.projectsemester4.Keys.LoginRequest;
@@ -37,6 +44,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.Manifest;
 
 
 public class TampilanLogin extends AppCompatActivity {
@@ -47,6 +55,7 @@ public class TampilanLogin extends AppCompatActivity {
     private ImageView TampilLogo;
     private Drawable drawable;
     private TextView tvSignUp;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +109,11 @@ public class TampilanLogin extends AppCompatActivity {
                     etNim.requestFocus();
                     return;
                 } else {
-                    //proceed to login
-                    login();
+                    // Meminta izin penyimpanan eksternal jika belum diberikan
+//                    if (isExternalStoragePermissionGranted()) {
+                        // Jika izin penyimpanan eksternal sudah diberikan
+                        login();
+//                    }
                 }
 
             }
@@ -161,30 +173,59 @@ public class TampilanLogin extends AppCompatActivity {
                     }
                     preferences.saveString("no_hp", loginRequest.getNoHp());
                     preferences.saveString("token", loginResponse.getData().getToken());
-
-//                    // Save data to CSV
-//                    saveDataToCSV(loginRequest);
-                    // Check if data already exists in CSV
-                    if (checkDataExistsInCSV(loginRequest)) {
-                        // Data already exists, overwrite it
-                        updateDataInCSV(loginRequest);
-                    } else {
-                        // Data does not exist, save it to CSV
-                        saveDataToCSV(loginRequest);
-                    }
-
                     ApiClient.setAuthToken(loginResponse.getData().getToken());
 
-                    new Handler().postDelayed(new Runnable() {
+                    // Check if user wants to access Android storage
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TampilanLogin.this);
+                    builder.setTitle("Permission Required");
+                    builder.setMessage("Do you want to access Android storage?");
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
-                        public void run() {
-                            preferences.setLoggedInUser(TampilanLogin.this, loginRequest.getNim());
-                            preferences.setLoggedInStatus(true);
-                            startActivity(new Intent(TampilanLogin.this, MainActivity.class).putExtra("data", loginRequest.getNim()));
-                            finish();
+                        public void onClick(DialogInterface dialog, int which) {
+                            // User agrees to access Android storage
+                            // Save data to CSV
+//                          saveDataToCSV(loginRequest);
+                            // Check if data already exists in CSV
+                            if (checkDataExistsInCSV(loginRequest)) {
+                                // Data already exists, overwrite it
+                                updateDataInCSV(loginRequest);
+                            } else {
+                                // Data does not exist, save it to CSV
+                                saveDataToCSV(loginRequest);
+                            }
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    preferences.setLoggedInUser(TampilanLogin.this, loginRequest.getNim());
+                                    preferences.setLoggedInStatus(true);
+                                    startActivity(new Intent(TampilanLogin.this, MainActivity.class).putExtra("data", loginRequest.getNim()));
+                                    finish();
+                                }
+                            }, 500);
                         }
-                    }, 500);
-
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // User disagrees to access Android storage
+                            // Do nothing
+                            if (checkDataExistsInCSV(loginRequest)) {
+                                // Data already exists, overwrite it
+                                updateDataInCSV(loginRequest);
+                            } else {
+                                // Data does not exist, save it to CSV
+                                saveDataToCSV(loginRequest);
+                            }
+                        }
+                    });
+                    builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            // User cancels the dialog
+                            // Do nothing
+                        }
+                    });
+                    builder.show();
                 } else {
                     Toast.makeText(TampilanLogin.this, "NIM / Password Salah!", Toast.LENGTH_LONG).show();
                 }
@@ -195,6 +236,28 @@ public class TampilanLogin extends AppCompatActivity {
                 Toast.makeText(TampilanLogin.this, "NIM / Password Salah!" + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+    private boolean isExternalStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Izin penyimpanan eksternal diberikan
+                login();
+            } else {
+                Toast.makeText(this, "Izin Penyimpanan Eksternal Ditolak", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     private boolean checkDataExistsInCSV(LoginRequest loginRequest) {
         String csvFilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/data.csv"; // Path to your CSV file
@@ -260,5 +323,3 @@ public class TampilanLogin extends AppCompatActivity {
         }
     }
 }
-
-
